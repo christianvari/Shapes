@@ -1,2 +1,3 @@
+import * as start from "./init.js"
 
-init();
+start.init()

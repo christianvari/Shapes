@@ -1,9 +1,7 @@
+var three = require('three')
 
-function init(){
+export function init(){
 
-    var scene = new three.scene();
-    var camera = new three
-
-
+    var scene = new three.Scene()
 
 }
