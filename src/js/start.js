@@ -10,12 +10,15 @@ var camera;
 var scene;
 var renderer;
 var sun;
+
 var ground;
+var groundWidth = 1000;
+var groundHeigth = 1000;
 
 var player;
 var playerEdge = 1;
 
-var playerBaseY=1.8;
+var playerBaseY= 1;
 
 var playerState; //0=>1 , 1=>2
 var clock;
@@ -50,11 +53,12 @@ function createScene(){
    
 	inizializeScene();
 	addPlayer();
-	addLight();
+    addLight();
+    addGround();
 	
 	camera.position.z = 4.5;
-    camera.position.y = 4.5;
-    camera.rotation.x = 6;
+    camera.position.y = 2.5;
+    camera.rotation.x = -20 * Math.PI/180;
 
 	window.addEventListener('resize', onWindowResize, false);//resize callback
 
@@ -78,8 +82,6 @@ function inizializeScene(){
 	scoreText.style.top = 50 + 'px';
 	scoreText.style.left = 10 + 'px';
 	document.body.appendChild(scoreText);
-
-
 }
 
 function handleKeyDown(keyEvent){
@@ -92,17 +94,33 @@ function handleKeyDown(keyEvent){
         }
 	}
 }
+
+function addGround(){
+    var groundGeometry = new THREE.PlaneBufferGeometry(groundWidth, groundHeigth);
+    var groundMaterial = new THREE.MeshStandardMaterial({color : 0x000000});
+    ground = new THREE.Mesh(groundGeometry, groundMaterial);
+
+    ground.rotation.x = -90* Math.PI/180;
+
+    scene.add(ground)
+}
+
 function addPlayer(){
-	var cubeGeometry = new THREE.BoxGeometry(playerEdge, playerEdge, playerEdge);
-	var cubeMaterial = new THREE.MeshStandardMaterial( { color: 0xe5f2f2 } )
+	var cubeGeometry = new THREE.BoxBufferGeometry(playerEdge, playerEdge, playerEdge);
+    var cubeMaterial = new THREE.MeshStandardMaterial( { color: 0xe5f2f2 } )
+    
 	player = new THREE.Mesh( cubeGeometry, cubeMaterial );
-	player.receiveShadow = true;
-	player.castShadow=true;
+    
+    player.receiveShadow = true;
+    player.castShadow=true;
+    player.position.y=playerBaseY;
+    player.position.z=0;
+    player.position.x=0;
+
 	scene.add( player );
-	player.position.y=playerBaseY;
-	player.position.z=0;
+
 	playerState=0;
-	player.position.x=0;
+
 }
 
 function addLight(){
@@ -112,6 +130,7 @@ function addLight(){
 	sun.position.set( 12,6,-7 );
 	sun.castShadow = true;
     scene.add(sun);
+
 	//Set up shadow properties for the sun light
 	sun.shadow.mapSize.width = 256;
 	sun.shadow.mapSize.height = 256;
