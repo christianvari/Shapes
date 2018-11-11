@@ -2,103 +2,74 @@
 
 import * as THREE from "./lib/three.module.js";
 
-//Global Variables
+//Globals
 
-var width;
-var heigth;
-
-var scene;
+var sceneWidth;
+var sceneHeight;
 var camera;
+var scene;
 var renderer;
-
-var score;
-var collided;
-var scoreText;
+var sun;
+var ground;
 
 var player;
 var playerEdge = 1;
 
-var sky;
-var skyWidth = 100;
-var skyHeigth = 100;
-var skyDepth = 100;
+var playerBaseY=1.8;
 
-var plane;
-var planeWidth = 100;
-var planeHeigth = 100;
-var planeSegments = 1;
+var playerState; //0=>1 , 1=>2
+var clock;
 
-var sun;
+// Game
+var scoreText;
+var score;
+var hasCollided;
 
+init();
 
-//Functions
+function init() {
+	// set up the scene
+	createScene();
 
-function inizialize(){
+	//call game loop
+	update();
+}
 
-    //Adding Event Listener
+function createScene(){
+	hasCollided=false;
+	score=0;
 
-    window.addEventListener('resize', onWindowResize, false);//resize callback
-    //document.onkeydown = handleKeyDown; //Keyboard handling
+	clock=new THREE.Clock();
+	clock.start();
 
-    //Scene Inizialization
+    sceneWidth=window.innerWidth;
+    sceneHeight=window.innerHeight;
+    scene = new THREE.Scene();//the 3d scene
 
-    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera( 75, sceneWidth / sceneHeight, 0.1, 1000 );//perspective camera
+   
+	inizializeScene();
+	addPlayer();
+	addLight();
+	
+	camera.position.z = 4.5;
+    camera.position.y = 4.5;
+    camera.rotation.x = 6;
 
-    //Camera Inizialization
+	window.addEventListener('resize', onWindowResize, false);//resize callback
 
-    camera = new THREE.PerspectiveCamera(60, width, heigth, 0.1, 1000);
-    camera.position.z = 6.5;
-	camera.position.y = 2.5;
+	document.onkeydown = handleKeyDown;
+}
 
-    //Ambient Inizialization
+function inizializeScene(){
 
-    width = window.innerWidth;
-    heigth = window.innerHeight;
-
-    //Inizialization of game variables
-    score = 0;
-    collided = false;
-
-    //Player Inizialization
-    var cubeGeometry = new THREE.CubeGeometry(playerEdge, playerEdge);
-    var cubeMaterial = new THREE.MeshStandardMaterial({color: 0xffffff })
-    player = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
-    //Skybox Inizialization
-    //var skyGeometry = new THREE.CubeGeometry(skyWidth, skyHeigth, skyDepth);
-    //var skyMaterial = new THREE.MeshStandardMaterial({color: 0x3779b2 })
-    //sky = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
-    //Sun Inizialization
-
-    var hemisphereLight = new THREE.HemisphereLight(0xfffafa, 0x000000, .9);
-    sun = new THREE.DirectionalLight( 0xcdc1c5, 0.9);
-    sun.position.set( 12,6,-7 );
-    sun.castShadow = true;
-
-    //Plane Inizialization
-
-    var planeGeometry = new THREE.PlaneGeometry( planeWidth, planeHeigth, planeSegments );
-    var planeMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-    plane = new THREE.Mesh( planeGeometry, planeMaterial);
-
-    //Adding to scene
-    scene.add(camera);
-    scene.add(player)
-    scene.add(hemisphereLight);
-    scene.add(plane);
-    scene.add(sun);
-    
-
-    //Renderization and DOM adding Canvas
-    renderer = new THREE.WebGLRenderer(); //TODO: forse alpha:true
-    renderer.setSize(width, heigth);
-    renderer.setClearColor(0xfffafa, 1);
+    renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});//renderer with transparent backdrop
+    renderer.setClearColor(0xfffafa, 1); 
     renderer.shadowMap.enabled = true;//enable shadow
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    //Modifying HTML
+    renderer.setSize( sceneWidth, sceneHeight );
     document.body.appendChild( renderer.domElement );
+
     scoreText = document.createElement('div');
 	scoreText.style.position = 'absolute';
 	scoreText.style.width = 100;
@@ -108,35 +79,61 @@ function inizialize(){
 	scoreText.style.left = 10 + 'px';
 	document.body.appendChild(scoreText);
 
+
 }
 
-function createObstacle(){
+function handleKeyDown(keyEvent){
+	if ( keyEvent.keyCode === 32) {//space
+		if(playerState == 0){
+            playerState=1;
+        }
+        else{
+            playerState = 0;
+        }
+	}
+}
+function addPlayer(){
+	var cubeGeometry = new THREE.BoxGeometry(playerEdge, playerEdge, playerEdge);
+	var cubeMaterial = new THREE.MeshStandardMaterial( { color: 0xe5f2f2 } )
+	player = new THREE.Mesh( cubeGeometry, cubeMaterial );
+	player.receiveShadow = true;
+	player.castShadow=true;
+	scene.add( player );
+	player.position.y=playerBaseY;
+	player.position.z=0;
+	playerState=0;
+	player.position.x=0;
+}
 
-    var randomValue = Math.random();
-    var obstacleGeometry = new THREE.BoxGeometry(2,2, randomValue*10);
-    var obstacleMaterial = new MeshStandardMaterial( { color: 0x33ff33 } );
+function addLight(){
+	var hemisphereLight = new THREE.HemisphereLight(0xfffafa,0x000000, .9)
+	scene.add(hemisphereLight);
+	sun = new THREE.DirectionalLight( 0xcdc1c5, 0.9);
+	sun.position.set( 12,6,-7 );
+	sun.castShadow = true;
+    scene.add(sun);
+	//Set up shadow properties for the sun light
+	sun.shadow.mapSize.width = 256;
+	sun.shadow.mapSize.height = 256;
+	sun.shadow.camera.near = 0.5;
+	sun.shadow.camera.far = 50 ;
 }
 
 function update(){
+
     render();
-    requestAnimationFrame(update);//request next update
+	requestAnimationFrame(update);//request next update
 }
+
 function render(){
     renderer.render(scene, camera);//draw
 }
 
 function onWindowResize() {
 	//resize & align
-	heigth = window.innerHeight;
-	width = window.innerWidth;
-	renderer.setSize(width, heigth);
-	camera.aspect = width/heigth;
+	sceneHeight = window.innerHeight;
+	sceneWidth = window.innerWidth;
+	renderer.setSize(sceneWidth, sceneHeight);
+	camera.aspect = sceneWidth/sceneHeight;
 	camera.updateProjectionMatrix();
 }
-
-function main (){
-    inizialize();
-    update();
-}
-
-main(); //GO
