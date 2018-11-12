@@ -1,6 +1,7 @@
 //Import
 
 import * as THREE from "./lib/three.module.js";
+import {Cube} from "./cube.js";
 
 //Globals
 
@@ -17,8 +18,6 @@ var groundHeigth = 1000;
 
 var player;
 var playerEdge = 1;
-
-var playerBaseY= 1;
 
 var playerState; //0=>1 , 1=>2
 var clock;
@@ -51,7 +50,7 @@ function createScene(){
 
     camera = new THREE.PerspectiveCamera( 75, sceneWidth / sceneHeight, 0.1, 1000 );//perspective camera
    
-	inizializeScene();
+	inizializeCanvas();
 	addPlayer();
     addLight();
     addGround();
@@ -65,7 +64,7 @@ function createScene(){
 	document.onkeydown = handleKeyDown;
 }
 
-function inizializeScene(){
+function inizializeCanvas(){
 
     renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});//renderer with transparent backdrop
     renderer.setClearColor(0xfffafa, 1); 
@@ -106,16 +105,8 @@ function addGround(){
 }
 
 function addPlayer(){
-	var cubeGeometry = new THREE.BoxBufferGeometry(playerEdge, playerEdge, playerEdge);
-    var cubeMaterial = new THREE.MeshStandardMaterial( { color: 0xe5f2f2 } )
-    
-	player = new THREE.Mesh( cubeGeometry, cubeMaterial );
-    
-    player.receiveShadow = true;
-    player.castShadow=true;
-    player.position.y=playerBaseY;
-    player.position.z=0;
-    player.position.x=0;
+	
+	player = new Cube(playerEdge, 0xffffff).player;
 
 	scene.add( player );
 
