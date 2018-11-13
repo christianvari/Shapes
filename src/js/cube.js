@@ -25,4 +25,5 @@ export class Cube {
         this.player.position.x=0;
         this.currentPosition = 0;
     }
+
 }
