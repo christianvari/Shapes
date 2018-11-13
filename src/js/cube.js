@@ -1,4 +1,4 @@
-import * as THREE from "./lib/three.module.js";
+import {BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
 
 /*
 Class cube
@@ -8,16 +8,16 @@ var:
     currentposition
 */
 
-var playerBaseY= 1;
+const playerBaseY= 1;
 
 export class Cube {
 
     constructor(edge, color){
 
-        var cubeGeometry = new THREE.BoxBufferGeometry(edge, edge, edge);
-        var cubeMaterial = new THREE.MeshStandardMaterial( { color: color } )
+        var cubeGeometry = new BoxBufferGeometry(edge, edge, edge);
+        var cubeMaterial = new MeshStandardMaterial( { color: color } )
 
-        this.player = new THREE.Mesh( cubeGeometry, cubeMaterial );
+        this.player = new Mesh( cubeGeometry, cubeMaterial );
         this.player.receiveShadow = true;
         this.player.castShadow=true;
         this.player.position.y=playerBaseY;

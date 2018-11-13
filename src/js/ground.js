@@ -1,4 +1,4 @@
-import * as THREE from "./lib/three.module.js";
+import{PlaneBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
 
 /*
 Class ground
@@ -11,9 +11,9 @@ export class Ground {
 
     constructor(width, heigth, color){
 
-        let groundGeometry = new THREE.PlaneBufferGeometry(width, heigth);
-        let groundMaterial = new THREE.MeshStandardMaterial({color : color});
-        this.ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        let groundGeometry = new PlaneBufferGeometry(width, heigth);
+        let groundMaterial = new MeshStandardMaterial({color : color});
+        this.ground = new Mesh(groundGeometry, groundMaterial);
 
         this.ground.rotation.x = -90* Math.PI/180;
     }

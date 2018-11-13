@@ -1,7 +1,7 @@
 import {PerspectiveCamera} from "./lib/three.module.js";
 
 /*
-Class camera
+Class mycamera
 ***
 var:
     player
@@ -9,9 +9,9 @@ var:
 */
 
 
-export class Camera {
+export class MyCamera {
 
-    constructor(sceneWidth, sceneHeight, cameraPosition,xrotation){
+    constructor(sceneWidth, sceneHeight, cameraPosition, xrotation){
 
         this.camera = new PerspectiveCamera( 75, sceneWidth / sceneHeight, 0.1, 1000 );
         this.camera.position.x= cameraPosition[0];

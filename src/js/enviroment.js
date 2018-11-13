@@ -1,5 +1,5 @@
 import { MyScene } from "./myscene.js";
-import * as THREE from "./lib/three.module.js"
+import {WebGLRenderer, PCFSoftShadowMap} from "./lib/three.module.js"
 
 /*
 Class Enviroment
@@ -18,8 +18,8 @@ export class Enviroment {
 		this.scoreText;
 		this.sceneWidth = window.innerWidth;
 		this.sceneHeight = window.innerHeight;
-		this.renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});//renderer with transparent backdrop
-		this.myscene = new MyScene(this.sceneWidth, this.sceneHeight, cameraPosition, -20);
+		this.renderer = new WebGLRenderer({alpha:true, antialias:true});//renderer with transparent backdrop
+		this.myscene = new MyScene(cameraPosition, -20, this.sceneWidth, this.sceneHeight);
 
 
 		//Install Event Handler
@@ -34,7 +34,7 @@ export class Enviroment {
 
 		this.renderer.setClearColor(0xfffafa, 1); 
 		this.renderer.shadowMap.enabled = true;//enable shadow
-		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+		this.renderer.shadowMap.type = PCFSoftShadowMap;
 		this.renderer.setSize( this.sceneWidth, this.sceneHeight );
 		document.body.appendChild( this.renderer.domElement );
 	

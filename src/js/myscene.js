@@ -1,5 +1,5 @@
 import {Scene, HemisphereLight, DirectionalLight} from "./lib/three.module.js";
-import {Camera} from "./camera.js";
+import {MyCamera} from "./mycamera.js";
 import {Cube} from "./cube.js";
 import {Ground} from "./ground.js";
 
@@ -20,7 +20,7 @@ var groundColor = 0x000000;
 export class MyScene {
     constructor(cameraPosition, cameraRotationX, sceneWidth, sceneHeight){
         this.scene = new Scene();
-        this.camera = new Camera(sceneWidth, sceneHeight, cameraPosition, cameraRotationX);
+        this.camera = new MyCamera(sceneWidth, sceneHeight, cameraPosition, cameraRotationX);
         this.player = new Cube(playerEdge, playerColor);
         this.ground = new Ground(groundWidth, groundHeigth, groundColor);
         this.addObjectsToScene();
