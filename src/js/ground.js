@@ -18,4 +18,6 @@ export class Ground {
         this.ground.rotation.x = -90* Math.PI/180;
     }
 
+    getGround() {return this.ground}
+
 }

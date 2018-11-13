@@ -20,4 +20,6 @@ export class MyCamera {
         this.camera.rotation.x = xrotation * Math.PI/180;
     }
 
+    getCamera() {return this.camera}
+
 }

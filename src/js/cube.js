@@ -26,4 +26,6 @@ export class Cube {
         this.currentPosition = 0;
     }
 
+    getPlayer() {return this.player}
+
 }

@@ -27,7 +27,7 @@ export class MyScene {
     }
 
     addObjectsToScene(){
-        this.scene.add(this.player.player);
+        this.scene.add(this.player.getPlayer());
         this.scene.add(this.ground.ground);
         this.addLight();
     }
@@ -47,5 +47,5 @@ export class MyScene {
         this.scene.add(sun);
         this.scene.add(hemisphereLight);
     }
-    
+    getScene(){return this.scene}
 }
