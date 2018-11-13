@@ -23,8 +23,8 @@ export class Enviroment {
 
 
 		//Install Event Handler
-		window.addEventListener('resize', () => this.onWindowResize(), false);//resize callback
-		document.onkeydown = this.handleKeyDown;
+		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
+		document.onkeydown = this.handleKeyDown.bind(this);		//
 
 		//Inizialize Interface
 		this.inizializeCanvas();
@@ -54,7 +54,8 @@ export class Enviroment {
 
 	goGame(){
 		this.renderize();
-		window.requestAnimationFrame(() => this.goGame());//request next update
+		this.myscene.player.rotate();
+		window.requestAnimationFrame(this.goGame.bind(this));//request next update
 	}
 
 	onWindowResize() {
@@ -67,8 +68,30 @@ export class Enviroment {
 	}
 	
 	handleKeyDown(keyEvent){
-		if ( keyEvent.keyCode === 32) {//space
-			console.log("Hai premuto spazio");
+
+		/*
+              0    1
+            | -> | -> |
+            | <- | <- |
+              2    3
+        */
+
+		if ( keyEvent.keyCode == 37) {//left
+			console.log("left");
+			if(this.myscene.player.currentPosition==0){
+				this.myscene.player.command=2;
+			}
+			else if(this.myscene.player.currentPosition==1){
+				this.myscene.player.command=3;
+			}
+		}else if(keyEvent.keyCode == 39){//right
+			console.log("right");
+			if(this.myscene.player.currentPosition==0){
+				this.myscene.player.command=1;
+			}
+			else if(this.myscene.player.currentPosition==-1){
+				this.myscene.player.command=0;
+			}
 		}
 	}	
 }
