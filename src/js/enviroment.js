@@ -69,28 +69,45 @@ export class Enviroment {
 	
 	handleKeyDown(keyEvent){
 
-		/*
+		/*	commands schema
+
               0    1
             | -> | -> |
             | <- | <- |
               2    3
         */
+		//I store in command the actual command to start,
+		//	it is possible to store a next_command (ex. if a player wants to turn fast or to prevent to collide a obstacle )
+		//	the next_command will start after the termination of the previous one
 
 		if ( keyEvent.keyCode == 37) {//left
 			console.log("left");
-			if(this.myscene.player.currentPosition==0){
-				this.myscene.player.command=2;
+			if(this.myscene.player.command==-1){
+				if(this.myscene.player.currentPosition==0){
+					this.myscene.player.command=2;
+				}
+				else if(this.myscene.player.currentPosition==1){
+					this.myscene.player.command=3;
+				}
+			}else if(this.myscene.player.next_command==-1){
+				if(this.myscene.player.currentPosition==0 && this.myscene.player.command==1) this.myscene.player.next_command=3;
+				else if(this.myscene.player.currentPosition==-1 && this.myscene.player.command==0) this.myscene.player.next_command=2;
+				else if(this.myscene.player.currentPosition==1 && this.myscene.player.command==3) this.myscene.player.next_command=2;
 			}
-			else if(this.myscene.player.currentPosition==1){
-				this.myscene.player.command=3;
-			}
+		
 		}else if(keyEvent.keyCode == 39){//right
 			console.log("right");
-			if(this.myscene.player.currentPosition==0){
-				this.myscene.player.command=1;
-			}
-			else if(this.myscene.player.currentPosition==-1){
-				this.myscene.player.command=0;
+			if(this.myscene.player.command==-1){
+				if(this.myscene.player.currentPosition==0){
+					this.myscene.player.command=1;
+				}
+				else if(this.myscene.player.currentPosition==-1){
+					this.myscene.player.command=0;
+				}
+			}else if(this.myscene.player.next_command==-1){
+				if(this.myscene.player.currentPosition==1 && this.myscene.player.command==3) this.myscene.player.next_command=1;
+				else if(this.myscene.player.currentPosition==-1 && this.myscene.player.command==0) this.myscene.player.next_command=1;
+				else if(this.myscene.player.currentPosition==0 && this.myscene.player.command==2) this.myscene.player.next_command=0;
 			}
 		}
 	}	
