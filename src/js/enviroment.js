@@ -23,7 +23,7 @@ export class Enviroment {
 
 
 		//Install Event Handler
-		window.addEventListener('resize', this.onWindowResize, false);//resize callback
+		window.addEventListener('resize', () => this.onWindowResize(), false);//resize callback
 		document.onkeydown = this.handleKeyDown;
 
 		//Inizialize Interface
@@ -49,7 +49,7 @@ export class Enviroment {
 	}
 
 	renderize(){
-		this.renderer.render(this.myscene.scene, this.myscene.camera.camera);//draw
+		this.renderer.render(this.myscene.getScene(), this.myscene.camera.getCamera());//draw
 	}
 
 	goGame(){
@@ -62,13 +62,13 @@ export class Enviroment {
 		this.sceneHeight = window.innerHeight;
 		this.sceneWidth = window.innerWidth;
 		this.renderer.setSize(this.sceneWidth, this.sceneHeight);
-		this.myscene.camera.aspect = this.sceneWidth/this.sceneHeight;
-		this.myscene.camera.updateProjectionMatrix();
+		this.myscene.camera.getCamera().aspect = this.sceneWidth/this.sceneHeight;
+		this.myscene.camera.getCamera().updateProjectionMatrix();
 	}
 	
 	handleKeyDown(keyEvent){
 		if ( keyEvent.keyCode === 32) {//space
-	
+			console.log("Hai premuto spazio");
 		}
 	}	
 }
