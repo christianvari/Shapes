@@ -9,7 +9,8 @@ var camera;
 var scene;
 var cube;
 
-const SPEED_MULTIPLIER = 0.1;
+const BACKGROND_COLOR = 0xcad8f7;
+const SPEED_MULTIPLIER = 0.02;
 
 
 goLive();
@@ -43,16 +44,18 @@ function createCube(){
 }
 
 function createRenderer(){
-    renderer = new WebGLRenderer({alpha : true});
-    renderer.setClearColor(0xfffafa, 1); 
+    renderer = new WebGLRenderer();
+    renderer.setClearColor(BACKGROND_COLOR, 1); 
 	renderer.setSize( sceneWidth, sceneHeight );
     document.body.prepend( renderer.domElement );
+
+    window.addEventListener('resize', onWindowResize, false);
 }
 
 function rotateCube(){
-    cube.rotation.x -=SPEED_MULTIPLIER;
-    cube.rotation.y -=SPEED_MULTIPLIER;
-    cube.rotation.z -=SPEED_MULTIPLIER;
+    cube.rotation.x +=SPEED_MULTIPLIER;
+    cube.rotation.y +=SPEED_MULTIPLIER;
+    cube.rotation.z +=SPEED_MULTIPLIER;
 }
 
 
@@ -60,4 +63,13 @@ function animate(){
     requestAnimationFrame(animate);
     rotateCube();
     renderer.render(scene,camera);
+}
+
+function onWindowResize() {
+    //resize & align
+    sceneHeight = window.innerHeight;
+    sceneWidth = window.innerWidth;
+    renderer.setSize(sceneWidth, sceneHeight);
+    myscene.camera.getCamera().aspect = sceneWidth/sceneHeight;
+    myscene.camera.getCamera().updateProjectionMatrix();
 }
