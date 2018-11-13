@@ -1,29 +1,63 @@
-import { MyScene } from "./myscene.js";
-import {WebGLRenderer, PCFSoftShadowMap} from "./lib/three.module.js"
+import { Scene, WebGLRenderer, PerspectiveCamera, BoxBufferGeometry, MeshNormalMaterial, Mesh } from "../lib/three.module.js";
 
 //Globals
 
 var renderer;
 var sceneWidth;
 var sceneHeight;
+var camera;
+var scene;
+var cube;
+
+const SPEED_MULTIPLIER = 0.1;
 
 
 goLive();
 
 function goLive() {
+    createEnviroment();
 
-    
-
+    animate();
 }
 
 function createEnviroment(){
 
     sceneWidth = window.innerWidth;
     sceneHeight = window.innerHeight;
+    scene = new Scene();
+    camera = new PerspectiveCamera(75, sceneWidth/sceneHeight, 0.1, 10);
+    camera.position.set(0,3.5,5)
+    camera.lookAt(scene.position)
+
+    createCube();
+    createRenderer();
+
+}
+
+function createCube(){
+    let box = new BoxBufferGeometry(2,2,2)
+    let boxMaterial = new MeshNormalMaterial();
+    cube = new Mesh(box, boxMaterial);
+
+    scene.add(cube);
+}
+
+function createRenderer(){
     renderer = new WebGLRenderer({alpha : true});
     renderer.setClearColor(0xfffafa, 1); 
-	renderer.shadowMap.enabled = true;//enable shadow
-	renderer.shadowMap.type = PCFSoftShadowMap;
 	renderer.setSize( sceneWidth, sceneHeight );
-	document.body.appendChild( this.renderer.domElement );
+    document.body.prepend( renderer.domElement );
+}
+
+function rotateCube(){
+    cube.rotation.x -=SPEED_MULTIPLIER;
+    cube.rotation.y -=SPEED_MULTIPLIER;
+    cube.rotation.z -=SPEED_MULTIPLIER;
+}
+
+
+function animate(){
+    requestAnimationFrame(animate);
+    rotateCube();
+    renderer.render(scene,camera);
 }

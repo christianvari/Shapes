@@ -1,3 +1,16 @@
+@font-face {
+  font-family: 'ShapesFont';
+  src: url('./fonts/b.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  font-stretch: 'extra-expanded';
+} 
+
+h1 {
+  font-family: 'ShapesFont';
+  font-size: 1500%;
+  font-size-adjust: inherit;
+  color: rgb(0, 92, 170);
+}
+
 html,
 body {
   height: 100%;
@@ -44,27 +57,18 @@ body {
 }
 
 div.background{
+  margin-top: 2%;
+  position: absolute;
   height: 100%;
   width: 100%;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  /*background: linear-gradient(164deg, rgba(2,0,36,1) 0%, rgba(9,9,110,1) 30%, rgba(0,150,240,1) 100%);
-  background-size: cover;*/
 }
 
 div.centre {
-  margin-top: 8%;
-  text-align: center;
-  vertical-align: 30%;
+  margin-top: 19%;
   margin-left: auto;
   margin-right: auto;
     
-}
-
-body {
-
-  background: linear-gradient(155deg, rgba(2,0,36,1) 0%, rgba(0,9,110,1) 50%, rgba(0,150,240,1) 100%) no-repeat center center fixed;;
-  background-size: cover;
-
 }
