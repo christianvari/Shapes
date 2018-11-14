@@ -56,6 +56,7 @@ export class Enviroment {
 	goGame(){
 		this.renderize();
 		this.myscene.player.rotate();
+		this.myscene.ground.getGround().material.color.setHex(/*this.myscene.ground.getGround().material.color.getHex()*/0x560056);
 		window.requestAnimationFrame(this.goGame.bind(this));//request next update
 	}
 

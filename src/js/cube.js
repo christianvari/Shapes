@@ -177,13 +177,12 @@ export class Cube {
                 let b = -this.edge/2+playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
                 this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-                console.log(this.player.position.x+" "+this.player.position.y+" "+this.player.rotation.z);
+                
                 if(this.player.rotation.z > -Math.PI/2){
                     this.player.rotation.z = -Math.PI/2;
                     this.player.position.x= this.edge;
                     this.player.position.y=playerBaseY;
                     this.second_turn=true;
-                    console.log(this.player.position.x+" "+this.player.position.y+" "+this.player.rotation.z);
                 }
             }else{
                 this.player.rotation.z += teta;
@@ -193,7 +192,7 @@ export class Cube {
                 let b = -this.edge/2+playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
                 this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-                console.log(this.player.position.x+" "+this.player.position.y+" "+this.player.rotation.z);
+                
                 if(this.player.rotation.z >0){
                     this.player.rotation.z = 0;
                     this.player.position.x=0;
@@ -202,7 +201,6 @@ export class Cube {
                     this.command = this.next_command;
                     this.next_command=-1;
                     this.second_turn=false;
-                    console.log(this.player.position.x+" "+this.player.position.y+" "+this.player.rotation.z);
                 }
             }
         }else if(this.command==4){ //salto in alto
@@ -225,5 +223,3 @@ export class Cube {
     }
 
 }
-
-//function angle_proportion_jump();
