@@ -9,6 +9,7 @@ var:
 */
 
 const cameraPosition = [0,2.5,4.5];
+export var time_scale = 1;
 
 export class Enviroment {
 
