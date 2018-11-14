@@ -10,7 +10,7 @@ var:
     ground
 */
 
-var playerEdge = 1;
+var playerEdge = 1.5;
 var playerColor = 0xffffff;
 
 var groundWidth = 1000;
