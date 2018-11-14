@@ -1,4 +1,5 @@
 import {BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
+import { time_scale } from "./enviroment.js";
 
 /*
 Class cube
@@ -8,9 +9,11 @@ var:
     currentposition
 */
 
-const playerBaseY= 1;
-const gravity_constant=1;
-const velocity_to_jump=0.5;
+var playerBaseY;
+const time_to_jump = 1.2;
+const h_jump = 0.12;
+var gravity_constant;
+var velocity_to_jump;
 
 
 export class Cube {
@@ -23,6 +26,7 @@ export class Cube {
         this.player = new Mesh( cubeGeometry, cubeMaterial );
         this.player.receiveShadow = true;
         this.player.castShadow=true;
+        playerBaseY=edge/2;
         this.player.position.y=playerBaseY;
         this.player.position.z=0;
         this.player.position.x=0;
@@ -30,6 +34,10 @@ export class Cube {
         this.command=-1;
         this.next_command=-1;
         this.time=0;
+
+        gravity_constant = 8 * h_jump / Math.pow(time_to_jump,2);
+        velocity_to_jump = 4 * h_jump/time_to_jump;
+        console.log("g: "+gravity_constant+ "  v: "+ velocity_to_jump);
     }
 
     getPlayer() {return this.player}
@@ -46,12 +54,12 @@ export class Cube {
         
             4 to jump
               */
-        
+        console.log("y: "+this.player.position.y+" yBase: "+playerBaseY); 
+    
         if(this.command==-1) return;
-        let scala=1.5;
+        let scala=1.5*time_scale;
         let teta = 0.05*scala;
 
-        //console.log("rotate() command: "+this.command+" status: "+this.currentPosition+ " angle: "+this.player.rotation.z+" x: "+this.player.position.x + " y: "+this.player.position.y);
         
         if(this.currentPosition==0 && this.command==1){
             this.player.rotation.z -= teta;
@@ -122,14 +130,18 @@ export class Cube {
                 this.next_command=-1;
             }
         }else if(this.command==4){ //salto in alto
-            console.log("provo a saltare")
-            this.player.position.y += -1/2*gravity_constant*Math.pow(this.time,2)*scala + velocity_to_jump*this.time*scala
+            this.player.position.y += ((-(1/2)*gravity_constant*Math.pow(this.time+0.05,2) + velocity_to_jump*(this.time+0.05))-(-(1/2)*gravity_constant*Math.pow(this.time,2) + velocity_to_jump*this.time))/0.05;
             this.time+=0.05
+
+            this.player.rotation.x -= (3/2*Math.PI)/(time_to_jump/0.05);
+            
             
             if(this.player.position.y < playerBaseY){
                 this.player.position.y=playerBaseY;
+                this.player.rotation.x = 0;
                 this.command = this.next_command;
                 this.next_command=-1;
+                
                 this.time=0;
             }
         
@@ -137,3 +149,5 @@ export class Cube {
     }
 
 }
+
+//function angle_proportion_jump();
