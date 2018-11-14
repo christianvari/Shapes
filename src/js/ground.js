@@ -14,7 +14,8 @@ export class Ground {
         let groundGeometry = new PlaneBufferGeometry(width, heigth);
         let groundMaterial = new MeshStandardMaterial({color : color});
         this.ground = new Mesh(groundGeometry, groundMaterial);
-
+        this.ground.receiveShadow = true;
+        //this.ground.castShadow=true;
         this.ground.rotation.x = -90* Math.PI/180;
     }
 
