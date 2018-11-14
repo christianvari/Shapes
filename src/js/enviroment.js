@@ -114,7 +114,7 @@ export class Enviroment {
 		else if(keyEvent.keyCode == 38){//up
 			console.log("up");
 			if(this.myscene.player.command==-1){
-				this.myscene.player.command=4;	
+				this.myscene.player.command=4;
 			}else if(this.myscene.player.next_command==-1){
 				
 			}
