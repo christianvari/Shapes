@@ -24,7 +24,7 @@ export class Enviroment {
 
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
-		document.onkeydown = this.handleKeyDown.bind(this);		//
+		document.onkeydown = this.handleKeyDown.bind(this);
 
 		//Inizialize Interface
 		this.inizializeCanvas();
