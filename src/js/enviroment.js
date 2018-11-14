@@ -8,7 +8,7 @@ var:
     ground
 */
 
-const cameraPosition = [0,2.5,4.5];
+const cameraPosition = [0,4,8];
 export var time_scale = 1;
 
 export class Enviroment {
@@ -116,9 +116,8 @@ export class Enviroment {
 			if(this.myscene.player.command==-1){
 				this.myscene.player.command=4;
 			}else if(this.myscene.player.next_command==-1){
-				
+				this.myscene.player.next_command=4;
 			}
-
 		}
 	}	
 }
