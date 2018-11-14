@@ -1,4 +1,5 @@
 import { Scene, WebGLRenderer, PerspectiveCamera, BoxBufferGeometry, MeshNormalMaterial, Mesh } from "../lib/three.module.js";
+import {isWebGLSupported} from "../lib/webGL.js";
 
 //Globals
 
@@ -12,8 +13,13 @@ var cube;
 const BACKGROND_COLOR = 0xcad8f7;
 const SPEED_MULTIPLIER = 0.02;
 
+if(!isWebGLSupported()){
+    alert("Your graphics card does not seem to support WebGL.\n This game will not work.");
+}
+else{
+	goLive();
+}
 
-goLive();
 
 function goLive() {
     createEnviroment();
@@ -70,6 +76,6 @@ function onWindowResize() {
     sceneHeight = window.innerHeight;
     sceneWidth = window.innerWidth;
     renderer.setSize(sceneWidth, sceneHeight);
-    myscene.camera.getCamera().aspect = sceneWidth/sceneHeight;
-    myscene.camera.getCamera().updateProjectionMatrix();
+    camera.aspect = sceneWidth/sceneHeight;
+    camera.updateProjectionMatrix();
 }
