@@ -11,13 +11,13 @@ h1 {
   color: rgb(0, 92, 170);
 }
 
-html,
-body {
+html{
   height: 100%;
 }
 
 body {
   display: -ms-flexbox;
+  height: 100%;
   display: flex;
   -ms-flex-align: center;
   align-items: center;
@@ -68,7 +68,4 @@ div.background{
 
 div.centre {
   margin-top: 19%;
-  margin-left: auto;
-  margin-right: auto;
-    
 }
