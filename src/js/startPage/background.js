@@ -76,6 +76,6 @@ function onWindowResize() {
     sceneHeight = window.innerHeight;
     sceneWidth = window.innerWidth;
     renderer.setSize(sceneWidth, sceneHeight);
-    myscene.camera.getCamera().aspect = sceneWidth/sceneHeight;
-    myscene.camera.getCamera().updateProjectionMatrix();
+    camera.aspect = sceneWidth/sceneHeight;
+    camera.updateProjectionMatrix();
 }
