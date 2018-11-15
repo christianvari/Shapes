@@ -1,5 +1,5 @@
-import { MyScene } from "./myscene.js";
-import {WebGLRenderer, PCFSoftShadowMap} from "./lib/three.module.js"
+import { MyScene, NUM_OBSTACLES } from "./myscene.js";
+import {WebGLRenderer, Clock} from "./lib/three.module.js"
 
 /*
 Class Enviroment
@@ -8,19 +8,26 @@ var:
     ground
 */
 
-const cameraPosition = [0,4,8];
-export var time_scale = 1;
+const MIN_LIVING_OBSTACLES = 7;
+const OBSTACLE_FIRE_RATE = 2;
+export const time_scale = 1;
+
+var SCORE_MULTIPLYER = 100;
 
 export class Enviroment {
 
 	constructor() {
 
+
 		this.score = 0;
 		this.scoreText;
+		this.clock = new Clock();
 		this.sceneWidth = window.innerWidth;
 		this.sceneHeight = window.innerHeight;
-		this.renderer = new WebGLRenderer({alpha:true, antialias:true});//renderer with transparent backdrop
-		this.myscene = new MyScene(cameraPosition, -20, this.sceneWidth, this.sceneHeight);
+		this.renderer = new WebGLRenderer();
+		this.myscene = new MyScene(this.sceneWidth, this.sceneHeight);
+
+		this.obstacle_index = 0;
 
 
 		//Install Event Handler
@@ -34,8 +41,8 @@ export class Enviroment {
 	inizializeCanvas(){
 
 		this.renderer.setClearColor(0xfffafa, 1); 
+		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.shadowMap.enabled = true;//enable shadow
-		this.renderer.shadowMap.type = PCFSoftShadowMap;
 		this.renderer.setSize( this.sceneWidth, this.sceneHeight );
 		document.body.appendChild( this.renderer.domElement );
 	
@@ -54,10 +61,34 @@ export class Enviroment {
 	}
 
 	goGame(){
+
+		window.requestAnimationFrame(this.goGame.bind(this));//request next update
+
 		this.renderize();
+
 		this.myscene.player.rotate();
 		this.myscene.ground.getGround().material.color.setHex(/*this.myscene.ground.getGround().material.color.getHex()*/0x560056);
-		window.requestAnimationFrame(this.goGame.bind(this));//request next update
+
+		this.obstacleLogic();
+
+
+	}
+
+	obstacleLogic(){
+		let living_obstacles = this.myscene.living_obstacles;
+		if(living_obstacles < MIN_LIVING_OBSTACLES  && this.clock.getElapsedTime() > OBSTACLE_FIRE_RATE){
+			console.log("FIRE");
+			this.clock.elapsedTime = 0;
+			this.myscene.startObstacle();
+		}
+		let new_points = 0;
+		for(let i =0; i<NUM_OBSTACLES; i+=1){
+			new_points += this.myscene.obstacleMovement(i);
+		}
+
+		this.score += new_points * SCORE_MULTIPLYER; 
+		this.scoreText.innerHTML= this.score.toString();
+
 	}
 
 	onWindowResize() {
