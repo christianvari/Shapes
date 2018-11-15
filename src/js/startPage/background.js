@@ -50,7 +50,7 @@ function createCube(){
 }
 
 function createRenderer(){
-    renderer = new WebGLRenderer();
+    renderer = new WebGLRenderer({antialias : true});
     renderer.setClearColor(BACKGROND_COLOR, 1); 
 	renderer.setSize( sceneWidth, sceneHeight );
     document.body.prepend( renderer.domElement );
