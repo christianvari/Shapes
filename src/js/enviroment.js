@@ -8,10 +8,11 @@ var:
     ground
 */
 
-const cameraPosition = [0,4,8];
 const MIN_LIVING_OBSTACLES = 7;
 const OBSTACLE_FIRE_RATE = 2;
 export const time_scale = 1;
+
+var SCORE_MULTIPLYER = 100;
 
 export class Enviroment {
 
@@ -24,7 +25,7 @@ export class Enviroment {
 		this.sceneWidth = window.innerWidth;
 		this.sceneHeight = window.innerHeight;
 		this.renderer = new WebGLRenderer();
-		this.myscene = new MyScene(cameraPosition, -20, this.sceneWidth, this.sceneHeight);
+		this.myscene = new MyScene(this.sceneWidth, this.sceneHeight);
 
 		this.obstacle_index = 0;
 
@@ -80,10 +81,13 @@ export class Enviroment {
 			this.clock.elapsedTime = 0;
 			this.myscene.startObstacle();
 		}
-
+		let new_points = 0;
 		for(let i =0; i<NUM_OBSTACLES; i+=1){
-			this.myscene.obstacleMovement(i);
+			new_points += this.myscene.obstacleMovement(i);
 		}
+
+		this.score += new_points * SCORE_MULTIPLYER; 
+		this.scoreText.innerHTML= this.score.toString();
 
 	}
 

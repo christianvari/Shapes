@@ -2,7 +2,7 @@ import {Scene, HemisphereLight, DirectionalLight, Fog} from "./lib/three.module.
 import {MyCamera} from "./mycamera.js";
 import {Cube} from "./cube.js";
 import {Ground} from "./ground.js";
-import { Obstacle } from "./obstacle.js";
+import { Obstacle, LENGHT_SCALE } from "./obstacle.js";
 
 /*
 Class Enviroment
@@ -14,7 +14,12 @@ var:
 
 export const NUM_OBSTACLES = 7;
 export const PLAYER_EDGE = 1.5;
+
 const VELOCITY_STEP = 0.5;
+const CAMERA_POSITION = [0,4,8];
+const CAMERA_ROTATION_X = -20;
+const DESTROY_OBSTACLE_Z_POSITION = CAMERA_POSITION[2] + LENGHT_SCALE;
+
 
 var playerColor = 0xffffff;
 var groundWidth = 500;
@@ -22,9 +27,9 @@ var groundHeigth = 500;
 var groundColor = 0x000000; 
 
 export class MyScene {
-    constructor(cameraPosition, cameraRotationX, sceneWidth, sceneHeight){
+    constructor(sceneWidth, sceneHeight){
         this.scene = new Scene();
-        this.camera = new MyCamera(sceneWidth, sceneHeight, cameraPosition, cameraRotationX);
+        this.camera = new MyCamera(sceneWidth, sceneHeight, CAMERA_POSITION, CAMERA_ROTATION_X);
         this.player = new Cube(PLAYER_EDGE, playerColor);
         this.ground = new Ground(groundWidth, groundHeigth, groundColor);
         this.scene.fog = new Fog(0xffffff, 99, 150)
@@ -82,15 +87,17 @@ export class MyScene {
     obstacleMovement(i){
 
         let o = this.obstacles[i];
-        
-        if(!o.playing) return;
-        else if (o.getObstacle().position.z > 10){
+        if(!o.playing) return 0;
+
+        else if (o.getObstacle().position.z > DESTROY_OBSTACLE_Z_POSITION) {
             o.playing=false;
             this.living_obstacles-=1;
             o.setPosition();
+            return 1;
         }
         else {
             o.getObstacle().position.z += VELOCITY_STEP;
+            return 0;
         }
     }
 }

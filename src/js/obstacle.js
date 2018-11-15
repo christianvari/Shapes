@@ -5,7 +5,7 @@ import {PLAYER_EDGE} from "./myscene.js"
 
 */
 
-const LENGHT_SCALE = 20;
+export const LENGHT_SCALE = 20;
 const DISTANCE = -50;
 const MIN_DISTANCE = -150;
 const POSITION_ON_GROUND = 1;
