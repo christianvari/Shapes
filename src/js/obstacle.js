@@ -6,7 +6,8 @@ import {PLAYER_EDGE} from "./myscene.js"
 */
 
 const LENGHT_SCALE = 10;
-const MAX_DISTANCE = -100;
+const DISTANCE = -200;
+const MIN_DISTANCE = -150;
 const POSITION_ON_GROUND = 1;
 
 
@@ -26,7 +27,7 @@ export class Obstacle {
     setPosition(){
 
         this.obstacle.position.y = POSITION_ON_GROUND;
-        this.obstacle.position.z = (Math.random() + 0.2)*MAX_DISTANCE;
+        this.obstacle.position.z = (Math.random())*DISTANCE + MIN_DISTANCE;
 
         var randval = Math.random();
 

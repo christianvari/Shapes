@@ -10,7 +10,7 @@ var:
 
 const cameraPosition = [0,4,8];
 const MIN_LIVING_OBSTACLES = 5;
-const OBSTACLE_FIRE_RATE = 1;
+const OBSTACLE_FIRE_RATE = 0.5;
 export const time_scale = 1;
 
 export class Enviroment {
@@ -20,10 +20,10 @@ export class Enviroment {
 
 		this.score = 0;
 		this.scoreText;
-		this.clock = new Clock({autostart : true});
+		this.clock = new Clock();
 		this.sceneWidth = window.innerWidth;
 		this.sceneHeight = window.innerHeight;
-		this.renderer = new WebGLRenderer({alpha:true, antialias:true});//renderer with transparent backdrop
+		this.renderer = new WebGLRenderer();
 		this.myscene = new MyScene(cameraPosition, -20, this.sceneWidth, this.sceneHeight);
 
 		this.obstacle_index = 0;

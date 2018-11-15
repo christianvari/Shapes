@@ -1,4 +1,4 @@
-import {Scene, HemisphereLight, DirectionalLight} from "./lib/three.module.js";
+import {Scene, HemisphereLight, DirectionalLight, Fog} from "./lib/three.module.js";
 import {MyCamera} from "./mycamera.js";
 import {Cube} from "./cube.js";
 import {Ground} from "./ground.js";
@@ -17,8 +17,8 @@ export const PLAYER_EDGE = 1.5;
 const VELOCITY_STEP = 0.5;
 
 var playerColor = 0xffffff;
-var groundWidth = 1000;
-var groundHeigth = 10000;
+var groundWidth = 500;
+var groundHeigth = 500;
 var groundColor = 0x000000; 
 
 export class MyScene {
@@ -27,6 +27,7 @@ export class MyScene {
         this.camera = new MyCamera(sceneWidth, sceneHeight, cameraPosition, cameraRotationX);
         this.player = new Cube(PLAYER_EDGE, playerColor);
         this.ground = new Ground(groundWidth, groundHeigth, groundColor);
+        this.scene.fog = new Fog(0xffffff, 99, 150)
         this.obstacles = [];
         this.living_obstacles = 0;
         this.generateObstacles();
@@ -52,10 +53,6 @@ export class MyScene {
 
         this.obstacles[index].playing = true;
         this.living_obstacles+=1;
-    }
-
-    findPlaying(element){
-        return element.playing;
     }
 
     addObjectsToScene(){
@@ -92,7 +89,6 @@ export class MyScene {
             o.setPosition();
         }
         else {
-            console.log("Sposto");
             o.getObstacle().position.z += VELOCITY_STEP;
         }
     }
