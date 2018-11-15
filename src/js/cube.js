@@ -10,12 +10,12 @@ var:
 */
 
 var playerBaseY;
-const time_to_jump = 1.2;
-const h_jump = 0.12;
+const time_to_jump = 1.7;
+const h_jump = 0.14;
 var gravity_constant;
 var velocity_to_jump;
-
-
+const time_to_change_line=0.4;
+const n_time_fractions = 62.8;
 
 export class Cube {
 
@@ -36,6 +36,9 @@ export class Cube {
         this.next_command=-1;
         this.time=0;
         this.second_turn=false;
+        this.isTranslating = 0;
+        this.wantsToTranslate=false;
+
 
         gravity_constant = 8 * h_jump / Math.pow(time_to_jump,2);
         velocity_to_jump = 4 * h_jump/time_to_jump;
@@ -57,10 +60,13 @@ export class Cube {
             4 to jump
               */
         // console.log("y: "+this.player.position.y+" yBase: "+playerBaseY); 
-    
+        console.log(this.wantsToTranslate);
+        if(this.isTranslating != 0){
+            this.translateAux();
+        }
+
         if(this.command==-1) return;
-        let scala=3*time_scale;
-        let teta = 0.05*scala;
+        let teta = ((Math.PI/n_time_fractions)/time_to_change_line)*time_scale;
 
         
         if(this.currentPosition==0 && this.command==1){
@@ -219,6 +225,105 @@ export class Cube {
                 this.time=0;
             }
         
+        }
+
+    }
+
+    translateX(direction){
+
+        /*
+              -1    1
+            | <- | -> |
+            | -> | <- |
+              -2    2
+        */
+       /*
+       if(this.jumpingTranslatingIsPossible()==-1 && this.isTranslating==0){
+           this.wantsToTranslate=true;
+           if(direction==-1 && this.currentPosition==0)
+                this.isTranslating=-1;
+            else if(direction==1 && this.currentPosition==0)
+                this.isTranslating=1;
+            else if(direction==-1 && this.currentPosition==1)
+                this.isTranslating=2;
+            else if(direction==1 && this.currentPosition==-1)
+                this.isTranslating=-2;
+       }*/
+
+       if(this.jumpingTranslatingIsPossible()==0){
+            this.wantsToTranslate=true;
+            if(this.isTranslating==0){
+                if(direction==-1 && this.currentPosition==0)
+                    this.isTranslating=-1;
+                else if(direction==1 && this.currentPosition==0)
+                    this.isTranslating=1;
+                else if(direction==-1 && this.currentPosition==1)
+                    this.isTranslating=2;
+                else if(direction==1 && this.currentPosition==-1)
+                    this.isTranslating=-2;
+            }
+
+        }
+    }
+
+    translateAux(){
+        let inc = 2*((2*this.edge/n_time_fractions)/time_to_change_line)*time_scale;
+        
+        if(this.isTranslating==1){
+            this.player.position.x += inc;
+            if(this.player.position.x > 2*this.edge){
+                this.player.position.x = 2*this.edge;
+                this.isTranslating=0;
+                this.player.rotation.z = -Math.PI;
+                this.currentPosition=1;
+                this.wantsToTranslate=false;
+            }
+        }
+        else if(this.isTranslating== -1){
+            this.player.position.x -= inc;
+            if(this.player.position.x < -2*this.edge){
+                this.player.position.x = -2*this.edge;
+                this.isTranslating=0;
+                this.player.rotation.z = Math.PI;
+                this.currentPosition=-1;
+                this.wantsToTranslate=false;
+            }
+        }
+        else if(this.isTranslating == 2){
+            this.player.position.x -= inc;
+            if(this.player.position.x < 0){
+                this.player.position.x = 0;
+                this.isTranslating=0;
+                this.player.rotation.z = 0;
+                this.currentPosition = 0;
+                this.wantsToTranslate=false;
+            }
+        }
+        else if(this.isTranslating == -2){
+            this.player.position.x += inc;
+            if(this.player.position.x > 0){
+                this.player.position.x = 0;
+                this.isTranslating=0;
+                this.player.rotation.z = 0;
+                this.currentPosition = 0;
+                this.wantsToTranslate=false;
+            }
+        }
+
+    }
+
+    jumpingTranslatingIsPossible(){
+        let per = 0.40;
+        let excluded_time= (time_to_jump-(time_to_jump*per))/2;
+        
+        if(this.time <= excluded_time){
+            return -1;
+        }
+        else if(this.time <= time_to_jump - excluded_time){
+            return 0;
+        }
+        else{
+            return 1;
         }
     }
 

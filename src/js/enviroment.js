@@ -81,7 +81,9 @@ export class Enviroment {
 		//I store in command the actual command to start,
 		//	it is possible to store a next_command (ex. if a player wants to turn fast or to prevent to collide a obstacle )
 		//	the next_command will start after the termination of the previous one
-
+		
+		
+		
 		if ( keyEvent.keyCode == 37) {//left
 			console.log("left");
 			if(this.myscene.player.command==-1){
@@ -91,6 +93,10 @@ export class Enviroment {
 				else if(this.myscene.player.currentPosition==1){
 					this.myscene.player.command=3;
 				}
+			}else if(this.myscene.player.command == 4){
+				
+				this.myscene.player.translateX(-1);					
+				
 			}else if(this.myscene.player.next_command==-1){
 				if(this.myscene.player.currentPosition==0 && this.myscene.player.command==1) this.myscene.player.next_command=3;
 				else if(this.myscene.player.currentPosition==-1 && this.myscene.player.command==0) this.myscene.player.next_command=2;
@@ -106,6 +112,9 @@ export class Enviroment {
 				else if(this.myscene.player.currentPosition==-1){
 					this.myscene.player.command=0;
 				}
+			}else if(this.myscene.player.command == 4){
+				this.myscene.player.translateX(1);
+				
 			}else if(this.myscene.player.next_command==-1){
 				if(this.myscene.player.currentPosition==1 && this.myscene.player.command==3) this.myscene.player.next_command=1;
 				else if(this.myscene.player.currentPosition==-1 && this.myscene.player.command==0) this.myscene.player.next_command=1;
@@ -120,5 +129,6 @@ export class Enviroment {
 				this.myscene.player.next_command=4;
 			}
 		}
+		 
 	}	
 }
