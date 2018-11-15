@@ -1,5 +1,5 @@
 import { MyScene, NUM_OBSTACLES } from "./myscene.js";
-import {WebGLRenderer, PCFSoftShadowMap, Clock} from "./lib/three.module.js"
+import {WebGLRenderer, Clock} from "./lib/three.module.js"
 
 /*
 Class Enviroment
@@ -9,8 +9,8 @@ var:
 */
 
 const cameraPosition = [0,4,8];
-const MIN_LIVING_OBSTACLES = 5;
-const OBSTACLE_FIRE_RATE = 0.5;
+const MIN_LIVING_OBSTACLES = 7;
+const OBSTACLE_FIRE_RATE = 2;
 export const time_scale = 1;
 
 export class Enviroment {
@@ -40,8 +40,8 @@ export class Enviroment {
 	inizializeCanvas(){
 
 		this.renderer.setClearColor(0xfffafa, 1); 
+		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.shadowMap.enabled = true;//enable shadow
-		this.renderer.shadowMap.type = PCFSoftShadowMap;
 		this.renderer.setSize( this.sceneWidth, this.sceneHeight );
 		document.body.appendChild( this.renderer.domElement );
 	
@@ -76,6 +76,7 @@ export class Enviroment {
 	obstacleLogic(){
 		let living_obstacles = this.myscene.living_obstacles;
 		if(living_obstacles < MIN_LIVING_OBSTACLES  && this.clock.getElapsedTime() > OBSTACLE_FIRE_RATE){
+			console.log("FIRE");
 			this.clock.elapsedTime = 0;
 			this.myscene.startObstacle();
 		}

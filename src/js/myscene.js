@@ -12,7 +12,7 @@ var:
 */
 
 
-export const NUM_OBSTACLES = 5;
+export const NUM_OBSTACLES = 7;
 export const PLAYER_EDGE = 1.5;
 const VELOCITY_STEP = 0.5;
 
@@ -76,6 +76,7 @@ export class MyScene {
         this.scene.add(sun);
         this.scene.add(hemisphereLight);
     }
+
     getScene(){return this.scene}
 
     obstacleMovement(i){
