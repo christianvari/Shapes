@@ -98,7 +98,8 @@ export class Enviroment {
 	changeLevel(){
 		OBSTACLE_FIRE_RATE -= OBSTACLE_FIRE_RATE_DELTA;
 		this.myscene.VELOCITY_STEP += VELOCITY_STEP_DELTA;
-		this.myscene.ground.getGround().material.color.setHex(Math.random() * 0xffffff);
+		this.myscene.ground.changeColor(Math.random() * 0xffffff);
+		console.log("livello");
 
 	}
 
