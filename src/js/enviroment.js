@@ -35,7 +35,7 @@ export class Enviroment {
 		this.player_on_obstacle_index = -1;
 		this.level = 0;
 
-		this.isPlay=true;
+		this.isLiving=true;
 
 
 		//Install Event Handler
@@ -70,20 +70,57 @@ export class Enviroment {
 
 	goGame(){
 
-		if(this.isPlay){
+		window.requestAnimationFrame(this.goGame.bind(this));//request next update
 
-			window.requestAnimationFrame(this.goGame.bind(this));//request next update
-			this.renderize();
+		if(this.isLiving){
+
 			this.myscene.player.rotate();
 			this.obstacleLogic();
 		}
+		else{
+			this.die();
+		}
+
+		this.renderize();
 
 
 	}
 
+	die(){
+		console.log("Morto");
+
+		this.myscene.player.getPlayer().rotation.y += 5 * Math.PI/180;
+
+		if(!(this.myscene.player.getPlayer().position.x < 0.05 && this.myscene.player.getPlayer().position.x> -0.05))
+		{
+			if(this.myscene.player.currentPosition == -1){
+			this.myscene.player.getPlayer().position.x += 0.05;
+			}
+			else if(this.myscene.player.currentPosition == 1){
+				this.myscene.player.getPlayer().position.x -= 0.05;
+			}
+		}
+		if(! (this.myscene.player.getPlayer().position.z > 2)){
+			console.log("a");
+			this.myscene.player.getPlayer().position.z +=0.05;
+		}
+
+		if(! (this.myscene.player.getPlayer().position.y > 3)){
+			this.myscene.player.getPlayer().position.y +=0.05;
+		}
+		if (this.myscene.player.getPlayer().scale.x > 0){
+			this.myscene.player.getPlayer().scale.x-=0.005;
+			this.myscene.player.getPlayer().scale.z-=0.005;
+			this.myscene.player.getPlayer().scale.y-=0.005;
+
+		}
+
+		
+	}
+
 	gameOver(){
 
-		this.isPlay = false;
+		this.isLiving = false;
 
 	}
 
