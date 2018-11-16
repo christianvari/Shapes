@@ -8,10 +8,11 @@ var:
     ground
 */
 
-const MIN_LIVING_OBSTACLES = 8;
+const MIN_LIVING_OBSTACLES = 5;
 const OBSTACLE_FIRE_RATE_DELTA = 0.1;
 const CHANGE_LEVEL = 1000;
 const VELOCITY_STEP_DELTA = 0.1;
+const MAX_LEVEL = 5;
 export const time_scale = 1;
 
 var OBSTACLE_FIRE_RATE = 1;
@@ -31,6 +32,7 @@ export class Enviroment {
 		this.myscene = new MyScene(this.sceneWidth, this.sceneHeight);
 
 		this.obstacle_index = 0;
+		this.player_on_obstacle_index = -1;
 		this.level = 0;
 
 
@@ -77,18 +79,44 @@ export class Enviroment {
 
 	}
 
+	gameOver(){
+
+	}
+
 	collisionLogic(i){
 
-		if(this.myscene.player.getPositionZ() < this.myscene.getObstaclePositionZ(i)){
-			
-			if(this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i)){
 
-				if(this.myscene.player.getPositionY()-(PLAYER_EDGE/2) > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
-					this.myscene.player.playerBaseY = this.myscene.getObstacleTop(i);
-					this.myscene.player.isOnTheSecondLevel = true;
-				}
-				else{
-					//GAMEOVER TODO
+		if(this.myscene.player.isOnTheSecondLevel && this.player_on_obstacle_index == i){
+
+
+			if(this.myscene.player.getPositionZ() < this.myscene.getObstacleTailPositionZ(i)){
+
+				console.log("SCENDO");
+				
+				this.myscene.player.goDown();
+				this.myscene.player.isOnTheSecondLevel=false;
+				this.player_on_obstacle_index = -1;
+			}
+
+		}
+		else{
+			if(this.myscene.player.getPositionZ() < this.myscene.getObstacleFrontPositionZ(i)){
+				
+				if(this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i)){
+
+					console.log(this.myscene.player.getBottomPositionY()+ " > " + this.myscene.getObstacleTop(i) +" " +this.myscene.player.isOnTheSecondLevel);
+
+					if(this.myscene.player.getBottomPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
+						
+						console.log("SALGO");
+
+						this.myscene.player.playerBaseY = this.myscene.getObstacleTop(i);
+						this.myscene.player.isOnTheSecondLevel = true;
+						this.player_on_obstacle_index = i;
+					}
+					else{
+						this.gameOver();
+					}
 				}
 			}
 		}
@@ -107,7 +135,7 @@ export class Enviroment {
 		this.score += new_points * SCORE_MULTIPLYER; 
 		this.scoreText.innerHTML= this.score.toString();
 
-		if( Math.floor(this.score / CHANGE_LEVEL) != this.level){
+		if( this.level < MAX_LEVEL && Math.floor(this.score / CHANGE_LEVEL) != this.level){
 			
 
 			this.changeLevel();
@@ -118,7 +146,7 @@ export class Enviroment {
 
 	obstacleLogic(){
 		let living_obstacles = this.myscene.living_obstacles;
-		console.log(living_obstacles);
+		//console.log(living_obstacles);
 		if(living_obstacles < MIN_LIVING_OBSTACLES  && this.clock.getElapsedTime() > OBSTACLE_FIRE_RATE){
 			this.clock.elapsedTime = 0;
 			this.myscene.startObstacle();
@@ -159,7 +187,6 @@ export class Enviroment {
 		
 		
 		if ( keyEvent.keyCode == 37) {//left
-			console.log("left");
 			if(this.myscene.player.command==-1){
 				if(this.myscene.player.currentPosition==0){
 					this.myscene.player.command=2;
@@ -178,7 +205,6 @@ export class Enviroment {
 			}
 		
 		}else if(keyEvent.keyCode == 39){//right
-			console.log("right");
 			if(this.myscene.player.command==-1){
 				if(this.myscene.player.currentPosition==0){
 					this.myscene.player.command=1;
@@ -196,7 +222,6 @@ export class Enviroment {
 			}
 		}
 		else if(keyEvent.keyCode == 38){//up
-			console.log("up");
 			if(this.myscene.player.command==-1){
 				this.myscene.player.command=4;
 			}else if(this.myscene.player.next_command==-1){

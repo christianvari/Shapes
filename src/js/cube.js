@@ -1,5 +1,6 @@
 import {BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
 import { time_scale } from "./enviroment.js";
+import { PLAYER_EDGE } from "./myscene.js";
 
 /*
 Class cube
@@ -9,7 +10,7 @@ var:
     currentposition
 */
 
-const time_to_jump = 1.7;
+const time_to_jump = 1.2;
 const h_jump = 0.14;
 var gravity_constant;
 var velocity_to_jump;
@@ -42,7 +43,6 @@ export class Cube {
 
         gravity_constant = 8 * h_jump / Math.pow(time_to_jump,2);
         velocity_to_jump = 4 * h_jump/time_to_jump;
-        console.log("g: "+gravity_constant+ "  v: "+ velocity_to_jump);
     }
 
     getPlayer() {return this.player}
@@ -51,6 +51,14 @@ export class Cube {
     getPositionY(){return this.player.position.y}
     getPositionZ(){return this.player.position.z}
 
+    getBottomPositionY(){
+        return this.player.position.y - (PLAYER_EDGE/2);
+    }
+
+    goDown(){
+        this.playerBaseY = this.edge/2;
+        this.player.position.y = this.playerBaseY;
+    }
     
     rotate(){
 
