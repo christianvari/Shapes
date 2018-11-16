@@ -145,7 +145,7 @@ export class Enviroment {
 				
 				if(this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i)){
 
-					if(this.myscene.player.getBottomPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
+					if(this.myscene.player.getPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
 						
 						console.log("SALGO");
 
@@ -154,6 +154,8 @@ export class Enviroment {
 						this.player_on_obstacle_index = i;
 					}
 					else{
+
+						//console.log(this.myscene.player.getBottomPositionY() +" " + this.myscene.getObstacleTop(i));
 						this.gameOver();
 					}
 				}
