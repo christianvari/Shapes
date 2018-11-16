@@ -35,6 +35,8 @@ export class Enviroment {
 		this.player_on_obstacle_index = -1;
 		this.level = 0;
 
+		this.isPlay=true;
+
 
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
@@ -68,18 +70,20 @@ export class Enviroment {
 
 	goGame(){
 
-		window.requestAnimationFrame(this.goGame.bind(this));//request next update
+		if(this.isPlay){
 
-		this.renderize();
-
-		this.myscene.player.rotate();
-
-		this.obstacleLogic();
+			window.requestAnimationFrame(this.goGame.bind(this));//request next update
+			this.renderize();
+			this.myscene.player.rotate();
+			this.obstacleLogic();
+		}
 
 
 	}
 
 	gameOver(){
+
+		this.isPlay = false;
 
 	}
 
