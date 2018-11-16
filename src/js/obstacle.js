@@ -1,5 +1,5 @@
 import { BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
-import {PLAYER_EDGE} from "./myscene.js"
+import { PLAYER_EDGE } from "./myscene.js";
 
 /* Class Obstacle
 
@@ -8,16 +8,15 @@ import {PLAYER_EDGE} from "./myscene.js"
 export const LENGHT_SCALE = 20;
 const DISTANCE = -50;
 const MIN_DISTANCE = -150;
-const POSITION_ON_GROUND = 1;
 
 
 export class Obstacle {
 
     constructor(){
         var geometry = new BoxBufferGeometry(PLAYER_EDGE,PLAYER_EDGE,Math.random()*LENGHT_SCALE);
-        var material = new MeshStandardMaterial({color : 0xfff000});
+        var material = new MeshStandardMaterial({color : 0xfff000})
 
-
+        this.position_on_ground = PLAYER_EDGE/2;
         this.obstacle = new Mesh(geometry, material);
         this.setPosition();
         this.obstacle.castShadow=true;
@@ -26,7 +25,10 @@ export class Obstacle {
 
     setPosition(){
 
-        this.obstacle.position.y = POSITION_ON_GROUND;
+        let scale =  Math.round(Math.random()+1);
+        this.obstacle.scale.y = scale;
+
+        this.obstacle.position.y =  this.position_on_ground *scale ;
         this.obstacle.position.z = (Math.random())*DISTANCE + MIN_DISTANCE;
         this.obstacle.material.color.setHex( Math.random() * 0xffffff );
 

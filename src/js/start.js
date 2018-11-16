@@ -5,9 +5,11 @@ init();
 
 
 function init() {
-	// set up the scene
 
+	// set up the scene
 	var enviroment = new Enviroment();
+
+	//GO
 	enviroment.goGame();
 
 }

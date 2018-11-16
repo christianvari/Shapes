@@ -15,7 +15,6 @@ var:
 export const NUM_OBSTACLES = 7;
 export const PLAYER_EDGE = 1.5;
 
-const VELOCITY_STEP = 0.5;
 const CAMERA_POSITION = [0,4,8];
 const CAMERA_ROTATION_X = -20;
 const DESTROY_OBSTACLE_Z_POSITION = CAMERA_POSITION[2] + LENGHT_SCALE;
@@ -35,6 +34,7 @@ export class MyScene {
         this.scene.fog = new Fog(0xffffff, 99, 150)
         this.obstacles = [];
         this.living_obstacles = 0;
+        this.VELOCITY_STEP = 0.5;
         this.generateObstacles();
         this.addObjectsToScene();
     }
@@ -96,7 +96,7 @@ export class MyScene {
             return 1;
         }
         else {
-            o.getObstacle().position.z += VELOCITY_STEP;
+            o.getObstacle().position.z += this.VELOCITY_STEP;
             return 0;
         }
     }
