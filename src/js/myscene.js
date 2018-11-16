@@ -14,6 +14,7 @@ var:
 
 export const NUM_OBSTACLES = 10;
 export const PLAYER_EDGE = 1.5;
+export var last_generated_obstacle = null;
 
 const CAMERA_POSITION = [0,4,8];
 const CAMERA_ROTATION_X = -20;
@@ -24,6 +25,8 @@ var playerColor = 0xffffff;
 var groundWidth = 500;
 var groundHeigth = 500;
 var groundColor = 0x000000; 
+
+
 
 export class MyScene {
     constructor(sceneWidth, sceneHeight){
@@ -95,6 +98,7 @@ export class MyScene {
             o.playing=false;
             this.living_obstacles-=1;
             o.setPosition();
+            last_generated_obstacle = o;
             return 1;
         }
         else {

@@ -1,6 +1,5 @@
 import { BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
-import { PLAYER_EDGE } from "./myscene.js";
-
+import { PLAYER_EDGE, last_generated_obstacle } from "./myscene.js";
 /* Class Obstacle
 
 */
@@ -40,7 +39,10 @@ export class Obstacle {
         this.type= scale-1;
 
         this.obstacle.position.y =  PLAYER_EDGE/2 * scale ;
-        this.obstacle.position.z = Math.random()*DISTANCE + MIN_DISTANCE;
+        
+        //if()
+            this.obstacle.position.z = Math.random()*DISTANCE + MIN_DISTANCE;
+        
         this.obstacle.material.color.setHex( Math.random() * 0xffffff );
 
         var randval = Math.random();
