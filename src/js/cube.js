@@ -13,7 +13,7 @@ const time_to_jump = 1.7;
 const h_jump = 0.14;
 var gravity_constant;
 var velocity_to_jump;
-const time_to_change_line=0.4;
+const time_to_change_line=0.3;
 const n_time_fractions = 62.8;
 
 export class Cube {
