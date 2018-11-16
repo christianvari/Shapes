@@ -4,7 +4,7 @@ import { PLAYER_EDGE, last_generated_obstacle } from "./myscene.js";
 
 */
 
-export const LENGHT_SCALE = 20;
+export const LENGHT_SCALE = 30;
 const DISTANCE = -50;
 const MIN_DISTANCE = -150;
 const BASSO = 0;
@@ -17,7 +17,10 @@ const SINISTRA = -1;
 export class Obstacle {
 
     constructor(){
-        var geometry = new BoxBufferGeometry(PLAYER_EDGE,PLAYER_EDGE,Math.random()*LENGHT_SCALE);
+        
+        this.length = Math.random()*LENGHT_SCALE;
+
+        var geometry = new BoxBufferGeometry(PLAYER_EDGE,PLAYER_EDGE,this.length);
         var material = new MeshStandardMaterial({color : 0xfff000})
 
         this.center_y = PLAYER_EDGE/2;
@@ -60,6 +63,15 @@ export class Obstacle {
     getPositionZ() {return this.obstacle.position.z}
     getPositionX() {return this.obstacle.position.x}
     getPositionY() {return this.obstacle.position.y}
+
+
+    getTailPositionZ(){
+        return this.obstacle.position.z - (this.length/2);
+    }
+
+    getFrontPositionZ(){
+        return this.obstacle.position.z + (this.length/2);
+    }
 
     getTop() {
         return this.obstacle.position.y*3 ;
