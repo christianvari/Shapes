@@ -1,4 +1,4 @@
-import { MyScene, NUM_OBSTACLES } from "./myscene.js";
+import { MyScene, NUM_OBSTACLES, PLAYER_EDGE } from "./myscene.js";
 import {WebGLRenderer, Clock} from "./lib/three.module.js"
 
 /*
@@ -8,10 +8,13 @@ var:
     ground
 */
 
-const MIN_LIVING_OBSTACLES = 7;
-const OBSTACLE_FIRE_RATE = 2;
+const MIN_LIVING_OBSTACLES = 8;
+const OBSTACLE_FIRE_RATE_DELTA = 0.1;
+const CHANGE_LEVEL = 1000;
+const VELOCITY_STEP_DELTA = 0.1;
 export const time_scale = 1;
 
+var OBSTACLE_FIRE_RATE = 1;
 var SCORE_MULTIPLYER = 100;
 
 export class Enviroment {
@@ -28,6 +31,7 @@ export class Enviroment {
 		this.myscene = new MyScene(this.sceneWidth, this.sceneHeight);
 
 		this.obstacle_index = 0;
+		this.level = 0;
 
 
 		//Install Event Handler
@@ -67,27 +71,66 @@ export class Enviroment {
 		this.renderize();
 
 		this.myscene.player.rotate();
-		this.myscene.ground.getGround().material.color.setHex(/*this.myscene.ground.getGround().material.color.getHex()*/0x560056);
 
 		this.obstacleLogic();
 
 
 	}
 
+	collisionLogic(i){
+
+		if(this.myscene.player.getPositionZ() < this.myscene.getObstaclePositionZ(i)){
+			
+			if(this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i)){
+
+				if(this.myscene.player.getPositionY()-(PLAYER_EDGE/2) > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
+					this.myscene.player.playerBaseY = this.myscene.getObstacleTop(i);
+					this.myscene.player.isOnTheSecondLevel = true;
+				}
+				else{
+					//GAMEOVER TODO
+				}
+			}
+		}
+		
+	}
+
+	changeLevel(){
+		OBSTACLE_FIRE_RATE -= OBSTACLE_FIRE_RATE_DELTA;
+		this.myscene.VELOCITY_STEP += VELOCITY_STEP_DELTA;
+		this.myscene.ground.getGround().material.color.setHex(Math.random() * 0xffffff);
+
+	}
+
+	scorelogic(new_points){
+
+		this.score += new_points * SCORE_MULTIPLYER; 
+		this.scoreText.innerHTML= this.score.toString();
+
+		if( Math.floor(this.score / CHANGE_LEVEL) != this.level){
+			
+
+			this.changeLevel();
+			this.level += 1;
+		}	
+
+	}
+
 	obstacleLogic(){
 		let living_obstacles = this.myscene.living_obstacles;
+		console.log(living_obstacles);
 		if(living_obstacles < MIN_LIVING_OBSTACLES  && this.clock.getElapsedTime() > OBSTACLE_FIRE_RATE){
-			console.log("FIRE");
 			this.clock.elapsedTime = 0;
 			this.myscene.startObstacle();
 		}
 		let new_points = 0;
 		for(let i =0; i<NUM_OBSTACLES; i+=1){
 			new_points += this.myscene.obstacleMovement(i);
+
+			this.collisionLogic(i);
 		}
 
-		this.score += new_points * SCORE_MULTIPLYER; 
-		this.scoreText.innerHTML= this.score.toString();
+		this.scorelogic(new_points);
 
 	}
 

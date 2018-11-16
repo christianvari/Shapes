@@ -12,10 +12,9 @@ var:
 */
 
 
-export const NUM_OBSTACLES = 7;
+export const NUM_OBSTACLES = 10;
 export const PLAYER_EDGE = 1.5;
 
-const VELOCITY_STEP = 0.5;
 const CAMERA_POSITION = [0,4,8];
 const CAMERA_ROTATION_X = -20;
 const DESTROY_OBSTACLE_Z_POSITION = CAMERA_POSITION[2] + LENGHT_SCALE;
@@ -35,6 +34,7 @@ export class MyScene {
         this.scene.fog = new Fog(0xffffff, 99, 150)
         this.obstacles = [];
         this.living_obstacles = 0;
+        this.VELOCITY_STEP = 0.5;
         this.generateObstacles();
         this.addObjectsToScene();
     }
@@ -91,15 +91,31 @@ export class MyScene {
         let o = this.obstacles[i];
         if(!o.playing) return 0;
 
-        else if (o.getObstacle().position.z > DESTROY_OBSTACLE_Z_POSITION) {
+        else if (o.getPositionZ() > DESTROY_OBSTACLE_Z_POSITION) {
             o.playing=false;
             this.living_obstacles-=1;
             o.setPosition();
             return 1;
         }
         else {
-            o.getObstacle().position.z += VELOCITY_STEP;
+            o.getObstacle().position.z += this.VELOCITY_STEP;
             return 0;
         }
+    }
+
+    getObstaclePositionZ(i){
+        return this.obstacles[i].getPositionZ();
+    }
+
+    getObstaclePositionX(i){
+        return this.obstacles[i].getPositionX();
+    }
+
+    getObstaclePositionY(i){
+        return this.obstacles[i].getPositionY();
+    }
+
+    getObstacleTop(i){
+        return this.obstacles[i].getTop();
     }
 }
