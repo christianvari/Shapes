@@ -112,7 +112,11 @@ export class MyScene {
     }
     getObstacleFrontPositionZ(i){
         return this.obstacles[i].getFrontPositionZ();
-}
+    }
+
+    getObstaclePositionZ(i){
+        return this.obstacles[i].getPositionZ();
+    }
 
     getObstaclePositionX(i){
         return this.obstacles[i].getPositionX();

@@ -12,13 +12,14 @@ const ALTO = 1;
 const CENTRO = 0;
 const DESTRA = 1;
 const SINISTRA = -1;
+const MIN_LENGTH = 10;
 
 
 export class Obstacle {
 
     constructor(){
         
-        this.length = Math.random()*LENGHT_SCALE;
+        this.length = Math.random()*LENGHT_SCALE + MIN_LENGTH;
 
         var geometry = new BoxBufferGeometry(PLAYER_EDGE,PLAYER_EDGE,this.length);
         var material = new MeshStandardMaterial({color : 0xfff000})

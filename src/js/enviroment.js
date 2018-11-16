@@ -37,7 +37,6 @@ export class Enviroment {
 
 		this.isLiving=true;
 
-
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
 		document.onkeydown = this.handleKeyDown.bind(this);
@@ -101,7 +100,6 @@ export class Enviroment {
 			}
 		}
 		if(! (this.myscene.player.getPlayer().position.z > 2)){
-			console.log("a");
 			this.myscene.player.getPlayer().position.z +=0.05;
 		}
 
@@ -130,7 +128,7 @@ export class Enviroment {
 		if(this.myscene.player.isOnTheSecondLevel && this.player_on_obstacle_index == i){
 
 
-			if(this.myscene.player.getPositionZ() < this.myscene.getObstacleTailPositionZ(i)){
+			if(this.myscene.player.getPositionZ() + (PLAYER_EDGE/2) < this.myscene.getObstacleTailPositionZ(i)){
 
 				console.log("SCENDO");
 				
@@ -141,11 +139,11 @@ export class Enviroment {
 
 		}
 		else{
-			if(this.myscene.player.getPositionZ() < this.myscene.getObstacleFrontPositionZ(i)){
+
+			if(this.myscene.player.getPositionZ() - (PLAYER_EDGE/2) <= this.myscene.getObstacleFrontPositionZ(i) && 
+			this.myscene.player.getPositionZ() >= this.myscene.getObstacleTailPositionZ(i)){
 				
 				if(this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i)){
-
-					console.log(this.myscene.player.getBottomPositionY()+ " > " + this.myscene.getObstacleTop(i) +" " +this.myscene.player.isOnTheSecondLevel);
 
 					if(this.myscene.player.getBottomPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
 						
@@ -168,7 +166,6 @@ export class Enviroment {
 		OBSTACLE_FIRE_RATE -= OBSTACLE_FIRE_RATE_DELTA;
 		this.myscene.VELOCITY_STEP += VELOCITY_STEP_DELTA;
 		this.myscene.ground.changeColor(Math.random() * 0xffffff);
-		console.log("livello");
 
 	}
 
@@ -263,7 +260,7 @@ export class Enviroment {
 				else if(this.myscene.player.currentPosition==0 && this.myscene.player.command==2) this.myscene.player.next_command=0;
 			}
 		}
-		else if(keyEvent.keyCode == 38){//up
+		else if(keyEvent.keyCode == 38 && !this.myscene.player.isOnTheSecondLevel){//up
 			if(this.myscene.player.command==-1){
 				this.myscene.player.command=4;
 			}else if(this.myscene.player.next_command==-1){
