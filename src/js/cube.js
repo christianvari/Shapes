@@ -9,7 +9,6 @@ var:
     currentposition
 */
 
-var playerBaseY;
 const time_to_jump = 1.7;
 const h_jump = 0.14;
 var gravity_constant;
@@ -27,8 +26,8 @@ export class Cube {
         this.player = new Mesh( cubeGeometry, cubeMaterial );
         this.player.receiveShadow = true;
         this.player.castShadow=true;
-        playerBaseY=edge/2;
-        this.player.position.y=playerBaseY;
+        this.playerBaseY=edge/2;
+        this.player.position.y=this.playerBaseY;
         this.player.position.z=0;
         this.player.position.x=0;
         this.currentPosition = 0;
@@ -38,6 +37,7 @@ export class Cube {
         this.second_turn=false;
         this.isTranslating = 0;
         this.wantsToTranslate=false;
+        this.isOnTheSecondLevel = false;
 
 
         gravity_constant = 8 * h_jump / Math.pow(time_to_jump,2);
@@ -46,6 +46,10 @@ export class Cube {
     }
 
     getPlayer() {return this.player}
+
+    getPositionX(){return this.player.position.x}
+    getPositionY(){return this.player.position.y}
+    getPositionZ(){return this.player.position.z}
 
     
     rotate(){
@@ -60,7 +64,6 @@ export class Cube {
             4 to jump
               */
         // console.log("y: "+this.player.position.y+" yBase: "+playerBaseY); 
-        console.log(this.wantsToTranslate);
         if(this.isTranslating != 0){
             this.translateAux();
         }
@@ -75,13 +78,13 @@ export class Cube {
                 let x = this.player.position.x;
                 let y = this.player.position.y;
                 let a = this.edge/2;
-                let b = -this.edge/2+playerBaseY;
+                let b = -this.edge/2+this.playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
                 this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
                 
                 if(this.player.rotation.z < -Math.PI/2){
                     this.player.rotation.z = -Math.PI/2;
-                    this.player.position.y=playerBaseY;
+                    this.player.position.y=this.playerBaseY;
                     this.player.position.x=this.edge;
                     this.second_turn=true;
                 }
@@ -90,13 +93,13 @@ export class Cube {
                 let x = this.player.position.x;
                 let y = this.player.position.y;
                 let a = this.edge+this.edge/2;
-                let b = -this.edge/2+playerBaseY;
+                let b = -this.edge/2+this.playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
                 this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
                 
                 if(this.player.rotation.z < -Math.PI){
                     this.player.rotation.z = -Math.PI;
-                    this.player.position.y=playerBaseY;
+                    this.player.position.y=this.playerBaseY;
                     this.player.position.x=2*this.edge;
                     this.currentPosition=1;
                     this.command = this.next_command;
@@ -110,14 +113,14 @@ export class Cube {
                 let x = this.player.position.x;
                 let y = this.player.position.y;
                 let a = -this.edge/2;
-                let b = -this.edge/2+playerBaseY;
+                let b = -this.edge/2+this.playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
                 this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
                 
                 if(this.player.rotation.z > Math.PI/2){
                     this.player.rotation.z = Math.PI/2;
                     this.player.position.x=-this.edge;
-                    this.player.position.y = playerBaseY;
+                    this.player.position.y = this.playerBaseY;
                     this.second_turn=true;
                 }
             }else{
@@ -125,14 +128,14 @@ export class Cube {
                 let x = this.player.position.x;
                 let y = this.player.position.y;
                 let a = -this.edge-this.edge/2;
-                let b = -this.edge/2+playerBaseY;
+                let b = -this.edge/2+this.playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
                 this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
                 
                 if(this.player.rotation.z > Math.PI){
                     this.player.rotation.z = Math.PI;
                     this.player.position.x=-2*this.edge;
-                    this.player.position.y = playerBaseY;
+                    this.player.position.y = this.playerBaseY;
                     this.currentPosition=-1;
                     this.command = this.next_command;
                     this.next_command=-1;
@@ -145,14 +148,14 @@ export class Cube {
                 let x = this.player.position.x;
                 let y = this.player.position.y;
                 let a = -this.edge-this.edge/2;
-                let b = -this.edge/2+playerBaseY;
+                let b = -this.edge/2+this.playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
                 this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
                 
                 if(this.player.rotation.z < Math.PI/2){
                     this.player.rotation.z = Math.PI/2;
                     this.player.position.x= -this.edge;
-                    this.player.position.y=playerBaseY;
+                    this.player.position.y=this.playerBaseY;
                     this.second_turn=true;
                 }
             }else{
@@ -160,14 +163,14 @@ export class Cube {
                 let x = this.player.position.x;
                 let y = this.player.position.y;
                 let a = -this.edge/2;
-                let b = -this.edge/2+playerBaseY;
+                let b = -this.edge/2+this.playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
                 this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
                 
                 if(this.player.rotation.z <0){
                     this.player.rotation.z = 0;
                     this.player.position.x=0
-                    this.player.position.y=playerBaseY;
+                    this.player.position.y=this.playerBaseY;
                     this.currentPosition = 0;
                     this.command = this.next_command;
                     this.next_command=-1;
@@ -180,14 +183,14 @@ export class Cube {
                 let x = this.player.position.x;
                 let y = this.player.position.y;
                 let a = this.edge+this.edge/2;
-                let b = -this.edge/2+playerBaseY;
+                let b = -this.edge/2+this.playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
                 this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
                 
                 if(this.player.rotation.z > -Math.PI/2){
                     this.player.rotation.z = -Math.PI/2;
                     this.player.position.x= this.edge;
-                    this.player.position.y=playerBaseY;
+                    this.player.position.y= this.playerBaseY;
                     this.second_turn=true;
                 }
             }else{
@@ -195,14 +198,14 @@ export class Cube {
                 let x = this.player.position.x;
                 let y = this.player.position.y;
                 let a = this.edge/2;
-                let b = -this.edge/2+playerBaseY;
+                let b = -this.edge/2+this.playerBaseY;
                 this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
                 this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
                 
                 if(this.player.rotation.z >0){
                     this.player.rotation.z = 0;
                     this.player.position.x=0;
-                    this.player.position.y=playerBaseY; 
+                    this.player.position.y=this.playerBaseY; 
                     this.currentPosition = 0;
                     this.command = this.next_command;
                     this.next_command=-1;
@@ -216,8 +219,8 @@ export class Cube {
             this.player.rotation.x -= (3/2*Math.PI)/(time_to_jump/0.05);
             
             
-            if(this.player.position.y < playerBaseY){
-                this.player.position.y=playerBaseY;
+            if(this.player.position.y < this.playerBaseY){
+                this.player.position.y=this.playerBaseY;
                 this.player.rotation.x = 0;
                 this.command = this.next_command;
                 this.next_command=-1;

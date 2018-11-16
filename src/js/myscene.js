@@ -12,7 +12,7 @@ var:
 */
 
 
-export const NUM_OBSTACLES = 7;
+export const NUM_OBSTACLES = 10;
 export const PLAYER_EDGE = 1.5;
 
 const CAMERA_POSITION = [0,4,8];
@@ -89,7 +89,7 @@ export class MyScene {
         let o = this.obstacles[i];
         if(!o.playing) return 0;
 
-        else if (o.getObstacle().position.z > DESTROY_OBSTACLE_Z_POSITION) {
+        else if (o.getPositionZ() > DESTROY_OBSTACLE_Z_POSITION) {
             o.playing=false;
             this.living_obstacles-=1;
             o.setPosition();
@@ -99,5 +99,21 @@ export class MyScene {
             o.getObstacle().position.z += this.VELOCITY_STEP;
             return 0;
         }
+    }
+
+    getObstaclePositionZ(i){
+        return this.obstacles[i].getPositionZ();
+    }
+
+    getObstaclePositionX(i){
+        return this.obstacles[i].getPositionX();
+    }
+
+    getObstaclePositionY(i){
+        return this.obstacles[i].getPositionY();
+    }
+
+    getObstacleTop(i){
+        return this.obstacles[i].getTop();
     }
 }
