@@ -63,6 +63,8 @@ export class MyScene {
     addObjectsToScene(){
         this.scene.add(this.player.getPlayer());
         this.scene.add(this.ground.ground);
+        this.scene.add(this.ground.rightSide);
+        this.scene.add(this.ground.leftSide);
         this.addLight();
     }
 
