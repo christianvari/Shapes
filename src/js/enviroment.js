@@ -35,6 +35,7 @@ export class Enviroment {
 		this.player_on_obstacle_index = -1;
 		this.level = 0;
 
+		this.isLiving=true;
 
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
@@ -70,16 +71,54 @@ export class Enviroment {
 
 		window.requestAnimationFrame(this.goGame.bind(this));//request next update
 
+		if(this.isLiving){
+
+			this.myscene.player.rotate();
+			this.obstacleLogic();
+		}
+		else{
+			this.die();
+		}
+
 		this.renderize();
-
-		this.myscene.player.rotate();
-
-		this.obstacleLogic();
 
 
 	}
 
+	die(){
+		console.log("Morto");
+
+		this.myscene.player.getPlayer().rotation.y += 5 * Math.PI/180;
+
+		if(!(this.myscene.player.getPlayer().position.x < 0.05 && this.myscene.player.getPlayer().position.x> -0.05))
+		{
+			if(this.myscene.player.currentPosition == -1){
+			this.myscene.player.getPlayer().position.x += 0.05;
+			}
+			else if(this.myscene.player.currentPosition == 1){
+				this.myscene.player.getPlayer().position.x -= 0.05;
+			}
+		}
+		if(! (this.myscene.player.getPlayer().position.z > 2)){
+			this.myscene.player.getPlayer().position.z +=0.05;
+		}
+
+		if(! (this.myscene.player.getPlayer().position.y > 3)){
+			this.myscene.player.getPlayer().position.y +=0.05;
+		}
+		if (this.myscene.player.getPlayer().scale.x > 0){
+			this.myscene.player.getPlayer().scale.x-=0.005;
+			this.myscene.player.getPlayer().scale.z-=0.005;
+			this.myscene.player.getPlayer().scale.y-=0.005;
+
+		}
+
+		
+	}
+
 	gameOver(){
+
+		this.isLiving = false;
 
 	}
 
@@ -89,7 +128,7 @@ export class Enviroment {
 		if(this.myscene.player.isOnTheSecondLevel && this.player_on_obstacle_index == i){
 
 
-			if(this.myscene.player.getPositionZ() < this.myscene.getObstacleTailPositionZ(i)){
+			if(this.myscene.player.getPositionZ() + (PLAYER_EDGE/2) < this.myscene.getObstacleTailPositionZ(i)){
 
 				console.log("SCENDO");
 				
@@ -100,13 +139,13 @@ export class Enviroment {
 
 		}
 		else{
-			if(this.myscene.player.getPositionZ() < this.myscene.getObstacleFrontPositionZ(i)){
+
+			if(this.myscene.player.getPositionZ() - (PLAYER_EDGE/2) <= this.myscene.getObstacleFrontPositionZ(i) && 
+			this.myscene.player.getPositionZ() >= this.myscene.getObstacleTailPositionZ(i)){
 				
 				if(this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i)){
 
-					console.log(this.myscene.player.getBottomPositionY()+ " > " + this.myscene.getObstacleTop(i) +" " +this.myscene.player.isOnTheSecondLevel);
-
-					if(this.myscene.player.getBottomPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
+					if(this.myscene.player.getPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
 						
 						console.log("SALGO");
 
@@ -115,6 +154,8 @@ export class Enviroment {
 						this.player_on_obstacle_index = i;
 					}
 					else{
+
+						//console.log(this.myscene.player.getBottomPositionY() +" " + this.myscene.getObstacleTop(i));
 						this.gameOver();
 					}
 				}
@@ -127,7 +168,6 @@ export class Enviroment {
 		OBSTACLE_FIRE_RATE -= OBSTACLE_FIRE_RATE_DELTA;
 		this.myscene.VELOCITY_STEP += VELOCITY_STEP_DELTA;
 		this.myscene.ground.changeColor(Math.random() * 0xffffff);
-		console.log("livello");
 
 	}
 
@@ -222,7 +262,7 @@ export class Enviroment {
 				else if(this.myscene.player.currentPosition==0 && this.myscene.player.command==2) this.myscene.player.next_command=0;
 			}
 		}
-		else if(keyEvent.keyCode == 38){//up
+		else if(keyEvent.keyCode == 38 && !this.myscene.player.isOnTheSecondLevel){//up
 			if(this.myscene.player.command==-1){
 				this.myscene.player.command=4;
 			}else if(this.myscene.player.next_command==-1){

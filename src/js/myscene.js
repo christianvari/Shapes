@@ -79,7 +79,7 @@ export class MyScene {
     }
 
     addLight(){
-        let hemisphereLight = new HemisphereLight(0xfffafa,0x000000, .9);
+        let hemisphereLight = new HemisphereLight(0xffffff,0x000000, .9);
         let sun = new DirectionalLight( 0xcdc1c5, 0.9);
         sun.position.set( 12,6,7 );
         sun.castShadow = true;
@@ -119,7 +119,11 @@ export class MyScene {
     }
     getObstacleFrontPositionZ(i){
         return this.obstacles[i].getFrontPositionZ();
-}
+    }
+
+    getObstaclePositionZ(i){
+        return this.obstacles[i].getPositionZ();
+    }
 
     getObstaclePositionX(i){
         return this.obstacles[i].getPositionX();
