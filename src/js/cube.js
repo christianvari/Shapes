@@ -39,7 +39,7 @@ export class Cube {
         this.isTranslating = 0;
         this.wantsToTranslate=false;
         this.isOnTheSecondLevel = false;
-
+        this.wantsToGoDown = false;
 
         gravity_constant = 8 * h_jump / Math.pow(time_to_jump,2);
         velocity_to_jump = 4 * h_jump/time_to_jump;
@@ -57,7 +57,12 @@ export class Cube {
 
     goDown(){
         this.playerBaseY = this.edge/2;
-        this.player.position.y = this.playerBaseY;
+        //this.player.position.y = this.playerBaseY;
+        this.wantsToGoDown = true;
+    }
+
+    goDownAux(){
+        this.player.position.y -= 0.25;
     }
     
     rotate(){
@@ -74,6 +79,14 @@ export class Cube {
         // console.log("y: "+this.player.position.y+" yBase: "+playerBaseY); 
         if(this.isTranslating != 0){
             this.translateAux();
+        }
+
+        if(this.wantsToGoDown){
+            this.goDownAux();
+            if(this.player.position.y < this.playerBaseY){
+                this.player.position.y = this.playerBaseY;
+                this.wantsToGoDown = false;
+            }
         }
 
         if(this.command==-1) return;
@@ -264,19 +277,17 @@ export class Cube {
        }*/
 
        
-            this.wantsToTranslate=true;
-            if(this.isTranslating==0){
-                if(direction==-1 && this.currentPosition==0)
-                    this.isTranslating=-1;
-                else if(direction==1 && this.currentPosition==0)
-                    this.isTranslating=1;
-                else if(direction==-1 && this.currentPosition==1)
-                    this.isTranslating=2;
-                else if(direction==1 && this.currentPosition==-1)
-                    this.isTranslating=-2;
-            }
-
-        
+        this.wantsToTranslate=true;
+        if(this.isTranslating==0){
+            if(direction==-1 && this.currentPosition==0)
+                this.isTranslating=-1;
+            else if(direction==1 && this.currentPosition==0)
+                this.isTranslating=1;
+            else if(direction==-1 && this.currentPosition==1)
+                this.isTranslating=2;
+            else if(direction==1 && this.currentPosition==-1)
+                this.isTranslating=-2;
+        }    
     }
 
     translateAux(){
