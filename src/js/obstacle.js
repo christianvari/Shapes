@@ -36,7 +36,7 @@ export class Obstacle {
 
     setPosition(history){
 
-        console.log("setting position");
+        //console.log("setting position");
         let scale =  Math.round(Math.random()+1);
         this.obstacle.scale.y = scale;
         this.type= scale-1;

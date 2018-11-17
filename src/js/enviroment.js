@@ -28,7 +28,7 @@ export class Enviroment {
 		this.clock = new Clock();
 		this.sceneWidth = window.innerWidth;
 		this.sceneHeight = window.innerHeight;
-		this.renderer = new WebGLRenderer();
+		this.renderer = new WebGLRenderer({antialias : true});
 		this.myscene = new MyScene(this.sceneWidth, this.sceneHeight);
 
 		this.obstacle_index = 0;
@@ -74,6 +74,7 @@ export class Enviroment {
 		if(this.isLiving){
 
 			this.myscene.player.rotate();
+			this.myscene.player.goDown();
 			this.obstacleLogic();
 		}
 		else{
@@ -86,7 +87,6 @@ export class Enviroment {
 	}
 
 	die(){
-		console.log("Morto");
 
 		this.myscene.player.getPlayer().rotation.y += 5 * Math.PI/180;
 
@@ -128,11 +128,14 @@ export class Enviroment {
 		if(this.myscene.player.isOnTheSecondLevel && this.player_on_obstacle_index == i){
 
 
-			if(this.myscene.player.getPositionZ() + (PLAYER_EDGE/2) < this.myscene.getObstacleTailPositionZ(i)){
+			if((this.myscene.player.getPositionZ() + (PLAYER_EDGE/2)  < this.myscene.getObstacleTailPositionZ(i))
+
+				|| (this.myscene.player.getPositionX() != this.myscene.getObstaclePositionX(i))) {
+
 
 				console.log("SCENDO");
 				
-				this.myscene.player.goDown();
+				this.myscene.player.going_down = true;
 				this.myscene.player.isOnTheSecondLevel=false;
 				this.player_on_obstacle_index = -1;
 			}

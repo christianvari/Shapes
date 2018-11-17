@@ -61,7 +61,7 @@ export class MyScene {
         let x = this.history.getObstacleList().removeHead();
         let index = this.obstacles.findIndex( 
             function findPlaying(element){
-                console.log("first: "+x+" elem: "+element);
+                //console.log("first: "+x+" elem: "+element);
                 return x == element;
             }
         );
@@ -104,7 +104,7 @@ export class MyScene {
         else if (o.getPositionZ() > DESTROY_OBSTACLE_Z_POSITION) {
             o.playing=false;
             this.living_obstacles-=1;
-            console.log(this.history.getLastCenterPositionZ());
+            //console.log(this.history.getLastCenterPositionZ());
             this.history.getObstacleList().addToTail(o);
             return 1;
         }

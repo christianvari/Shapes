@@ -40,6 +40,8 @@ export class Cube {
         this.wantsToTranslate=false;
         this.isOnTheSecondLevel = false;
 
+        this.going_down = false;
+
 
         gravity_constant = 8 * h_jump / Math.pow(time_to_jump,2);
         velocity_to_jump = 4 * h_jump/time_to_jump;
@@ -56,8 +58,18 @@ export class Cube {
     }
 
     goDown(){
-        this.playerBaseY = this.edge/2;
-        this.player.position.y = this.playerBaseY;
+
+        if(this.going_down){
+            console.log("goDown");
+            if(this.getBottomPositionY() < this.edge/2){
+                this.playerBaseY = this.edge/2;
+                this.player.position.y = this.playerBaseY;
+                this.going_down = false;
+            }
+            else{
+                this.player.position.y -= 0.2;
+            }
+        }
     }
     
     rotate(){
