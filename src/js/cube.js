@@ -221,19 +221,21 @@ export class Cube {
                 }
             }
         }else if(this.command==4){ //salto in alto
-            this.player.position.y += ((-(1/2)*gravity_constant*Math.pow(this.time+0.05,2) + velocity_to_jump*(this.time+0.05))-(-(1/2)*gravity_constant*Math.pow(this.time,2) + velocity_to_jump*this.time))/0.05;
-            this.time+=0.05
+            if(!this.wantsToTranslate){
+                this.player.position.y += ((-(1/2)*gravity_constant*Math.pow(this.time+0.05,2) + velocity_to_jump*(this.time+0.05))-(-(1/2)*gravity_constant*Math.pow(this.time,2) + velocity_to_jump*this.time))/0.05;
+                this.time+=0.05
 
-            this.player.rotation.x -= (3/2*Math.PI)/(time_to_jump/0.05);
-            
-            
-            if(this.player.position.y < this.playerBaseY){
-                this.player.position.y=this.playerBaseY;
-                this.player.rotation.x = 0;
-                this.command = this.next_command;
-                this.next_command=-1;
+                this.player.rotation.x -= (3/2*Math.PI)/(time_to_jump/0.05);
                 
-                this.time=0;
+                
+                if(this.player.position.y < this.playerBaseY){
+                    this.player.position.y=this.playerBaseY;
+                    this.player.rotation.x = 0;
+                    this.command = this.next_command;
+                    this.next_command=-1;
+                    
+                    this.time=0;
+                }
             }
         
         }
@@ -261,7 +263,7 @@ export class Cube {
                 this.isTranslating=-2;
        }*/
 
-       if(this.jumpingTranslatingIsPossible()==0){
+       
             this.wantsToTranslate=true;
             if(this.isTranslating==0){
                 if(direction==-1 && this.currentPosition==0)
@@ -274,11 +276,11 @@ export class Cube {
                     this.isTranslating=-2;
             }
 
-        }
+        
     }
 
     translateAux(){
-        let inc = 2*((2*this.edge/n_time_fractions)/time_to_change_line)*time_scale;
+        let inc = 3*((2*this.edge/n_time_fractions)/time_to_change_line)*time_scale;
         
         if(this.isTranslating==1){
             this.player.position.x += inc;
