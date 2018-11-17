@@ -31,6 +31,7 @@ export class Obstacle {
         this.playing = false;
         this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
 
+        this.obstacle.receiveShadow = true;
         this.setPosition(history);
     }
 
