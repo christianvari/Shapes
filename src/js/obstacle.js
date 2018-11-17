@@ -1,5 +1,6 @@
 import { BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
-import { PLAYER_EDGE, last_generated_obstacle } from "./myscene.js";
+import { PLAYER_EDGE } from "./myscene.js";
+import { History } from "./history.js";
 /* Class Obstacle
 
 */
@@ -12,11 +13,12 @@ const ALTO = 1;
 const CENTRO = 0;
 const DESTRA = 1;
 const SINISTRA = -1;
+const OBSTACLES_DIST = 30;
 
 
 export class Obstacle {
 
-    constructor(){
+    constructor(history){
         
         this.length = Math.random()*LENGHT_SCALE;
 
@@ -29,20 +31,19 @@ export class Obstacle {
         this.playing = false;
         this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
 
-        this.setPosition();
+        this.setPosition(history);
     }
 
-    setPosition(){
+    setPosition(history){
 
+        console.log("setting position");
         let scale =  Math.round(Math.random()+1);
         this.obstacle.scale.y = scale;
         this.type= scale-1;
 
         this.obstacle.position.y =  PLAYER_EDGE/2 * scale ;
         
-        //if()
-            this.obstacle.position.z = Math.random()*DISTANCE + MIN_DISTANCE;
-        
+
         this.obstacle.material.color.setHex( Math.random() * 0xffffff );
 
         var randval = Math.random();
@@ -56,6 +57,63 @@ export class Obstacle {
         else{
             this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
         }
+
+
+        // get len last obstacle and check if I can spawn in calculated position
+        
+        if(this.getPositionX() == DESTRA*2*PLAYER_EDGE){
+            if(history.last_generated_obstacle_right==null){
+                this.obstacle.position.z = Math.random()*DISTANCE + MIN_DISTANCE;               //TODO: add "history.""
+                history.last_generated_obstacle_right = this;
+            }
+            else{      
+                let distZ = Math.random()*DISTANCE + MIN_DISTANCE + this.length/2;
+                let lastLen = history.getLastRightPositionZ();
+                if((Math.abs(distZ+this.length - lastLen) <= OBSTACLES_DIST && lastLen < distZ) || lastLen < distZ){  //gap between obstacle_dist and 2 * obstacle_dist
+                    this.obstacle.position.z = lastLen - OBSTACLES_DIST - this.length/2 - Math.random()*OBSTACLES_DIST;    
+                }
+                else{
+                    this.obstacle.position.z = distZ;
+                }
+                history.last_generated_obstacle_right = this;
+            }
+        }else if(this.getPositionX() == SINISTRA*2*PLAYER_EDGE){
+            if(history.last_generated_obstacle_left==null){
+                this.obstacle.position.z = Math.random()*DISTANCE + MIN_DISTANCE;
+                history.last_generated_obstacle_left = this;
+            }
+            else{      
+                let distZ = Math.random()*DISTANCE + MIN_DISTANCE + this.length/2;
+                let lastLen = history.getLastLeftPositionZ();
+
+                if((Math.abs(distZ+this.length - lastLen) <= OBSTACLES_DIST && lastLen < distZ) || lastLen < distZ){  //gap between obstacle_dist and 2 * obstacle_dist
+                    this.obstacle.position.z = lastLen - OBSTACLES_DIST -this.length/2 - Math.random()*OBSTACLES_DIST;    
+                }
+                else{
+                    this.obstacle.position.z = distZ;
+                }
+                history.last_generated_obstacle_left = this;
+            }
+        }else{
+            if(history.last_generated_obstacle_center==null){
+                this.obstacle.position.z = Math.random()*DISTANCE + MIN_DISTANCE;
+                history.last_generated_obstacle_center = this;
+            }
+            else{      
+                let distZ = Math.random()*DISTANCE + MIN_DISTANCE + this.length/2;
+                let lastLen = history.getLastCenterPositionZ();
+                
+                if((Math.abs(distZ+this.length - lastLen) <= OBSTACLES_DIST && lastLen < distZ) || lastLen < distZ){  //gap between obstacle_dist and 2 * obstacle_dist
+                    this.obstacle.position.z = lastLen - OBSTACLES_DIST - (this.length/2) - Math.random()*OBSTACLES_DIST;    
+                }
+                else{
+                    this.obstacle.position.z = distZ;
+                }
+                history.last_generated_obstacle_center = this;
+            }
+        }
+
+        //history.getObstacleList().addToTail(this);
 
     }
 
