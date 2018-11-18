@@ -284,16 +284,24 @@ export class Cube {
        }*/
 
        
-        this.wantsToTranslate=true;
+        
         if(this.isTranslating==0){
-            if(direction==-1 && this.currentPosition==0)
+            if(direction==-1 && this.currentPosition==0){
                 this.isTranslating=-1;
-            else if(direction==1 && this.currentPosition==0)
+                this.wantsToTranslate=true;
+            }
+            else if(direction==1 && this.currentPosition==0){
                 this.isTranslating=1;
-            else if(direction==-1 && this.currentPosition==1)
+                this.wantsToTranslate=true;
+            }
+            else if(direction==-1 && this.currentPosition==1){
                 this.isTranslating=2;
-            else if(direction==1 && this.currentPosition==-1)
+                this.wantsToTranslate=true;
+            }
+            else if(direction==1 && this.currentPosition==-1){
                 this.isTranslating=-2;
+                this.wantsToTranslate=true;
+            }
         }    
     }
 
