@@ -13,8 +13,8 @@ const OBSTACLE_FIRE_RATE_DELTA = 0.1;
 const CHANGE_LEVEL = 1000;
 const VELOCITY_STEP_DELTA = 0.1;
 const MAX_LEVEL = 5;
-const NUM_OF_SPECIAL_LEVELS = 1; 	 //to change if other special levels are added
-const PERC_NORMAL_LEVEL = 0.6;  	 // 60% to do a normal level
+const NUM_OF_SPECIAL_LEVELS = 2; 	 //to change if other special levels are added
+const PERC_NORMAL_LEVEL = 0.5;  	 // 60% to do a normal level
 export const time_scale = 1;
 
 var OBSTACLE_FIRE_RATE = 1;
@@ -79,6 +79,7 @@ export class Enviroment {
 			this.myscene.player.rotate();
 			this.myscene.player.goDown();
 			this.obstacleLogic();
+			this.myscene.camera.rotate();
 		}
 		else{
 			this.die();
@@ -307,6 +308,7 @@ export class Enviroment {
 
 	turnOffSpecial(){	// each unset for special feature is to be added 
 		this.myscene.history.unsetObstacleColor();
+		this.myscene.camera.unsetRotation();
 	}
 
 	/* SPECIAL LEVELS */
@@ -317,7 +319,8 @@ export class Enviroment {
 	}
 
 	rotationLevel(){
-		//TODO
+		this.changeToNormalLevel();  // only to change color
+		this.myscene.camera.setRotation();
 	}
 
 	flashingLights(){
