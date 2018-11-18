@@ -9,6 +9,9 @@ export class History{
         this.last_generated_obstacle_left = null;
         this.last_generated_obstacle_center = null;
         this.last_generated_obstacle_right = null;
+        
+        this.colorSetted = false;
+        this.levelColor = 0xffffff;
 
         this.obstacle_order = new LinkedList();        
 
@@ -31,5 +34,14 @@ export class History{
 
     getObstacleList(){
         return this.obstacle_order;
+    }
+
+    setObstacleColor(color){
+        this.colorSetted = true;
+        this.levelColor = color;
+    }
+
+    unsetObstacleColor(){
+        this.colorSetted = false;
     }
 }

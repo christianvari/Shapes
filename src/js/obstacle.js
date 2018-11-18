@@ -32,7 +32,9 @@ export class Obstacle {
         this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
 
         this.obstacle.receiveShadow = true;
+        this.history = history;
         this.setPosition(history);
+        
     }
 
     setPosition(history){
@@ -114,6 +116,7 @@ export class Obstacle {
             }
         }
 
+        this.changeColor();
         //history.getObstacleList().addToTail(this);
 
     }
@@ -136,4 +139,11 @@ export class Obstacle {
         return this.obstacle.position.y*3 ;
     }
 
+
+    changeColor(){
+        if(this.history.colorSetted){
+            this.obstacle.material.color.setHex(this.history.levelColor);
+        }
+        
+    }
 }

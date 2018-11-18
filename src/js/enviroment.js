@@ -13,10 +13,13 @@ const OBSTACLE_FIRE_RATE_DELTA = 0.1;
 const CHANGE_LEVEL = 1000;
 const VELOCITY_STEP_DELTA = 0.1;
 const MAX_LEVEL = 5;
+const NUM_OF_SPECIAL_LEVELS = 1; 	 //to change if other special levels are added
+const PERC_NORMAL_LEVEL = 0.6;  	 // 60% to do a normal level
 export const time_scale = 1;
 
 var OBSTACLE_FIRE_RATE = 1;
 var SCORE_MULTIPLYER = 100;
+
 
 export class Enviroment {
 
@@ -168,23 +171,27 @@ export class Enviroment {
 	}
 
 	changeLevel(){
-		OBSTACLE_FIRE_RATE -= OBSTACLE_FIRE_RATE_DELTA;
-		this.myscene.VELOCITY_STEP += VELOCITY_STEP_DELTA;
-		this.myscene.ground.changeColor(Math.random() * 0xffffff);
 
+		// MAX_LEVEL is only used to know if I can accelerate obstacle
+		// player can play forever and levels will change without changing velocity
+		if( this.level < MAX_LEVEL){
+			OBSTACLE_FIRE_RATE -= OBSTACLE_FIRE_RATE_DELTA;
+			this.myscene.VELOCITY_STEP += VELOCITY_STEP_DELTA;
+			
+		}
+
+		this.changeLevelAux();
 	}
 
 	scorelogic(new_points){
 
 		this.score += new_points * SCORE_MULTIPLYER; 
 		this.scoreText.innerHTML= this.score.toString();
-
-		if( this.level < MAX_LEVEL && Math.floor(this.score / CHANGE_LEVEL) != this.level){
-			
-
+		
+		if(Math.floor(this.score / CHANGE_LEVEL) != this.level){
 			this.changeLevel();
 			this.level += 1;
-		}	
+		}
 
 	}
 
@@ -274,4 +281,48 @@ export class Enviroment {
 		}
 		 
 	}	
+
+	changeLevelAux(){		// random chosing between normal and special level
+		let x = Math.random();
+		
+		this.turnOffSpecial();	//need to turn off some special features that can be enabled (colors, camera rotation and other)
+		
+		if(x < PERC_NORMAL_LEVEL) this.changeToNormalLevel();
+		else this.changeToSpecialLevel();	
+	}
+
+	changeToNormalLevel(){
+			
+		this.myscene.ground.changeColor(Math.random() * 0xffffff);
+	}
+
+	changeToSpecialLevel(){
+		
+		let x = Math.floor(Math.random() * NUM_OF_SPECIAL_LEVELS); //remember to modify NUM_OF_SPECIAL_LEVELS if you add one
+
+		if (x==0) this.blackAndWhite();
+		else if (x==1) this.rotationLevel();
+		else if (x==2) this.flashingLights();
+	}
+
+	turnOffSpecial(){	// each unset for special feature is to be added 
+		this.myscene.history.unsetObstacleColor();
+	}
+
+	/* SPECIAL LEVELS */
+
+	blackAndWhite(){
+		this.myscene.ground.changeColor(0x000000);
+		this.myscene.history.setObstacleColor(0xffffff);
+	}
+
+	rotationLevel(){
+		//TODO
+	}
+
+	flashingLights(){
+		//TODO
+	}
+
+
 }
