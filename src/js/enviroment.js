@@ -133,9 +133,7 @@ export class Enviroment {
 		if(this.myscene.player.isOnTheSecondLevel && this.player_on_obstacle_index == i){
 
 
-			if((this.myscene.player.getPositionZ() + (PLAYER_EDGE/2)  < this.myscene.getObstacleTailPositionZ(i))
-
-				|| (this.myscene.player.getPositionX() != this.myscene.getObstaclePositionX(i))) {
+			if((this.myscene.player.getPositionZ() + (PLAYER_EDGE/2)  < this.myscene.getObstacleTailPositionZ(i))) {
 
 
 				console.log("SCENDO");
@@ -144,6 +142,26 @@ export class Enviroment {
 				this.myscene.player.isOnTheSecondLevel=false;
 				this.player_on_obstacle_index = -1;
 			}
+			else if(this.myscene.player.getPositionX() != this.myscene.getObstaclePositionX(i)){
+
+				console.log(this.myscene.player.command + " "+
+				(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/+ " > " + this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2)));
+
+
+				if((((this.myscene.player.command == 0|| this.myscene.player.command == 1)) && 
+				(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/ > this.myscene.getObstaclePositionX(i)+ (PLAYER_EDGE/2)))
+				|| (((this.myscene.player.command == 2|| this.myscene.player.command == 3)) && 
+				(this.myscene.player.getPositionX() + (PLAYER_EDGE/2) < this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2)))
+				){
+
+					console.log("SCENDO DI LATO)");
+
+					this.myscene.player.going_down = true;
+					this.myscene.player.isOnTheSecondLevel=false;
+					this.player_on_obstacle_index = -1;
+				}
+
+			}
 
 		}
 		else{
@@ -151,7 +169,9 @@ export class Enviroment {
 			if(this.myscene.player.getPositionZ() - (PLAYER_EDGE/2) <= this.myscene.getObstacleFrontPositionZ(i) && 
 			this.myscene.player.getPositionZ() >= this.myscene.getObstacleTailPositionZ(i)){
 				
-				if(this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i)){
+				if((this.myscene.player.getPositionX() - (PLAYER_EDGE/2) == this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2))
+					|| (this.myscene.player.getPositionX() + (PLAYER_EDGE/2) == this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2))
+					|| (this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i))){
 
 					if(this.myscene.player.getPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
 						
@@ -163,7 +183,6 @@ export class Enviroment {
 					}
 					else{
 
-						//console.log(this.myscene.player.getBottomPositionY() +" " + this.myscene.getObstacleTop(i));
 						this.gameOver();
 					}
 				}

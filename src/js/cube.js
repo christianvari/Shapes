@@ -67,7 +67,7 @@ export class Cube {
                 this.going_down = false;
             }
             else{
-                this.player.position.y -= 0.2;
+                this.player.position.y -= 0.1;
             }
         }
     }
@@ -306,7 +306,7 @@ export class Cube {
     }
 
     translateAux(){
-        let inc = 3*((2*this.edge/n_time_fractions)/time_to_change_line)*time_scale;
+        let inc = 2*((2*this.edge/n_time_fractions)/time_to_change_line)*time_scale;
         
         if(this.isTranslating==1){
             this.player.position.x += inc;
