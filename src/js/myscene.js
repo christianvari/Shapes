@@ -17,10 +17,11 @@ export const NUM_OBSTACLES = 10;
 export const PLAYER_EDGE = 1.5;
 
 
-const CAMERA_POSITION = [0,4,8];
+const CAMERA_POSITION = [0,5,8];
 const CAMERA_ROTATION_X = -20;
 const DESTROY_OBSTACLE_Z_POSITION = CAMERA_POSITION[2] + LENGHT_SCALE;
-
+const MAX_LIGHT_INTENSITY = 0.9;
+const TIME_STEP = 0.05;
 
 var playerColor = 0xffffff;
 var groundWidth = 500;
@@ -42,8 +43,13 @@ export class MyScene {
         this.living_obstacles = 0;
         this.VELOCITY_STEP = 0.5;
         this.generateObstacles();
-        this.addObjectsToScene();
         
+        this.hemisphereLight = new HemisphereLight(0xffffff,0x000000, MAX_LIGHT_INTENSITY);
+        this.sun = new DirectionalLight( 0xffffff, MAX_LIGHT_INTENSITY);
+        this.time = 0;
+        this.isFlashing = false;
+
+        this.addObjectsToScene();
     }
 
     generateObstacles(){
@@ -79,19 +85,18 @@ export class MyScene {
     }
 
     addLight(){
-        let hemisphereLight = new HemisphereLight(0xffffff,0x000000, .9);
-        let sun = new DirectionalLight( 0xcdc1c5, 0.9);
-        sun.position.set( 12,6,7 );
-        sun.castShadow = true;
+        
+        this.sun.position.set( 12,6,7 );
+        this.sun.castShadow = true;
     
         //Set up shadow properties for the sun light
-        sun.shadow.mapSize.width = 256;
-        sun.shadow.mapSize.height = 256;
-        sun.shadow.camera.near = 0.5;
-        sun.shadow.camera.far = 50 ;
-
-        this.scene.add(sun);
-        this.scene.add(hemisphereLight);
+        this.sun.shadow.mapSize.width = 256;
+        this.sun.shadow.mapSize.height = 256;
+        this.sun.shadow.camera.near = 0.5;
+        this.sun.shadow.camera.far = 50 ;
+        
+        this.scene.add(this.sun);
+        this.scene.add(this.hemisphereLight);
     }
 
     getScene(){return this.scene}
@@ -136,4 +141,29 @@ export class MyScene {
     getObstacleTop(i){
         return this.obstacles[i].getTop();
     }
+
+    flashLight(){
+        if(!this.isFlashing && this.sun.intensity==MAX_LIGHT_INTENSITY) return;
+        if(!this.isFlashing) {
+            this.sun.intensity = MAX_LIGHT_INTENSITY; 
+            this.hemisphereLight.intensity = MAX_LIGHT_INTENSITY; 
+            this.time = 0; 
+            return;
+        }
+
+        this.sun.intensity = (MAX_LIGHT_INTENSITY/2 * Math.cos(this.time)) + MAX_LIGHT_INTENSITY/2;
+        this.hemisphereLight.intensity = (MAX_LIGHT_INTENSITY/2 * Math.cos(this.time)) + MAX_LIGHT_INTENSITY/2;
+
+        this.time += TIME_STEP;
+    }
+
+    enableFlashing(){
+        this.isFlashing = true;
+    }
+
+    disableFlashing(){
+        this.isFlashing = false;
+    }
+
+
 }

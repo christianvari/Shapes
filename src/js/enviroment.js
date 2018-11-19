@@ -8,12 +8,12 @@ var:
     ground
 */
 
-const MIN_LIVING_OBSTACLES = 5;
+const MIN_LIVING_OBSTACLES = 8;
 const OBSTACLE_FIRE_RATE_DELTA = 0.1;
-const CHANGE_LEVEL = 1000;
+const CHANGE_LEVEL = 2000;
 const VELOCITY_STEP_DELTA = 0.1;
-const MAX_LEVEL = 5;
-const NUM_OF_SPECIAL_LEVELS = 2; 	 //to change if other special levels are added
+const MAX_LEVEL = 10;
+const NUM_OF_SPECIAL_LEVELS = 3; 	 //to change if other special levels are added
 const PERC_NORMAL_LEVEL = 0.5;  	 // 60% to do a normal level
 export const time_scale = 1;
 
@@ -80,6 +80,7 @@ export class Enviroment {
 			this.myscene.player.goDown();
 			this.obstacleLogic();
 			this.myscene.camera.rotate();
+			this.myscene.flashLight();
 		}
 		else{
 			this.die();
@@ -309,6 +310,7 @@ export class Enviroment {
 	turnOffSpecial(){	// each unset for special feature is to be added 
 		this.myscene.history.unsetObstacleColor();
 		this.myscene.camera.unsetRotation();
+		this.myscene.disableFlashing();
 	}
 
 	/* SPECIAL LEVELS */
@@ -324,7 +326,8 @@ export class Enviroment {
 	}
 
 	flashingLights(){
-		//TODO
+		this.changeToNormalLevel();
+		this.myscene.enableFlashing();
 	}
 
 
