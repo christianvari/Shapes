@@ -150,7 +150,9 @@ export class Enviroment {
 			if(this.myscene.player.getPositionZ() - (PLAYER_EDGE/2) <= this.myscene.getObstacleFrontPositionZ(i) && 
 			this.myscene.player.getPositionZ() >= this.myscene.getObstacleTailPositionZ(i)){
 				
-				if(this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i)){
+				if((this.myscene.player.getPositionX() - (PLAYER_EDGE/2) == this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2))
+					|| (this.myscene.player.getPositionX() + (PLAYER_EDGE/2) == this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2))
+					|| (this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i))){
 
 					if(this.myscene.player.getPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
 						
@@ -162,7 +164,6 @@ export class Enviroment {
 					}
 					else{
 
-						//console.log(this.myscene.player.getBottomPositionY() +" " + this.myscene.getObstacleTop(i));
 						this.gameOver();
 					}
 				}
