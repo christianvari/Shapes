@@ -10,7 +10,7 @@ var:
 
 const MIN_LIVING_OBSTACLES = 8;
 const OBSTACLE_FIRE_RATE_DELTA = 0.1;
-const CHANGE_LEVEL = 2000;
+const CHANGE_LEVEL = 1000;
 const VELOCITY_STEP_DELTA = 0.1;
 const MAX_LEVEL = 10;
 const NUM_OF_SPECIAL_LEVELS = 3; 	 //to change if other special levels are added
@@ -144,20 +144,22 @@ export class Enviroment {
 			}
 			else if(this.myscene.player.getPositionX() != this.myscene.getObstaclePositionX(i)){
 
-				console.log(this.myscene.player.command + " "+
-				(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/+ " > " + this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2)));
+				//console.log(this.myscene.player.command + " "+
+				//(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/+ " > " + this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2)));
 
 
 				if((((this.myscene.player.command == 0|| this.myscene.player.command == 1)) && 
-				(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/ > this.myscene.getObstaclePositionX(i)+ (PLAYER_EDGE/2)))
+				(this.myscene.player.getPositionX() - (PLAYER_EDGE/2) > this.myscene.getObstaclePositionX(i)+ (PLAYER_EDGE/2)))
 				|| (((this.myscene.player.command == 2|| this.myscene.player.command == 3)) && 
 				(this.myscene.player.getPositionX() + (PLAYER_EDGE/2) < this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2)))
 				){
 
 					console.log("SCENDO DI LATO)");
 
-					this.myscene.player.going_down = true;
-					this.myscene.player.isOnTheSecondLevel=false;
+					
+
+					//this.myscene.player.going_down = true;
+					
 					this.player_on_obstacle_index = -1;
 				}
 
@@ -182,8 +184,8 @@ export class Enviroment {
 						this.player_on_obstacle_index = i;
 					}
 					else{
-
-						this.gameOver();
+						if(!this.myscene.player.isOnTheSecondLevel) //al secondo livello non si muore
+							this.gameOver();
 					}
 				}
 			}
@@ -259,12 +261,23 @@ export class Enviroment {
 		
 		
 		if ( keyEvent.keyCode == 37) {//left
+			
 			if(this.myscene.player.command==-1){
-				if(this.myscene.player.currentPosition==0){
-					this.myscene.player.command=2;
+				if(!this.myscene.player.going_down){
+					if(this.myscene.player.currentPosition==0){
+						this.myscene.player.command=2;
+					}
+					else if(this.myscene.player.currentPosition==1){
+						this.myscene.player.command=3;
+					}
 				}
-				else if(this.myscene.player.currentPosition==1){
-					this.myscene.player.command=3;
+				else{
+					if(this.myscene.player.currentPosition==0){
+						this.myscene.player.setNextCommand(2);
+					}
+					else if(this.myscene.player.currentPosition==1){
+						this.myscene.player.setNextCommand(3);
+					}
 				}
 			}else if(this.myscene.player.command == 4){
 				
@@ -278,11 +291,21 @@ export class Enviroment {
 		
 		}else if(keyEvent.keyCode == 39){//right
 			if(this.myscene.player.command==-1){
-				if(this.myscene.player.currentPosition==0){
-					this.myscene.player.command=1;
+					if(!this.myscene.player.going_down){
+					if(this.myscene.player.currentPosition==0){
+						this.myscene.player.command=1;
+					}
+					else if(this.myscene.player.currentPosition==-1){
+						this.myscene.player.command=0;
+					}
 				}
-				else if(this.myscene.player.currentPosition==-1){
-					this.myscene.player.command=0;
+				else{
+					if(this.myscene.player.currentPosition==0){
+						this.myscene.player.setNextCommand(1);
+					}
+					else if(this.myscene.player.currentPosition==-1){
+						this.myscene.player.setNextCommand(0);
+					}
 				}
 			}else if(this.myscene.player.command == 4){
 				this.myscene.player.translateX(1);
