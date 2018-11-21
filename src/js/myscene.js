@@ -3,7 +3,6 @@ import {MyCamera} from "./mycamera.js";
 import {Cube} from "./cube.js";
 import {Ground} from "./ground.js";
 import { Obstacle, LENGHT_SCALE } from "./obstacle.js";
-import {History} from "./history.js";
 
 /*
 Class Enviroment
@@ -37,37 +36,43 @@ export class MyScene {
         this.player = new Cube(PLAYER_EDGE, playerColor);
         this.ground = new Ground(groundWidth, groundHeigth, groundColor);
         this.scene.fog = new Fog(0xffffff, 99, 150)
-        this.history = new History();
         this.obstacles = [];
         this.living_obstacles = 0;
         this.VELOCITY_STEP = 0.5;
         this.generateObstacles();
         this.addObjectsToScene();
+
+        this.last_generated_obstacle;
         
     }
 
     generateObstacles(){
 
-        for(let i = 0; i< NUM_OBSTACLES; i++){
-            let o = new Obstacle(this.history);
+        let o = new Obstacle(0, -1);
+        this.obstacles.push(o);
+        this.scene.add(o.obstacle);
+        this.last_generated_obstacle = o;
+
+        for(let i = 0; i< NUM_OBSTACLES-1; i++){
+            let o = new Obstacle(this.last_tail_position_z, this.last_position_x);
             this.obstacles.push(o);
             this.scene.add(o.obstacle);
-            this.history.getObstacleList().addToTail(o);
+            this.last_tail_position_z = o.getTailPositionZ();
+            this.last_position_x = o.getPositionX();
         }
 
     }
 
     startObstacle(){
-        let x = this.history.getObstacleList().removeHead();
         let index = this.obstacles.findIndex( 
             function findPlaying(element){
-                //console.log("first: "+x+" elem: "+element);
-                return x == element;
+                return !element.playing;
             }
         );
-        this.obstacles[index].setPosition(this.history);
+
         this.obstacles[index].playing = true;
         this.living_obstacles+=1;
+
     }
 
     addObjectsToScene(){
@@ -104,8 +109,9 @@ export class MyScene {
         else if (o.getPositionZ() > DESTROY_OBSTACLE_Z_POSITION) {
             o.playing=false;
             this.living_obstacles-=1;
-            //console.log(this.history.getLastCenterPositionZ());
-            this.history.getObstacleList().addToTail(o);
+            o.setPosition(this.last_tail_position_z, this.last_position_x);
+            this.last_tail_position_z = o.getTailPositionZ();
+            this.last_position_x = o.getPositionX();
             return 1;
         }
         else {
@@ -135,5 +141,13 @@ export class MyScene {
 
     getObstacleTop(i){
         return this.obstacles[i].getTop();
+    }
+
+    setObstacleColor(bianconero){
+
+        for(let i = 0; i< NUM_OBSTACLES; i++){
+            this.obstacles[i].setObstacleColor(bianconero)
+        }
+
     }
 }

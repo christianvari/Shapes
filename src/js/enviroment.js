@@ -143,12 +143,8 @@ export class Enviroment {
 			}
 			else if(this.myscene.player.getPositionX() != this.myscene.getObstaclePositionX(i)){
 
-				console.log(this.myscene.player.command + " "+
-				(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/+ " > " + this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2)));
-
-
 				if((((this.myscene.player.command == 0|| this.myscene.player.command == 1)) && 
-				(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/ > this.myscene.getObstaclePositionX(i)+ (PLAYER_EDGE/2)))
+				(this.myscene.player.getPositionX() - (PLAYER_EDGE/2) > this.myscene.getObstaclePositionX(i)+ (PLAYER_EDGE/2)))
 				|| (((this.myscene.player.command == 2|| this.myscene.player.command == 3)) && 
 				(this.myscene.player.getPositionX() + (PLAYER_EDGE/2) < this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2)))
 				){
@@ -326,7 +322,7 @@ export class Enviroment {
 	}
 
 	turnOffSpecial(){	// each unset for special feature is to be added 
-		this.myscene.history.unsetObstacleColor();
+		this.myscene.setObstacleColor(false);
 		this.myscene.camera.unsetRotation();
 	}
 
@@ -334,7 +330,7 @@ export class Enviroment {
 
 	blackAndWhite(){
 		this.myscene.ground.changeColor(0x000000);
-		this.myscene.history.setObstacleColor(0xffffff);
+		this.myscene.setObstacleColor(true);
 	}
 
 	rotationLevel(){
