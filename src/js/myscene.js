@@ -1,4 +1,4 @@
-import {Scene, HemisphereLight, DirectionalLight, Fog} from "./lib/three.module.js";
+import {Scene, HemisphereLight, DirectionalLight, Fog, Clock} from "./lib/three.module.js";
 import {MyCamera} from "./mycamera.js";
 import {Cube} from "./cube.js";
 import {Ground} from "./ground.js";
@@ -36,7 +36,7 @@ export class MyScene {
         this.camera = new MyCamera(sceneWidth, sceneHeight, CAMERA_POSITION, CAMERA_ROTATION_X);
         this.player = new Cube(PLAYER_EDGE, playerColor);
         this.ground = new Ground(groundWidth, groundHeigth, groundColor);
-        this.scene.fog = new Fog(0xffffff, 99, 150)
+        this.scene.fog = new Fog(0xffffff, 50, 140)
         this.obstacles = [];
         this.living_obstacles = 0;
         this.VELOCITY_STEP = 0.5;
@@ -45,7 +45,9 @@ export class MyScene {
         this.time = 0;
         this.isFlashing = false;
 
-        this.last_tail_position_z = [0,0,0];
+        this.clock = new Clock();
+
+        this.last_tail_position_z = [null,null,null];
 
         this.generateObstacles();
         this.addObjectsToScene();
@@ -57,7 +59,6 @@ export class MyScene {
             let o = new Obstacle(this.last_tail_position_z);
             this.obstacles.push(o);
             this.scene.add(o.obstacle);
-            this.last_tail_position_z[o.getLane()] = o.getTailPositionZ();
         }
 
     }
@@ -71,11 +72,16 @@ export class MyScene {
         
         let o = this.obstacles[index];
         o.setPosition(this.last_tail_position_z);
-        this.last_tail_position_z[o.getLane()] = o.getTailPositionZ();
+        let lane = o.getLane();
+
+
+        this.last_tail_position_z[lane] = o;
+
+
 
         this.obstacles[index].playing = true;
         this.living_obstacles+=1;
-
+        
     }
 
     addObjectsToScene(){

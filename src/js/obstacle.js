@@ -1,5 +1,6 @@
 import { BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
 import { PLAYER_EDGE } from "./myscene.js";
+
 /* Class Obstacle
 
 */
@@ -13,7 +14,7 @@ const CENTRO = 0;
 const DESTRA = 1;
 const SINISTRA = -1;
 
-const MIN_LENGTH = 20;
+const MIN_LENGTH = 10;
 
 
 export class Obstacle {
@@ -62,17 +63,16 @@ export class Obstacle {
             this.lane = 2;
             this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
         }
-        if(last_tail_position_z[this.lane] == 0){
-            this.obstacle.position.z = -1 * Math.random() * DISTANCE - MIN_DISTANCE;
-            console.log("Nuovo");
+        
+        if(last_tail_position_z[this.lane] == null  || 
+        (last_tail_position_z[this.lane].getTailPositionZ() >  -1* (MIN_DISTANCE + MIN_LENGTH))){
 
+            this.obstacle.position.z = -1 * Math.random() * DISTANCE - MIN_DISTANCE - this.length;
         }
         else{
-            this.obstacle.position.z = -1 * Math.random() * DISTANCE + (last_tail_position_z[this.lane]);
-            console.log("Sono un ostacolo collegato al precedente");
-            console.log("pre" + last_tail_position_z[this.lane]);
-            console.log("succ" + this.obstacle.position.z + this.length/2)
+            this.obstacle.position.z = (-1 * Math.random() * DISTANCE) + last_tail_position_z[this.lane].getTailPositionZ() - this.length;
         }
+
         this.setObstacleColor(false);
 
     }
