@@ -40,32 +40,24 @@ export class MyScene {
         this.obstacles = [];
         this.living_obstacles = 0;
         this.VELOCITY_STEP = 0.5;
-        this.generateObstacles();
         this.hemisphereLight = new HemisphereLight(0xffffff,0x000000, MAX_LIGHT_INTENSITY);
         this.sun = new DirectionalLight( 0xffffff, MAX_LIGHT_INTENSITY);
         this.time = 0;
         this.isFlashing = false;
 
-        this.last_tail_position_z;
-        this.last_position_x;
+        this.last_tail_position_z = [0,0,0];
 
+        this.generateObstacles();
         this.addObjectsToScene();
     }
 
     generateObstacles(){
 
-        let o = new Obstacle(0, -1);
-        this.obstacles.push(o);
-        this.scene.add(o.obstacle);
-        this.last_tail_position_z = o.getTailPositionZ();
-        this.last_position_x = o.getPositionX();
-
-        for(let i = 0; i< NUM_OBSTACLES-1; i++){
-            let o = new Obstacle(this.last_tail_position_z, this.last_position_x);
+        for(let i = 0; i< NUM_OBSTACLES; i++){
+            let o = new Obstacle(this.last_tail_position_z);
             this.obstacles.push(o);
             this.scene.add(o.obstacle);
-            this.last_tail_position_z = o.getTailPositionZ();
-            this.last_position_x = o.getPositionX();
+            this.last_tail_position_z[o.getLane()] = o.getTailPositionZ();
         }
 
     }
@@ -76,6 +68,10 @@ export class MyScene {
                 return !element.playing;
             }
         );
+        
+        let o = this.obstacles[index];
+        o.setPosition(this.last_tail_position_z);
+        this.last_tail_position_z[o.getLane()] = o.getTailPositionZ();
 
         this.obstacles[index].playing = true;
         this.living_obstacles+=1;
@@ -115,9 +111,6 @@ export class MyScene {
         else if (o.getPositionZ() > DESTROY_OBSTACLE_Z_POSITION) {
             o.playing=false;
             this.living_obstacles-=1;
-            o.setPosition(this.last_tail_position_z, this.last_position_x);
-            this.last_tail_position_z = o.getTailPositionZ();
-            this.last_position_x = o.getPositionX();
             return 1;
         }
         else {

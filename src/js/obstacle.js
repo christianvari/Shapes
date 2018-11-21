@@ -18,7 +18,7 @@ const MIN_LENGTH = 20;
 
 export class Obstacle {
 
-    constructor(last_tail_position, last_position_x){
+    constructor(last_tail_position){
         
         this.length = Math.random()*LENGHT_SCALE + MIN_LENGTH;
 
@@ -30,13 +30,14 @@ export class Obstacle {
         this.obstacle.castShadow=true;
         this.playing = false;
         this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
+        this.lane;
 
         this.obstacle.receiveShadow = true;
-        this.setPosition(last_tail_position, last_position_x);
+        this.setPosition(last_tail_position);
         
     }
 
-    setPosition(last_tail_position_z, last_position_x){
+    setPosition(last_tail_position_z){
 
         //console.log("setting position");
         let scale =  Math.round(Math.random()+1);
@@ -50,22 +51,27 @@ export class Obstacle {
         var randval = Math.random();
 
         if (randval <= 0.33){
+            this.lane = 0;
             this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
         }
         else if (randval > 0.33 && randval < 0.66){
+            this.lane = 1;
             this.obstacle.position.x = CENTRO;
         }
         else{
+            this.lane = 2;
             this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
         }
-
-        if(last_position_x != this.obstacle.position.x){
+        if(last_tail_position_z[this.lane] == 0){
             this.obstacle.position.z = -1 * Math.random() * DISTANCE - MIN_DISTANCE;
-            //console.log("Sono un ostacolo scollegato dal precedente");
+            console.log("Nuovo");
+
         }
         else{
-            //console.log("Sono un ostacolo accodato al precedente");
-            this.obstacle.position.z = -1 * Math.random() * DISTANCE + last_tail_position_z - this.length/2;
+            this.obstacle.position.z = -1 * Math.random() * DISTANCE + (last_tail_position_z[this.lane]);
+            console.log("Sono un ostacolo collegato al precedente");
+            console.log("pre" + last_tail_position_z[this.lane]);
+            console.log("succ" + this.obstacle.position.z + this.length/2)
         }
         this.setObstacleColor(false);
 
@@ -97,5 +103,9 @@ export class Obstacle {
             else{
                 this.obstacle.material.color.setHex(Math.random() * 0xffffff); 
             }
+    }
+
+    getLane(){
+        return this.lane;
     }
 }
