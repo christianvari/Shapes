@@ -350,7 +350,7 @@ export class Enviroment {
 	}
 
 	turnOffSpecial(){	// each unset for special feature is to be added 
-		this.myscene.history.unsetObstacleColor();
+		this.myscene.setObstacleColor(false);
 		this.myscene.camera.unsetRotation();
 		this.myscene.disableFlashing();
 	}
@@ -359,7 +359,7 @@ export class Enviroment {
 
 	blackAndWhite(){
 		this.myscene.ground.changeColor(0x000000);
-		this.myscene.history.setObstacleColor(0xffffff);
+		this.myscene.setObstacleColor(true);
 	}
 
 	rotationLevel(){
