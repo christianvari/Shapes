@@ -151,8 +151,10 @@ export class MyScene {
     setObstacleColor(bianconero){
 
         for(let i = 0; i< NUM_OBSTACLES; i++){
-            this.obstacles[i].setObstacleColor(bianconero)
+            this.obstacles[i].setObstacleColor(bianconero);
+            this.obstacles[i].setBlackAndWhite(bianconero);
         }
+
 
     }
     flashLight(){

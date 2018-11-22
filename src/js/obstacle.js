@@ -32,6 +32,7 @@ export class Obstacle {
         this.playing = false;
         this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
         this.lane;
+        this.bianconero = false;
 
         this.obstacle.receiveShadow = true;
         this.setPosition(last_tail_position);
@@ -41,13 +42,8 @@ export class Obstacle {
     setPosition(last_tail_position_z){
 
         //console.log("setting position");
-        let scale =  Math.round(Math.random()+1);
-        this.obstacle.scale.y = scale;
-        this.type= scale-1;
 
-        this.obstacle.position.y =  PLAYER_EDGE/2 * scale ;
-
-        this.obstacle.material.color.setHex( Math.random() * 0xffffff );
+        this.setObstacleColor(this.bianconero);
 
         var randval = Math.random();
 
@@ -63,6 +59,24 @@ export class Obstacle {
             this.lane = 2;
             this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
         }
+
+
+        //NO ALL TALL OBSTACLE IN LINE
+        if(last_tail_position_z[(this.lane + 1) % 3] !=null
+            && last_tail_position_z[(this.lane + 2) % 3] != null
+            && last_tail_position_z[(this.lane + 1) % 3].type == ALTO 
+            &&  last_tail_position_z[(this.lane + 2) % 3].type == ALTO ){
+                this.type = BASSO;
+        }
+        else{
+            let scale =  Math.round(Math.random()+1);
+            this.obstacle.scale.y = scale;
+            this.type= scale-1;
+            this.obstacle.position.y = PLAYER_EDGE/2 * scale;
+
+        }
+
+        //NO COLLISION ON THE SAME LANE
         
         if(last_tail_position_z[this.lane] == null  || 
         (last_tail_position_z[this.lane].getTailPositionZ() >  -1* (MIN_DISTANCE + MIN_LENGTH))){
@@ -103,6 +117,10 @@ export class Obstacle {
             else{
                 this.obstacle.material.color.setHex(Math.random() * 0xffffff); 
             }
+    }
+
+    setBlackAndWhite(bool){
+        this.bianconero = bool;
     }
 
     getLane(){

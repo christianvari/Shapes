@@ -65,9 +65,11 @@ export class Cube {
                 this.playerBaseY = this.edge/2;
                 this.player.position.y = this.playerBaseY;
                 this.going_down = false;
+                this.translateCommand();
             }
             else{
                 this.player.position.y -= 0.1;
+                // this.isOnTheSecondLevel = false;  da riverede per scendere quando in pizzo in pizzo all'ostacolo
             }
         }
     }
@@ -88,19 +90,204 @@ export class Cube {
             this.translateAux();
         }
 
-        if(this.wantsToGoDown){
-            this.goDownAux();
-            if(this.player.position.y < this.playerBaseY){
-                this.player.position.y = this.playerBaseY;
-                this.wantsToGoDown = false;
-            }
-        }
-
+        
         if(this.command==-1) return;
-        let teta = ((Math.PI/n_time_fractions)/time_to_change_line)*time_scale;
+        
+        let teta = 3/2 * ((Math.PI/n_time_fractions)/time_to_change_line)*time_scale;
+        
+        if(this.currentPosition==0 && this.command==1 && this.isOnTheSecondLevel){
+            //console.log("COMMAND 1 UP");
+            if(!this.second_turn){
+                
+                this.player.rotation.z -= teta;
+                let x = this.player.position.x;
+                let y = this.player.position.y;
+                let a = this.edge/2;
+                let b = this.edge;
+                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
+                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
+                
+                if(this.player.rotation.z < -Math.PI){
+                    this.player.rotation.z = -Math.PI/2;
+                    this.player.position.y= this.edge/2;
+                    this.player.position.x= this.edge;
+                    this.second_turn=true;
+                    
+                }
+            }else{
+                //console.log("second turn: "+this.player.rotation.z)
+                this.player.rotation.z -= teta;
+                let x = this.player.position.x;
+                let y = this.player.position.y;
+                let a = 3*this.edge/2;            //check center and continue
+                let b = 0;
+                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
+                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
+                
+                if(this.player.rotation.z < -Math.PI){
+                    
+                    this.player.rotation.z = -Math.PI;
+                    this.player.position.y=this.edge/2;
+                    this.player.position.x=2*this.edge;
+                    this.second_turn=false;
+                    this.isOnTheSecondLevel = false;
+                    this.currentPosition=1;
+                    this.command = this.next_command;
+                    this.next_command=-1;
+                    this.isOnTheSecondLevel = false;
+                    this.playerBaseY = this.edge/2;
+                    
+                }
+            }
+            
+            return;
+        }else if(this.currentPosition == 0 && this.command==2 && this.isOnTheSecondLevel){
+            //console.log("COMMAND 2 UP");
+            if(!this.second_turn){
+                
+                this.player.rotation.z += teta;
+                let x = this.player.position.x;
+                let y = this.player.position.y;
+                let a = -this.edge/2;
+                let b = this.edge;
+                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
+                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
+                
+                if(this.player.rotation.z > Math.PI){
+                    this.player.rotation.z = Math.PI/2;
+                    this.player.position.y= this.edge/2;
+                    this.player.position.x= -this.edge;
+                    this.second_turn=true;
+                    
+                }
+            }else{
+                
+                this.player.rotation.z += teta;
+                let x = this.player.position.x;
+                let y = this.player.position.y;
+                let a = -3*this.edge/2;            //check center and continue
+                let b = 0;
+                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
+                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
+                
+                if(this.player.rotation.z > Math.PI){
+                    
+                    this.player.rotation.z = Math.PI;
+                    this.player.position.y=this.edge/2;
+                    this.player.position.x=-2*this.edge;
+                    this.second_turn=false;
+                    this.isOnTheSecondLevel = false;
+                    this.currentPosition=-1;
+                    this.command = this.next_command;
+                    this.next_command=-1;
+                    this.isOnTheSecondLevel = false;
+                    this.playerBaseY = this.edge/2;
+                    
+                }
+            }
+            
+            return;
+        }else if(this.currentPosition == -1 && this.command==0 && this.isOnTheSecondLevel){
+            //console.log("COMMAND 0 UP");
+            if(!this.second_turn){
+                
+                this.player.rotation.z -= teta;
+                let x = this.player.position.x;
+                let y = this.player.position.y;
+                let a = -3*this.edge/2;
+                let b = this.edge;
+                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
+                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
+                
+                if(this.player.rotation.z < 0){
+                    this.player.rotation.z = Math.PI/2;
+                    this.player.position.y= this.edge/2;
+                    this.player.position.x= -this.edge;
+                    this.second_turn=true;
+                    
+                }
+            }else{
+                
+                this.player.rotation.z -= teta;
+                let x = this.player.position.x;
+                let y = this.player.position.y;
+                let a = -this.edge/2;            //check center and continue
+                let b = 0;
+                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
+                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
+                
+                if(this.player.rotation.z < 0){
+                    
+                    this.player.rotation.z = 0;
+                    this.player.position.y=this.edge/2;
+                    this.player.position.x=0;
+                    this.second_turn=false;
+                    this.isOnTheSecondLevel = false;
+                    this.currentPosition=0;
+                    this.command = this.next_command;
+                    this.next_command=-1;
+                    this.isOnTheSecondLevel = false;
+                    this.playerBaseY = this.edge/2;
+                    
+                }
+            }
+            
+            return;
+        }else if(this.currentPosition == 1 && this.command==3 && this.isOnTheSecondLevel){
+            //console.log("COMMAND 3 UP");
+            if(!this.second_turn){
+                
+                this.player.rotation.z += teta;
+                let x = this.player.position.x;
+                let y = this.player.position.y;
+                let a = 3*this.edge/2;
+                let b = this.edge;
+                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
+                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
+                
+                if(this.player.rotation.z >0 ){
+                    this.player.rotation.z = -Math.PI/2;
+                    this.player.position.y= this.edge/2;
+                    this.player.position.x= this.edge;
+                    this.second_turn=true;
+                    
+                }
+            }else{
+                
+                this.player.rotation.z += teta;
+                let x = this.player.position.x;
+                let y = this.player.position.y;
+                let a = this.edge/2;            //check center and continue
+                let b = 0;
+                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
+                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
+                
+                if(this.player.rotation.z >0){
+                    
+                    this.player.rotation.z = 0;
+                    this.player.position.y = this.edge/2;
+                    this.player.position.x = 0;
+                    this.second_turn=false;
+                    this.isOnTheSecondLevel = false;
+                    this.currentPosition=0;
+                    this.command = this.next_command;
+                    this.next_command=-1;
+                    this.isOnTheSecondLevel = false;
+                    this.playerBaseY = this.edge/2;
+                    
+                }
+            }
+            
+            return;
+        }
+        
+        
+        teta = ((Math.PI/n_time_fractions)/time_to_change_line)*time_scale;
 
         
+
         if(this.currentPosition==0 && this.command==1){
+            //console.log("COMMAND: 1");
             if(!this.second_turn){
                 this.player.rotation.z -= teta;
                 let x = this.player.position.x;
@@ -136,6 +323,7 @@ export class Cube {
                 }
             }
         }else if(this.currentPosition == 0 && this.command==2){
+            //console.log("COMMAND: 2")
             if(!this.second_turn){
                 this.player.rotation.z += teta;
                 let x = this.player.position.x;
@@ -171,6 +359,7 @@ export class Cube {
                 }
             }
         }else if(this.currentPosition == -1 && this.command==0){
+            //console.log("COMMAND: 0")
             if(!this.second_turn){
                 this.player.rotation.z -= teta;
                 let x = this.player.position.x;
@@ -206,6 +395,7 @@ export class Cube {
                 }
             }
         }else if(this.currentPosition == 1 && this.command==3){
+            //console.log("COMMAND: 3")
             if(!this.second_turn){
                 this.player.rotation.z += teta;
                 let x = this.player.position.x;
@@ -259,6 +449,7 @@ export class Cube {
             }
         
         }
+        //console.log(this.player.position.x, this.player.position.y, this.currentPosition, this.isOnTheSecondLevel)
 
     }
 
@@ -285,7 +476,7 @@ export class Cube {
 
        
         
-        if(this.isTranslating==0){
+        if(this.isTranslating==0 && this.jumpingTranslatingIsPossible()==0){
             if(direction==-1 && this.currentPosition==0){
                 this.isTranslating=-1;
                 this.wantsToTranslate=true;
@@ -302,7 +493,21 @@ export class Cube {
                 this.isTranslating=-2;
                 this.wantsToTranslate=true;
             }
-        }    
+        } 
+        else{
+            if(direction==-1 && this.currentPosition==0){
+                this.setCommand(2);
+            }
+            else if(direction==1 && this.currentPosition==0){
+                this.setCommand(1);
+            }
+            else if(direction==-1 && this.currentPosition==1){
+                this.setCommand(3);
+            }
+            else if(direction==1 && this.currentPosition==-1){
+                this.setCommand(0);
+            }
+        }   
     }
 
     translateAux(){
@@ -352,13 +557,10 @@ export class Cube {
     }
 
     jumpingTranslatingIsPossible(){
-        let per = 0.40;
-        let excluded_time= (time_to_jump-(time_to_jump*per))/2;
+        let per = 0.20;
+        let good_time= (time_to_jump-(time_to_jump*per));
         
-        if(this.time <= excluded_time){
-            return -1;
-        }
-        else if(this.time <= time_to_jump - excluded_time){
+        if(this.time <= good_time){
             return 0;
         }
         else{
@@ -366,4 +568,17 @@ export class Cube {
         }
     }
 
+    setCommand(i){
+        if(this.command==-1) this.command = i;
+        else if (this.next_command==-1) this.next_command = i;
+    }
+
+    setNextCommand(i){
+        if (this.next_command==-1) this.next_command = i;
+    }
+
+    translateCommand(){
+        this.command = this.next_command;
+        this.next_command = -1;
+    }
 }
