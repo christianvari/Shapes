@@ -96,7 +96,11 @@ export class Cube {
         let teta = 3/2 * ((Math.PI/n_time_fractions)/time_to_change_line)*time_scale;
         
         if(this.currentPosition==0 && this.command==1 && this.isOnTheSecondLevel){
+<<<<<<< HEAD
             //console.log("COMMAND 1 UP");
+=======
+            console.log("COMMAND 1 UP");
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
             if(!this.second_turn){
                 
                 this.player.rotation.z -= teta;
@@ -115,7 +119,11 @@ export class Cube {
                     
                 }
             }else{
+<<<<<<< HEAD
                 //console.log("second turn: "+this.player.rotation.z)
+=======
+                console.log("second turn: "+this.player.rotation.z)
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
                 this.player.rotation.z -= teta;
                 let x = this.player.position.x;
                 let y = this.player.position.y;
@@ -142,7 +150,11 @@ export class Cube {
             
             return;
         }else if(this.currentPosition == 0 && this.command==2 && this.isOnTheSecondLevel){
+<<<<<<< HEAD
             //console.log("COMMAND 2 UP");
+=======
+            console.log("COMMAND 2 UP");
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
             if(!this.second_turn){
                 
                 this.player.rotation.z += teta;
@@ -188,7 +200,11 @@ export class Cube {
             
             return;
         }else if(this.currentPosition == -1 && this.command==0 && this.isOnTheSecondLevel){
+<<<<<<< HEAD
             //console.log("COMMAND 0 UP");
+=======
+            console.log("COMMAND 0 UP");
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
             if(!this.second_turn){
                 
                 this.player.rotation.z -= teta;
@@ -234,7 +250,11 @@ export class Cube {
             
             return;
         }else if(this.currentPosition == 1 && this.command==3 && this.isOnTheSecondLevel){
+<<<<<<< HEAD
             //console.log("COMMAND 3 UP");
+=======
+            console.log("COMMAND 3 UP");
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
             if(!this.second_turn){
                 
                 this.player.rotation.z += teta;
@@ -287,7 +307,11 @@ export class Cube {
         
 
         if(this.currentPosition==0 && this.command==1){
+<<<<<<< HEAD
             //console.log("COMMAND: 1");
+=======
+            console.log("COMMAND: 1");
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
             if(!this.second_turn){
                 this.player.rotation.z -= teta;
                 let x = this.player.position.x;
@@ -323,7 +347,11 @@ export class Cube {
                 }
             }
         }else if(this.currentPosition == 0 && this.command==2){
+<<<<<<< HEAD
             //console.log("COMMAND: 2")
+=======
+            console.log("COMMAND: 2")
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
             if(!this.second_turn){
                 this.player.rotation.z += teta;
                 let x = this.player.position.x;
@@ -359,7 +387,11 @@ export class Cube {
                 }
             }
         }else if(this.currentPosition == -1 && this.command==0){
+<<<<<<< HEAD
             //console.log("COMMAND: 0")
+=======
+            console.log("COMMAND: 0")
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
             if(!this.second_turn){
                 this.player.rotation.z -= teta;
                 let x = this.player.position.x;
@@ -395,7 +427,11 @@ export class Cube {
                 }
             }
         }else if(this.currentPosition == 1 && this.command==3){
+<<<<<<< HEAD
             //console.log("COMMAND: 3")
+=======
+            console.log("COMMAND: 3")
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
             if(!this.second_turn){
                 this.player.rotation.z += teta;
                 let x = this.player.position.x;
@@ -449,7 +485,11 @@ export class Cube {
             }
         
         }
+<<<<<<< HEAD
         //console.log(this.player.position.x, this.player.position.y, this.currentPosition, this.isOnTheSecondLevel)
+=======
+        console.log(this.player.position.x, this.player.position.y, this.currentPosition, this.isOnTheSecondLevel)
+>>>>>>> 2c44ba64d0b9501bc285d91cdad153b28cc16b6e
 
     }
 
