@@ -32,7 +32,7 @@ export class Obstacle {
         this.playing = false;
         this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
         this.lane;
-        this.bianconero = false;
+        this.black_and_white = false;
 
         this.obstacle.receiveShadow = true;
         this.setPosition(last_tail_position);
@@ -43,7 +43,7 @@ export class Obstacle {
 
         //console.log("setting position");
 
-        this.setObstacleColor(this.bianconero);
+        this.setObstacleColor(this.black_and_white);
 
         var randval = Math.random();
 
@@ -120,7 +120,7 @@ export class Obstacle {
     }
 
     setBlackAndWhite(bool){
-        this.bianconero = bool;
+        this.black_and_white = bool;
     }
 
     getLane(){
