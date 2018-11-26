@@ -57,14 +57,7 @@ export class Enviroment {
 		this.renderer.setSize( this.sceneWidth, this.sceneHeight );
 		document.body.appendChild( this.renderer.domElement );
 	
-		this.scoreText = document.createElement('div');
-		this.scoreText.style.position = 'absolute';
-		this.scoreText.style.width = 100;
-		this.scoreText.style.height = 100;
-		this.scoreText.innerHTML = "0";
-		this.scoreText.style.top = 50 + 'px';
-		this.scoreText.style.left = 10 + 'px';
-		document.body.appendChild(this.scoreText);
+		this.scoreText = document.getElementById("scoreText");
 	}
 
 	renderize(){
