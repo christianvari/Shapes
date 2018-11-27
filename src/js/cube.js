@@ -449,6 +449,10 @@ export class Cube {
             }
         
         }
+        else{
+            this.command = this.next_command;
+            this.next_command=-1; 
+        }
         //console.log(this.player.position.x, this.player.position.y, this.currentPosition, this.isOnTheSecondLevel)
 
     }

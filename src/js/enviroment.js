@@ -253,26 +253,17 @@ export class Enviroment {
 		//	the next_command will start after the termination of the previous one
 		
 		
-		
+		console.log(this.myscene.player.command +"  "+this.myscene.player.next_command+"  "+this.myscene.player.currentPosition)
 		if ( keyEvent.keyCode == 37) {//left
 			
 			if(this.myscene.player.command==-1){
-				if(!this.myscene.player.going_down){
+				
 					if(this.myscene.player.currentPosition==0){
 						this.myscene.player.command=2;
 					}
 					else if(this.myscene.player.currentPosition==1){
 						this.myscene.player.command=3;
-					}
-				}
-				else{
-					if(this.myscene.player.currentPosition==0){
-						this.myscene.player.setNextCommand(2);
-					}
-					else if(this.myscene.player.currentPosition==1){
-						this.myscene.player.setNextCommand(3);
-					}
-				}
+					}	
 			}else if(this.myscene.player.command == 4){
 				
 				this.myscene.player.translateX(-1);					
@@ -285,22 +276,13 @@ export class Enviroment {
 		
 		}else if(keyEvent.keyCode == 39){//right
 			if(this.myscene.player.command==-1){
-					if(!this.myscene.player.going_down){
-					if(this.myscene.player.currentPosition==0){
-						this.myscene.player.command=1;
-					}
-					else if(this.myscene.player.currentPosition==-1){
-						this.myscene.player.command=0;
-					}
+					
+				if(this.myscene.player.currentPosition==0){
+					this.myscene.player.command=1;
 				}
-				else{
-					if(this.myscene.player.currentPosition==0){
-						this.myscene.player.setNextCommand(1);
-					}
-					else if(this.myscene.player.currentPosition==-1){
-						this.myscene.player.setNextCommand(0);
-					}
-				}
+				else if(this.myscene.player.currentPosition==-1){
+					this.myscene.player.command=0;
+				}	
 			}else if(this.myscene.player.command == 4){
 				this.myscene.player.translateX(1);
 				
