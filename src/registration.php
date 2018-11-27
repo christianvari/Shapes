@@ -1,12 +1,12 @@
 <?php
-$username = $_POST['register'];
+$username = $_POST['registerNickname'];
 $password = $_POST['registerPassword'];
 $name = $_POST['registerName'];
 $surname = $_POST['registerSurname'];
-$age = $_POST['register'];
+$age = $_POST['registerAge'];
 $email = $_POST['registerEmail'];
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +15,7 @@ $email = $_POST['registerEmail'];
 <body>
     <h1>Risultati Registrazione</h1>
         <p>Benvenuto <?php echo $username ?></p>
-        <?php header("location: /nuova-pagina.php"); ?>
+        <?php header("location: /index.html"); ?>
 
 </body>
 </html>
