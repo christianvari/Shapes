@@ -1,4 +1,4 @@
-<!doctype <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,21 +15,21 @@
         <h1>Registration</h1>
         <div class="centerzone">
             <form action="registration.php" size="30" class="form-signin" method="POST" name="registerForm" onsubmit="return true;">
-                    <input type="text" class="form-control" name="registerNickname" placeholder="NickName" required autofocus/><br>
+                <input type="text" class="form-control" name="registerNickname" placeholder="NickName" required autofocus/><br>
                 <input type="text" class="form-control" name="registerName" placeholder="Name" required /><br>
-                <input type="text" class="form-control" name="registerSurame" placeholder="Surname" required/><br>
-                <input type="email" class="form-control" name="registerEmail" placeholder="Email" required/><br>
-                
+                <input type="text" class="form-control" name="registerSurname" placeholder="Surname" required/><br>
+                <input type="email" class="form-control" name="registerEmail" placeholder="Email" required/><br>  
                 <input type="number" class="form-control" name=registerAge placeholder="Age" required/><br>
                 <input type="password" class="form-control" name="registerPassword" placeholder="Password" required/><br>
                 <input type="password" class="form-control" name="checkPassword" placeholder="Retype password" required/><br>
-                
+                <br/>
+                <table>
+                    <button class="btn btn-lg btn-secondary btn-length" type="reset">RESET</button>
+                    <button class="btn btn-lg btn-warning btn-length" type="submit">PLAY</button>
+                </table>
                 
             </form>
-            <table>
-                <button class="btn btn-lg btn-secondary btn-length" type="reset">RESET</button>
-                <button class="btn btn-lg btn-warning btn-length" type="submit">PLAY</button>
-            </table>
+            
             
         </div>
     </div>
