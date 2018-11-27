@@ -12,7 +12,7 @@ $email = $_POST['registerEmail'];
 <head>
     <title></title>
 </head>
-<body>
+<body text_align="center">
     <h1>Risultati Registrazione</h1>
         <p>Benvenuto <?php echo $username ?></p>
         <?php header("refresh: 10; url = index.html"); ?>
