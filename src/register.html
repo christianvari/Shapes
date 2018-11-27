@@ -1,0 +1,28 @@
+<!doctype <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Registration</title>
+    <link rel="icon" href="./util/shapes_logo_transparency.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" lang="javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="register.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="background">
+        <h1>Registration</h1>
+        <div class="centerzone">
+            <form action="registration.php" class="form-signin" method="POST" name="registerForm" onsubmit="return true;">
+                <input type="text" class="form-control" name="registerName" placeholder="Name" required autofocus/><br>
+                <input type="text" class="form-control" name="registerSurame" placeholder="Surname" required/><br>
+                <input type="email" class="form-control" name="registerEmail" placeholder="Email" required/><br>
+                <input type="password" class="form-control" name="registerPassword" placeholder="Password" required/><br>
+                <input type="password" class="form-control" name="checkPassword" placeholder="Retype password" required/>
+
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>
