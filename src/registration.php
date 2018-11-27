@@ -5,6 +5,8 @@ $name = $_POST['registerName'];
 $surname = $_POST['registerSurname'];
 $age = $_POST['registerAge'];
 $email = $_POST['registerEmail'];
+
+$password = password_hash($password, PASSWORD_DEFAULT);
 ?>
 
 <!DOCTYPE html>
