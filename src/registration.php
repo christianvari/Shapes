@@ -15,7 +15,7 @@ $email = $_POST['registerEmail'];
 <body>
     <h1>Risultati Registrazione</h1>
         <p>Benvenuto <?php echo $username ?></p>
-        <?php header("location: /index.html"); ?>
+        <?php header("refresh: 10; url = index.html"); ?>
 
 </body>
 </html>
