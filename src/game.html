@@ -6,13 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
         <script type="module" src="js/start.js"></script>
-        <audio autoplay loop>
-            <source type="audio/mp3" src="./audio/Shapes - soundtrack.mp3">
-        </audio>
-
          
     </head>
     <body id="fullspace">
+        <audio id="gameMusic" src="./audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
+        <iframe src="./audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
+        <script>
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+            if(!isChrome){
+                document.getElementById("iframeAudio").remove()
+            }
+            else{
+                document.getElementById("gameMusic").remove()
+            }
+        </script>
         
         <div class="score">
             <p class="score" id="scoreText">0</p>
