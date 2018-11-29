@@ -1,34 +1,49 @@
 <?php
     include("config.php");
-    session_start();
+    $errors = array(); 
    
     if($_SERVER["REQUEST_METHOD"] == "POST") {
       // username and password sent from form 
       
-        $myusername = mysqli_real_escape_string($db,$_POST['registerNickname']);
-        $mypassword = mysqli_real_escape_string($db,$_POST['registerPassword']);
-        $myusername = mysqli_real_escape_string($db,$_POST['registerName']);
-        $mypassword = mysqli_real_escape_string($db,$_POST['registerSurname']); 
-        $myusername = mysqli_real_escape_string($db,$_POST['registerAge']);
-        $mypassword = mysqli_real_escape_string($db,$_POST['registerEmail']); 
+        $username = mysqli_real_escape_string($db,$_POST['registerNickname']);
+        $password = mysqli_real_escape_string($db,$_POST['registerPassword']);
+        $name = mysqli_real_escape_string($db,$_POST['registerName']);
+        $surname = mysqli_real_escape_string($db,$_POST['registerSurname']); 
+        $age = mysqli_real_escape_string($db,$_POST['registerAge']);
+        $email = mysqli_real_escape_string($db,$_POST['registerEmail']);
+        $password_2 = mysqli_real_escape_string($db,$_POST['checkPassword']);
 
-        //$mypassword = password_hash($password, PASSWORD_DEFAULT);
-      
-        $sql = "INSERT INTO PLAYER_DATA (USERNAME, NAME, SURNAME, AGE, EMAIL, PASSWORD) VALUES($username, $name, $surname, $age, $email, $password)";
-        $result = mysqli_query($db,$sql);
-        /*$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-        $active = $row['active'];
-      
-        $count = mysqli_num_rows($result);
-      
-        if($count == 1) {
-            //session_register("myusername");
-            //$_SESSION['login_user'] = $myusername;
-         
-            header("location: index.php");
-        }else {
-            $error = "Your Login Name or Password is invalid";
-        }*/
+        if ($password != $password_2) {
+	        array_push($errors, "The two passwords do not match");
+        }
+
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
+        $user_check_query = "SELECT * FROM PLAYER_DATA WHERE USERNAME='$username' OR EMAIL='$email' LIMIT 1";
+        $result = mysqli_query($db, $user_check_query);
+        $user = mysqli_fetch_assoc($result);
+        
+        if ($user) { // if user exists
+            if ($user['USERNAME'] === $username) {
+            array_push($errors, "Username already exists");
+            }
+
+            if ($user['EMAIL'] === $email) {
+            array_push($errors, "email already exists");
+            }
+        }
+
+        if (count($errors) == 0) {
+            //$password = md5($password_1);//encrypt the password before saving in the database
+            $query = "INSERT INTO PLAYER_DATA (USERNAME, NAME, SURNAME, AGE, EMAIL, PASSWORD) 
+                      VALUES('$username', '$name', '$surname', '$age', '$email', '$password')";
+
+            mysqli_query($db, $query);
+            //$_SESSION['username'] = $username;
+            //$_SESSION['success'] = "You are now logged in";
+            header('location: index.php');
+        }
+
     }
 ?>
 
@@ -61,7 +76,7 @@
                     <button class="btn btn-lg btn-secondary btn-length" type="reset">RESET</button>
                     <button class="btn btn-lg btn-warning btn-length" type="submit">PLAY</button>
                 </table>
-                <p><?php echo $result; echo "ciao"; ?></p>
+                <p><?php echo $errors; echo "ciao"; ?></p>
                 
             </form>
             

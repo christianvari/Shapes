@@ -7,7 +7,7 @@
       $myusername = mysqli_real_escape_string($db,$_POST['inputName']);
       $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
 
-      //$mypassword = password_hash($password, PASSWORD_DEFAULT);
+      $mypassword = password_hash($mypassword, PASSWORD_DEFAULT);
       
       $sql = "SELECT ID FROM PLAYER_DATA WHERE USERNAME = '$myusername' and PASSWORD = '$mypassword'";
       $result = mysqli_query($db,$sql);
