@@ -2,26 +2,23 @@
    include("config.php");
    
    if($_SERVER["REQUEST_METHOD"] == "POST") {
-      // username and password sent from form 
       
-      $myusername = mysqli_real_escape_string($db,$_POST['inputName']);
-      $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
+        $myusername = mysqli_real_escape_string($db,$_POST['inputName']);
+        $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
 
-      $mypassword = password_hash($mypassword, PASSWORD_DEFAULT);
-      
-      $sql = "SELECT ID FROM PLAYER_DATA WHERE USERNAME = '$myusername' and PASSWORD = '$mypassword'";
-      $result = mysqli_query($db,$sql);
-      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-      $active = $row['active'];
-      
-      $count = mysqli_num_rows($result);
-      
-      if($count == 1) {         
-         header("location: game.html");
-      }else {
-         $error = "Your Login Name or Password is invalid";
-      }
-   }
+        $sql = "SELECT PASSWORD FROM PLAYER_DATA WHERE USERNAME = '$myusername'";
+        $result = mysqli_query($db,$sql);
+        $password = mysqli_fetch_assoc($result);
+        $count = mysqli_num_rows($result);
+
+        if(password_verify($mypassword, $password['PASSWORD']) && $count == 1){
+
+            header("location: game.html");
+            
+        }else{
+            $error = "Your Login Name or Password is invalid";
+        }
+    }
 ?>
 
 
@@ -59,7 +56,7 @@
                     <br>
                     <button  class="btn btn-lg btn-primary btn-block" type="submit">PLAY</button> <!-- to add type -->
                 </form>
-                <p><?php echo $error?></p>
+                <p><?php echo $error;?></p>
                 </div>
         </div>
     </body>
