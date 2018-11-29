@@ -14,7 +14,7 @@ const BACKGROND_COLOR = 0xcad8f7;
 const SPEED_MULTIPLIER = 0.02;
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-    window.location.replace("../../mobile_error.html");
+    window.location.replace("mobile_error.html")
 }
 else {
     goLive();
