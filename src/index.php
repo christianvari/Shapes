@@ -1,3 +1,30 @@
+<?php
+   include("config.php");
+   
+   if($_SERVER["REQUEST_METHOD"] == "POST") {
+      // username and password sent from form 
+      
+      $myusername = mysqli_real_escape_string($db,$_POST['inputName']);
+      $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
+
+      //$mypassword = password_hash($password, PASSWORD_DEFAULT);
+      
+      $sql = "SELECT ID FROM PLAYER_DATA WHERE USERNAME = '$myusername' and PASSWORD = '$mypassword'";
+      $result = mysqli_query($db,$sql);
+      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+      $active = $row['active'];
+      
+      $count = mysqli_num_rows($result);
+      
+      if($count == 1) {         
+         header("location: game.html");
+      }else {
+         $error = "Your Login Name or Password is invalid";
+      }
+   }
+?>
+
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -17,7 +44,7 @@
         <div class="background">
                 <h1>SHAPES</h1>
                 <div class="centre">
-                <form action="game.html" class="form-signin" method="POST" name="myForm" onSubmit="return checkName();"> <!-- to add some right action -->
+                <form action="" class="form-signin" method="POST" name="myForm" onSubmit="return checkName();"> <!-- to add some right action -->
                     
                     <input type="text" name="inputName" class="form-control" placeholder="Player Name" required autofocus/>
                     <br>
@@ -28,10 +55,11 @@
                         <label for="remember">Remember me</label>
                     </div>-->
                     
-                    <p>Not registered? Click <a href="./register.html">here</a></p>
+                    <p>Not registered? Click <a href="./register.php">here</a></p>
                     <br>
                     <button  class="btn btn-lg btn-primary btn-block" type="submit">PLAY</button> <!-- to add type -->
                 </form>
+                <p><?php echo $error?></p>
                 </div>
         </div>
     </body>

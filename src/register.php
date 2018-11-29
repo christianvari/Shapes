@@ -1,3 +1,37 @@
+<?php
+    include("config.php");
+    session_start();
+   
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+      // username and password sent from form 
+      
+        $myusername = mysqli_real_escape_string($db,$_POST['registerNickname']);
+        $mypassword = mysqli_real_escape_string($db,$_POST['registerPassword']);
+        $myusername = mysqli_real_escape_string($db,$_POST['registerName']);
+        $mypassword = mysqli_real_escape_string($db,$_POST['registerSurname']); 
+        $myusername = mysqli_real_escape_string($db,$_POST['registerAge']);
+        $mypassword = mysqli_real_escape_string($db,$_POST['registerEmail']); 
+
+        //$mypassword = password_hash($password, PASSWORD_DEFAULT);
+      
+        $sql = "INSERT INTO PLAYER_DATA (USERNAME, NAME, SURNAME, AGE, EMAIL, PASSWORD) VALUES($username, $name, $surname, $age, $email, $password)";
+        $result = mysqli_query($db,$sql);
+        /*$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        $active = $row['active'];
+      
+        $count = mysqli_num_rows($result);
+      
+        if($count == 1) {
+            //session_register("myusername");
+            //$_SESSION['login_user'] = $myusername;
+         
+            header("location: index.php");
+        }else {
+            $error = "Your Login Name or Password is invalid";
+        }*/
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +48,7 @@
     <div class="background">
         <h1>Registration</h1>
         <div class="centerzone">
-            <form action="registration.php" size="30" class="form-signin" method="POST" name="registerForm" onsubmit="return true;">
+            <form action="" size="30" class="form-signin" method="POST" name="registerForm" onsubmit="return true;">
                 <input type="text" class="form-control" name="registerNickname" placeholder="NickName" required autofocus/><br>
                 <input type="text" class="form-control" name="registerName" placeholder="Name" required /><br>
                 <input type="text" class="form-control" name="registerSurname" placeholder="Surname" required/><br>
@@ -27,6 +61,7 @@
                     <button class="btn btn-lg btn-secondary btn-length" type="reset">RESET</button>
                     <button class="btn btn-lg btn-warning btn-length" type="submit">PLAY</button>
                 </table>
+                <p><?php echo $result; echo "ciao"; ?></p>
                 
             </form>
             
