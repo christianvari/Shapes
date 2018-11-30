@@ -1,5 +1,6 @@
 <?php
    include("config.php");
+   session_start();
    
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       
@@ -13,7 +14,8 @@
 
         if(password_verify($mypassword, $password['PASSWORD']) && $count == 1){
 
-            header("location: game.html");
+            $_SESSION['username'] = $username;
+            header("location: game.php");
             
         }else{
             $error = "Your Login Name or Password is invalid";
