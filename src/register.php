@@ -39,6 +39,10 @@
                       VALUES('$username', '$name', '$surname', '$age', '$email', '$password')";
 
             mysqli_query($db, $query);
+            $query = "INSERT INTO HIGHSCORE (PLAYER) 
+                      VALUES('$username')";
+
+            mysqli_query($db, $query);
             $_SESSION['username'] = $username;
             header('location: index.php');
         }

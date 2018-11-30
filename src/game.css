@@ -14,18 +14,18 @@ div.score{
     top: 10px;
     left: 30px;
     position: absolute;
+    font-family: 'ShapesFont';
+    font-size: 250%;
+    font-size-adjust: inherit; 
+    color: #000000;
 }
 
 @font-face {
     font-family: 'ShapesFont';
     src: url('./fonts/b.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
     font-stretch: 'extra-expanded';
-  } 
+} 
 
-p.score{
-    font-family: 'ShapesFont';
-    font-size: 250%;
-    font-size-adjust: inherit; 
-    color: #000000;
-
+#highscores {
+    position: absolute;
 }
