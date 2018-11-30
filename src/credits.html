@@ -11,10 +11,20 @@
     </head>
 
     <body id="fullspace">
+        <audio id="gameMusic" src="./audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
+        <iframe src="./audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
+        <script>
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+            if(!isChrome){
+                document.getElementById("iframeAudio").remove()
+            }
+            else{
+                document.getElementById("gameMusic").remove()
+            }
+        </script>
         <div class="background">
             <h1>Credits</h1>
             <h1 class="bottom" id="bottomText">press SPACE to continue to the game</h1>
-            <audio src="./audio/Shapes - soundtrack.mp3" autoplay loop></audio>
         </div>
     </body>
 </html>
