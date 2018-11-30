@@ -32,8 +32,8 @@
         </script>
         
         <div class="score">
-            <p class="score" id="scoreText">0</p>
-         </div>
+            <p><?php echo $_SESSION['username'] ?></p><p class="score" id="scoreText">0</p>
+        </div>
         
     </body>
 </html>
