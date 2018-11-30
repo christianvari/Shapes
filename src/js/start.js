@@ -8,7 +8,6 @@ function getHighscore(){
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
 			document.getElementById("highscores").innerHTML = this.responseText;
-			console.log(this.responseText);
 		}
 	};
 	xmlhttp.open("GET", "getHighscore.php", true);
