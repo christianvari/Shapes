@@ -1,5 +1,6 @@
 <?php
     include("config.php");
+    session_start();
     $errors = array(); 
    
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -38,8 +39,7 @@
                       VALUES('$username', '$name', '$surname', '$age', '$email', '$password')";
 
             mysqli_query($db, $query);
-            //$_SESSION['username'] = $username;
-            //$_SESSION['success'] = "You are now logged in";
+            $_SESSION['username'] = $username;
             header('location: index.php');
         }
 
