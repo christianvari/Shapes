@@ -82,18 +82,20 @@ export class Enviroment {
 
 			window.requestAnimationFrame(this.goGame.bind(this));//request next update
 
-			if(this.isLiving){
+			if(this.started){
 
-				this.myscene.player.rotate();
-				this.myscene.player.goDown();
-				this.obstacleLogic();
-				this.myscene.camera.rotate();
-				this.myscene.flashLight();
-			}
-			else{
-				this.die();
-			}
+				if(this.isLiving){
 
+					this.myscene.player.rotate();
+					this.myscene.player.goDown();
+					this.obstacleLogic();
+					this.myscene.camera.rotate();
+					this.myscene.flashLight();
+				}
+				else{
+					this.die();
+				}
+			}
 			this.renderize();
 		}
 		else {
