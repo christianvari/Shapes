@@ -40,6 +40,7 @@ export class Enviroment {
 		this.special_level = -1;
 
 		this.isLiving=true;
+		this.finished=false;
 
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
@@ -65,21 +66,35 @@ export class Enviroment {
 
 	goGame(){
 
-		window.requestAnimationFrame(this.goGame.bind(this));//request next update
+		if(!this.finished){
 
-		if(this.isLiving){
+			window.requestAnimationFrame(this.goGame.bind(this));//request next update
 
-			this.myscene.player.rotate();
-			this.myscene.player.goDown();
-			this.obstacleLogic();
-			this.myscene.camera.rotate();
-			this.myscene.flashLight();
+			if(this.isLiving){
+
+				this.myscene.player.rotate();
+				this.myscene.player.goDown();
+				this.obstacleLogic();
+				this.myscene.camera.rotate();
+				this.myscene.flashLight();
+			}
+			else{
+				this.die();
+			}
+
+			this.renderize();
 		}
-		else{
-			this.die();
-		}
+		else {
+			var xmlhttp = new XMLHttpRequest();
 
-		this.renderize();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("highscores").innerHTML = this.responseText;
+				}
+			};
+			xmlhttp.open("GET", "setHighscore.php?q=" + this.score, true);
+			xmlhttp.send();
+		}
 
 
 	}
@@ -109,6 +124,9 @@ export class Enviroment {
 			this.myscene.player.getPlayer().scale.z-=0.005;
 			this.myscene.player.getPlayer().scale.y-=0.005;
 
+		}
+		else {
+			this.finished = true;
 		}
 
 		

@@ -16,8 +16,9 @@ function getHighscore(){
 
 
 function init() {
+	getHighscore();
 
-	window.setInterval(getHighscore, 5000);
+	window.setInterval(getHighscore, 10000);
 
 	// set up the scene
 	var enviroment = new Enviroment();

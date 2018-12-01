@@ -1,6 +1,5 @@
 <?php
     include("config.php");
-    session_start();
     $errors = array(); 
    
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -43,7 +42,6 @@
                       VALUES('$username')";
 
             mysqli_query($db, $query);
-            $_SESSION['username'] = $username;
             header('location: index.php');
         }
 
