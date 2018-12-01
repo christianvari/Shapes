@@ -78,16 +78,10 @@ export class Enviroment {
 
 	goGame(){
 
-<<<<<<< HEAD
-		window.requestAnimationFrame(this.goGame.bind(this));//request next update
-		
-		if(this.started){
-=======
 		if(!this.finished){
 
 			window.requestAnimationFrame(this.goGame.bind(this));//request next update
 
->>>>>>> bb8c789dfaab63ce123390c47e5e3f54ff53da96
 			if(this.isLiving){
 
 				this.myscene.player.rotate();
@@ -99,10 +93,6 @@ export class Enviroment {
 			else{
 				this.die();
 			}
-<<<<<<< HEAD
-		}
-		this.renderize();
-=======
 
 			this.renderize();
 		}
@@ -117,7 +107,6 @@ export class Enviroment {
 			xmlhttp.open("GET", "setHighscore.php?q=" + this.score, true);
 			xmlhttp.send();
 		}
->>>>>>> bb8c789dfaab63ce123390c47e5e3f54ff53da96
 
 
 	}
