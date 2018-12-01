@@ -16,6 +16,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
         <script type="module" src="js/start.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        
          
     </head>
     <body id="fullspace">
@@ -34,6 +36,22 @@
         <div class="score">
             <p><?php echo $_SESSION['username'] ?></p><p class="score" id="scoreText">0</p>
         </div>
+
+        <div class="background">
+                <!--<button class="play-button svg" id="playButton" style="background: url(./images/play.png)"> </button>-->
+                <img id="playButton" src="./images/play.svg" class="svg"/>
+                
+        </div>
+        <!--
+        <div class="background">
+            <img id="restartButton" src="./images/retry1.svg" class="svg" />
+        </div>
+        -->
+        
+        <div class="topright">
+            <img id="pauseButton" src="./images/pause.svg" class="svg inTopRight"/>
+        </div>
+    
         
     </body>
 </html>

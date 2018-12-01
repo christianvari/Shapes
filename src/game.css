@@ -29,3 +29,64 @@ p.score{
     color: #000000;
 
 }
+
+.play-button{
+   
+    
+    color: 0xffffff; 
+    width: 30%;
+    height: 30%;
+    background-size: cover;
+
+    
+}
+
+.play-button:hover {
+
+    fill: coral;
+
+}
+div.background{
+    margin-top: 25%;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.svg {
+    
+    width: 180px;
+    height: 180px;
+}
+svg path,
+svg circle {
+    -webkit-transition: all .1s ease;
+    -moz-transition: all .1s ease;
+    -ms-transition: all .1s ease;
+    -o-transition: all .1s ease;
+}
+
+svg:hover path {
+    fill: coral;
+}
+
+svg:active path{
+    fill: cornflowerblue;
+    transform: translateY(4px);
+}
+
+
+.inTopRight{
+    width: 100px;
+    height: 100px; 
+}
+
+div.topright{
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+}

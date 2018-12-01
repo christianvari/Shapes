@@ -25,6 +25,7 @@ export class Enviroment {
 
 	constructor() {
 
+		this.started = false;
 
 		this.score = 0;
 		this.scoreText;
@@ -44,8 +45,19 @@ export class Enviroment {
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
 		document.onkeydown = this.handleKeyDown.bind(this);
+		//console.log(document.getElementById("playButton"));
+		//document.getElementById("playButton").onclick = function(){
+			//document.getElementById("playButton").style.visibility = "hidden";
+			//document.getElementById("playButton").disabled = "true";
+		//	console.log("click");
+		//	alert("1");
+		//};
+		
+		
 		//Inizialize Interface
 		this.inizializeCanvas();
+
+
 	}
 
 	inizializeCanvas(){
@@ -66,19 +78,20 @@ export class Enviroment {
 	goGame(){
 
 		window.requestAnimationFrame(this.goGame.bind(this));//request next update
+		
+		if(this.started){
+			if(this.isLiving){
 
-		if(this.isLiving){
-
-			this.myscene.player.rotate();
-			this.myscene.player.goDown();
-			this.obstacleLogic();
-			this.myscene.camera.rotate();
-			this.myscene.flashLight();
+				this.myscene.player.rotate();
+				this.myscene.player.goDown();
+				this.obstacleLogic();
+				this.myscene.camera.rotate();
+				this.myscene.flashLight();
+			}
+			else{
+				this.die();
+			}
 		}
-		else{
-			this.die();
-		}
-
 		this.renderize();
 
 
@@ -251,8 +264,8 @@ export class Enviroment {
 		//	it is possible to store a next_command (ex. if a player wants to turn fast or to prevent to collide a obstacle )
 		//	the next_command will start after the termination of the previous one
 		
-		
-		console.log(this.myscene.player.command +"  "+this.myscene.player.next_command+"  "+this.myscene.player.currentPosition)
+		if(!this.started) return;
+		//console.log(this.myscene.player.command +"  "+this.myscene.player.next_command+"  "+this.myscene.player.currentPosition)
 		if ( keyEvent.keyCode == 37) {//left
 			
 			if(this.myscene.player.command==-1){

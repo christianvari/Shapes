@@ -41,7 +41,7 @@ export class Ground {
         this.leftSide.position.z = -sideLong/2+3;
                 
         this.ground.rotation.x = -90* Math.PI/180;
-
+        this.changeColor(Math.random() * 0xffffff);
 
     }
 
