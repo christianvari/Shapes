@@ -16,12 +16,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
         <script type="module" src="js/start.js"></script>
-<<<<<<< HEAD
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        
-         
-=======
->>>>>>> bb8c789dfaab63ce123390c47e5e3f54ff53da96
     </head>
     <body id="fullspace">
         <audio id="gameMusic" src="./audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
