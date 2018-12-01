@@ -41,6 +41,7 @@ export class Enviroment {
 		this.special_level = -1;
 
 		this.isLiving=true;
+		this.finished=false;
 
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
@@ -77,9 +78,16 @@ export class Enviroment {
 
 	goGame(){
 
+<<<<<<< HEAD
 		window.requestAnimationFrame(this.goGame.bind(this));//request next update
 		
 		if(this.started){
+=======
+		if(!this.finished){
+
+			window.requestAnimationFrame(this.goGame.bind(this));//request next update
+
+>>>>>>> bb8c789dfaab63ce123390c47e5e3f54ff53da96
 			if(this.isLiving){
 
 				this.myscene.player.rotate();
@@ -91,8 +99,25 @@ export class Enviroment {
 			else{
 				this.die();
 			}
+<<<<<<< HEAD
 		}
 		this.renderize();
+=======
+
+			this.renderize();
+		}
+		else {
+			var xmlhttp = new XMLHttpRequest();
+
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("highscores").innerHTML = this.responseText;
+				}
+			};
+			xmlhttp.open("GET", "setHighscore.php?q=" + this.score, true);
+			xmlhttp.send();
+		}
+>>>>>>> bb8c789dfaab63ce123390c47e5e3f54ff53da96
 
 
 	}
@@ -122,6 +147,9 @@ export class Enviroment {
 			this.myscene.player.getPlayer().scale.z-=0.005;
 			this.myscene.player.getPlayer().scale.y-=0.005;
 
+		}
+		else {
+			this.finished = true;
 		}
 
 		

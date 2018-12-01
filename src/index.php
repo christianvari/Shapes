@@ -1,6 +1,7 @@
 <?php
    include("config.php");
    session_start();
+   $error = '';
    
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       
@@ -14,7 +15,7 @@
 
         if(password_verify($mypassword, $password['PASSWORD']) && $count == 1){
 
-            $_SESSION['username'] = $username;
+            $_SESSION['username'] = $myusername;
             header("location: game.php");
             
         }else{
@@ -48,11 +49,6 @@
                     <input type="text" name="inputName" class="form-control" placeholder="Player Name" required autofocus/>
                     <br>
                     <input type="password" name="password" class="form-control" placeholder="Password" required/>
-                    <!--
-                    <div id="divRemember" class="checkbox mb-3">
-                        <input type="checkbox" name="remember"/>
-                        <label for="remember">Remember me</label>
-                    </div>-->
                     
                     <p>Not registered? Click <a href="./register.php">here</a></p>
                     <br>

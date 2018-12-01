@@ -1,6 +1,5 @@
 <?php
     include("config.php");
-    session_start();
     $errors = array(); 
    
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,7 +38,10 @@
                       VALUES('$username', '$name', '$surname', '$age', '$email', '$password')";
 
             mysqli_query($db, $query);
-            $_SESSION['username'] = $username;
+            $query = "INSERT INTO HIGHSCORE (PLAYER) 
+                      VALUES('$username')";
+
+            mysqli_query($db, $query);
             header('location: index.php');
         }
 
