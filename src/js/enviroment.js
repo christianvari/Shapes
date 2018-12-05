@@ -26,7 +26,6 @@ export class Enviroment {
 	constructor() {
 
 		this.started = false;
-		this.wantsToRestart = false;
 
 		this.score = 0;
 		this.scoreText;
@@ -104,12 +103,7 @@ export class Enviroment {
 			xmlhttp.send();
 		}
 
-		if(this.wantsToRestart){
-			
-			// DO SOMETHING
-
-			this.wantsToRestart = false;
-		}
+		
 	}
 
 	die(){
