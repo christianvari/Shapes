@@ -81,6 +81,11 @@ svg:active path{
     height: 100px; 
 }
 
+.inBottomRight{
+    width: 100px;
+    height: 100px; 
+}
+
 div.topright{
     position: absolute;
     top: 8px;
@@ -88,6 +93,14 @@ div.topright{
     font-size: 18px;
 }
 
+div.bottomright{
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    font-size: 18px;
+}
+
 #highscores {
     position: absolute;
 }
+
