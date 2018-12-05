@@ -1,6 +1,6 @@
 import { MyScene, NUM_OBSTACLES, PLAYER_EDGE } from "./myscene.js";
 import {WebGLRenderer, Clock} from "./lib/three.module.js"
-
+import {setButtonVisibility, DEAD, PLAY, PAUSE} from "./buttonLogic.js"
 /*
 Class Enviroment
 ***
@@ -26,6 +26,7 @@ export class Enviroment {
 	constructor() {
 
 		this.started = false;
+		this.wantsToRestart = false;
 
 		this.score = 0;
 		this.scoreText;
@@ -46,15 +47,7 @@ export class Enviroment {
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
 		document.onkeydown = this.handleKeyDown.bind(this);
-		//console.log(document.getElementById("playButton"));
-		//document.getElementById("playButton").onclick = function(){
-			//document.getElementById("playButton").style.visibility = "hidden";
-			//document.getElementById("playButton").disabled = "true";
-		//	console.log("click");
-		//	alert("1");
-		//};
-		
-		
+
 		//Inizialize Interface
 		this.inizializeCanvas();
 
@@ -99,6 +92,7 @@ export class Enviroment {
 			this.renderize();
 		}
 		else {
+			setButtonVisibility(DEAD);
 			var xmlhttp = new XMLHttpRequest();
 
 			xmlhttp.onreadystatechange = function() {
@@ -110,7 +104,12 @@ export class Enviroment {
 			xmlhttp.send();
 		}
 
+		if(this.wantsToRestart){
+			
+			// DO SOMETHING
 
+			this.wantsToRestart = false;
+		}
 	}
 
 	die(){

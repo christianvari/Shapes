@@ -15,6 +15,7 @@
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script type="module" src="js/start.js"></script>
     </head>
     <body id="fullspace">
@@ -37,19 +38,16 @@
 
         </div>
 
-        <div class="background">
-                <!--<button class="play-button svg" id="playButton" style="background: url(./images/play.png)"> </button>-->
-                <img id="playButton" src="./images/play.svg" class="svg"/>
+        <div class="background" id="centerdiv">
                 
         </div>
-        <!--
-        <div class="background">
-            <img id="restartButton" src="./images/retry1.svg" class="svg" />
-        </div>
-        -->
         
-        <div class="topright">
-            <img id="pauseButton" src="./images/pause.svg" class="svg inTopRight"/>
+        <div class="topright" id="topright">
+            
+        </div>
+
+        <div class="bottomright" id="bottomright">
+            
         </div>
     
         
