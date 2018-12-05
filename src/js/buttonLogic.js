@@ -1,3 +1,5 @@
+import {enviroment} from "./start.js"
+
 
 export const PLAY = 1;
 export const PAUSE = 2;
