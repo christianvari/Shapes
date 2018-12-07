@@ -1,6 +1,6 @@
 import { MyScene, NUM_OBSTACLES, PLAYER_EDGE } from "./myscene.js";
 import {WebGLRenderer, Clock} from "./lib/three.module.js"
-import {setButtonVisibility, DEAD, PLAY, PAUSE} from "./buttonLogic.js"
+import {setButtonVisibility, DEAD, PLAY, PAUSE} from "./start.js"
 /*
 Class Enviroment
 ***
