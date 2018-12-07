@@ -15,6 +15,9 @@
         if ($password != $password_2) {
 	        array_push($errors, "Passwords don't match");
         }
+        if ((int)$age >= date("Y") || (int)$age < 1900) {
+	        array_push($errors, "Insert a legit year of birth");
+        }
 
         $password = password_hash($password, PASSWORD_BCRYPT);
 
@@ -34,7 +37,7 @@
 
         if (count($errors) == 0) {
 
-            $query = "INSERT INTO PLAYER_DATA (USERNAME, NAME, SURNAME, AGE, EMAIL, PASSWORD) 
+            $query = "INSERT INTO PLAYER_DATA (USERNAME, NAME, SURNAME, BIRTH, EMAIL, PASSWORD) 
                       VALUES('$username', '$name', '$surname', '$age', '$email', '$password')";
 
             mysqli_query($db, $query);
@@ -69,7 +72,7 @@
                 <input type="text" class="form-control" name="registerName" placeholder="Name" required /><br>
                 <input type="text" class="form-control" name="registerSurname" placeholder="Surname" required/><br>
                 <input type="email" class="form-control" name="registerEmail" placeholder="Email" required/><br>  
-                <input type="number" class="form-control" name=registerAge placeholder="Age" required/><br>
+                <input type="number" class="form-control" name=registerAge placeholder="Birth Year" required/><br>
                 <input type="password" class="form-control" name="registerPassword" placeholder="Password" required/><br>
                 <input type="password" class="form-control" name="checkPassword" placeholder="Retype password" required/><br>
                 <br/>

@@ -36,6 +36,7 @@
         <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="index.css" rel="stylesheet"/>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script type="text/javascript" lang="javascript" src="./bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" lang="javascript" src="./js/startPage/startPageScript.js"></script>
         <script type="module" src="./js/startPage/background.js"></script>

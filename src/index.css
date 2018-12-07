@@ -6,7 +6,7 @@
 
 h1 {
   font-family: 'ShapesFont';
-  font-size: 1500%;
+  font-size: 1400%;
   font-size-adjust: inherit;
   color: rgb(0, 92, 170);
 }
@@ -21,43 +21,32 @@ body {
   display: flex;
   -ms-flex-align: center;
   align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
   overflow: hidden;
 }
 
 .form-signin {
   width: 100%;
-  max-width: 330px;
-  padding: 15px;
+  max-width: 25%;
   margin: auto;
 }
-.form-signin .checkbox {
-  font-weight: 400;
-}
+
 .form-signin .form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;
-  padding: 10px;
+  padding: 2%;
   font-size: 16px;
 }
 .form-signin .form-control:focus {
   z-index: 2;
 }
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
+
 .form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  margin-bottom: 2%; 
 }
 
 div.background{
-  margin-top: 2%;
+  margin-top: 1%;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -67,5 +56,5 @@ div.background{
 }
 
 div.centre {
-  margin-top: 19%;
+  margin-top: 18%;
 }
