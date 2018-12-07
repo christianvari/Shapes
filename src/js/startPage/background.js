@@ -24,6 +24,13 @@ if( navigator.userAgent.match(/Android/i)
     window.location.href = "mobile_error.html";
 }
 else {
+    //Scale css if you are on a very little resolution
+    var screenHeight = screen.height;
+    if (screenHeight < 800) {
+        $('body').css('zoom', 0.8);
+    } else {
+        $('body').css('zoom', 1);
+    }
     goLive();
 }
 
@@ -54,9 +61,10 @@ function createEnviroment(){
 }
 
 function createCube(){
-    let box = new BoxBufferGeometry(2,2,2)
+    let box = new BoxBufferGeometry(1.5,1.5,1.5)
     let boxMaterial = new MeshNormalMaterial();
     cube = new Mesh(box, boxMaterial);
+    cube.position.y = 0.5;
 
     scene.add(cube);
 }

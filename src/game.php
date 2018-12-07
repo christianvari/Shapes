@@ -17,7 +17,6 @@
         <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script type="module" src="js/start.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         
     </head>
     <body id="fullspace">
