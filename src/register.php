@@ -1,6 +1,14 @@
 <?php
     include("config.php");
-    $errors = array(); 
+    $username_error = "";
+    $username_error_tips = "";
+    $email_error = "";
+    $email_error_tips = "";
+    $password_error = "";
+    $password_error_tips = "";
+    $age_error = "";
+    $age_error_tips = "";
+    $errors = 0;
    
     if($_SERVER["REQUEST_METHOD"] == "POST") {
       
@@ -13,10 +21,14 @@
         $password_2 = mysqli_real_escape_string($db,$_POST['checkPassword']);
 
         if ($password != $password_2) {
-	        array_push($errors, "Passwords don't match");
+	        $password_error = "is-invalid";
+            $password_error_tips= "<div class='invalid-feedback'>Password doesn't match</div>";
+            $errors++;
         }
         if ((int)$age >= date("Y") || (int)$age < 1900) {
-	        array_push($errors, "Insert a legit year of birth");
+            $age_error = "is-invalid";
+            $age_error_tips= "<div class='invalid-feedback'>Insert a legit year of birth</div>";
+            $errors++;
         }
 
         $password = password_hash($password, PASSWORD_BCRYPT);
@@ -27,15 +39,20 @@
         
         if ($user) {
             if ($user['USERNAME'] === $username) {
-            array_push($errors, "Username already exists");
+                $username_error = "is-invalid";
+                $username_error_tips= "<div class='invalid-feedback'>Your username is altredy registered</div>";
+                $errors++;
             }
 
             if ($user['EMAIL'] === $email) {
-            array_push($errors, "Email already exists");
+                $email_error = "is-invalid";
+                $email_error_tips= "<div class='invalid-feedback'>Your email is altredy registered</div>";
+                $errors++;
+                
             }
         }
 
-        if (count($errors) == 0) {
+        if ($errors == 0) {
 
             $query = "INSERT INTO PLAYER_DATA (USERNAME, NAME, SURNAME, BIRTH, EMAIL, PASSWORD) 
                       VALUES('$username', '$name', '$surname', '$age', '$email', '$password')";
@@ -68,25 +85,22 @@
         <h1>Registration</h1>
         <div class="centerzone">
             <form action="" size="30" class="form-signin" method="POST" name="registerForm" onsubmit="return true;">
-                <input type="text" class="form-control" name="registerNickname" placeholder="NickName" required autofocus/><br>
+                <input type="text" class="form-control <?php echo $username_error; ?>" name="registerNickname" placeholder="NickName" required autofocus/>
+                <?php echo ($username_error_tips == "") ? "<br>" : $username_error_tips; ?>
                 <input type="text" class="form-control" name="registerName" placeholder="Name" required /><br>
                 <input type="text" class="form-control" name="registerSurname" placeholder="Surname" required/><br>
-                <input type="email" class="form-control" name="registerEmail" placeholder="Email" required/><br>  
-                <input type="number" class="form-control" name=registerAge placeholder="Birth Year" required/><br>
-                <input type="password" class="form-control" name="registerPassword" placeholder="Password" required/><br>
-                <input type="password" class="form-control" name="checkPassword" placeholder="Retype password" required/><br>
-                <br/>
+                <input type="email" class="form-control <?php echo $email_error; ?>" name="registerEmail" placeholder="Email" required/>
+                <?php echo ($email_error_tips == "") ? "<br>" : $email_error_tips; ?>
+                <input type="number" class="form-control <?php echo $age_error; ?>" name=registerAge placeholder="Birth Year" required/>
+                <?php echo ($age_error_tips == "") ? "<br>" : $age_error_tips; ?>
+                <input type="password" class="form-control <?php echo $password_error; ?>" name="registerPassword" placeholder="Password" required/><br>
+                <input type="password" class="form-control <?php echo $password_error; ?>" name="checkPassword" placeholder="Retype password" required/>
+                <?php echo ($password_error_tips == "") ? "<br>" : $password_error_tips; ?>
+                <br>
                 <table>
                     <button class="btn btn-lg btn-secondary btn-length" type="reset">RESET</button>
                     <button class="btn btn-lg btn-warning btn-length" type="submit">PLAY</button>
                 </table>
-                <?php  if (count($errors) > 0) : ?>
-                    <div class="error">
-                    <?php foreach ($errors as $error) : ?>
-  	                    <p class="form-control-feedback"><?php echo $error ?></p>
-  	                <?php endforeach ?>
-                    </div>
-                <?php  endif ?>
                 
             </form>
             

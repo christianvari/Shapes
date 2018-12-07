@@ -1,7 +1,8 @@
 <?php
    include("config.php");
    session_start();
-   $error = '';
+   $error = "";
+   $error_tip = "";
    
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       
@@ -19,7 +20,8 @@
             header("location: game.php");
             
         }else{
-            $error = "Your Login Name or Password is invalid";
+            $error = "is-invalid";
+            $error_tip = "<div class='invalid-feedback'>Username or password is wrong</div>";
         }
     }
 ?>
@@ -49,13 +51,12 @@
                     
                     <input type="text" name="inputName" class="form-control" placeholder="Player Name" required autofocus/>
                     <br>
-                    <input type="password" name="password" class="form-control" placeholder="Password" required/>
-                    
+                    <input type="password" name="password" class="form-control <?php echo $error; ?>" placeholder="Password" required/>
+                    <?php echo $error_tip;?>
                     <p>Not registered? Click <a href="./register.php">here</a></p>
                     <br>
                     <button  class="btn btn-lg btn-primary btn-block" type="submit">PLAY</button> <!-- to add type -->
                 </form>
-                <p><?php echo $error;?></p>
                 </div>
         </div>
     </body>
