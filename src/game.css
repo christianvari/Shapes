@@ -93,12 +93,21 @@ div.topright{
     font-size: 18px;
 }
 
+div.bottomleft{
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    font-size: 18px;
+}
+
 div.bottomright{
     position: absolute;
     bottom: 8px;
     right: 16px;
     font-size: 18px;
 }
+
+
 
 #highscores {
     position: absolute;

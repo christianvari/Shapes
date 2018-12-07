@@ -36,7 +36,8 @@
         <div class="score">
             <p><?php echo $_SESSION['username'] ?></p><p id="scoreText">0</p>
         </div>
-        <div id="highscores">
+        
+        <div id="highscores" class="bottomleft">
 
         </div>
 
