@@ -19,10 +19,10 @@ if(!isWebGLSupported()){
 }
 else{
     var screenHeight = screen.height;
+    console.log("altezza " + screenHeight);
     if (screenHeight < 800) {
+        console.log("Porcodio");
         $('body').css('zoom', 0.8);
-    } else {
-        $('body').css('zoom', 1);
     }
 	goLive();
 }

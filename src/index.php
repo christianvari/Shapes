@@ -47,7 +47,7 @@
         <div class="background">
                 <h1>SHAPES</h1>
                 <div class="centre">
-                <form action="" class="form-signin" method="POST" name="myForm" onSubmit="return checkName();"> <!-- to add some right action -->
+                <form action="" class="form-signin" method="POST" name="myForm" onSubmit="return checkName();">
                     
                     <input type="text" name="inputName" class="form-control" placeholder="Player Name" required autofocus/>
                     <br>
@@ -55,7 +55,7 @@
                     <?php echo $error_tip;?>
                     <p>Not registered? Click <a href="./register.php">here</a></p>
                     <br>
-                    <button  class="btn btn-lg btn-primary btn-block" type="submit">PLAY</button> <!-- to add type -->
+                    <button  class="btn btn-lg btn-primary btn-block" type="submit">PLAY</button>
                 </form>
                 </div>
         </div>
