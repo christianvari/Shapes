@@ -26,10 +26,10 @@ if( navigator.userAgent.match(/Android/i)
 else {
     //Scale css if you are on a very little resolution
     var screenHeight = screen.height;
+    console.log("altezza " + screenHeight);
     if (screenHeight < 800) {
-        $('body').css('zoom', 0.8);
-    } else {
-        $('body').css('zoom', 1);
+        console.log("Porcodio");
+        $('.text-center').css('zoom', 0.7);
     }
     goLive();
 }
