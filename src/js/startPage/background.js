@@ -24,13 +24,6 @@ if( navigator.userAgent.match(/Android/i)
     window.location.href = "mobile_error.html";
 }
 else {
-    //Scale css if you are on a very little resolution
-    var screenHeight = screen.height;
-    console.log("altezza " + screenHeight);
-    if (screenHeight < 800) {
-        console.log("Porcodio");
-        $('.text-center').css('zoom', 0.7);
-    }
     goLive();
 }
 

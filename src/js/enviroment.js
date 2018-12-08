@@ -92,15 +92,18 @@ export class Enviroment {
 		}
 		else {
 			setButtonVisibility(DEAD);
+			
 			var xmlhttp = new XMLHttpRequest();
-
 			xmlhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("highscores").innerHTML = this.responseText;
+					document.getElementById("new_record").innerHTML = this.responseText;
+
 				}
 			};
 			xmlhttp.open("GET", "setHighscore.php?q=" + this.score, true);
 			xmlhttp.send();
+			document.getElementById("game_over").textContent = "Game Over" ;
+			document.getElementById("score").textContent = this.score;
 		}
 
 		
