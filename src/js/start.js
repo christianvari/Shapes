@@ -45,10 +45,11 @@ soundButton.setAttribute("class", "svg inTopRight");
 var soundButtonparent = document.getElementById("topright");
 
 
-var isSoundActive = true;
-var music = null;
+var isSoundActive = sessionStorage.getItem('isSoundActive');
+if(isSoundActive==null) isSoundActive='true';
+var music;
 
-
+sound();
 init();
 
 
@@ -66,16 +67,17 @@ function getHighscore(){
 
 function init() {
 	getHighscore();
-
+	
 	window.setInterval(getHighscore, 10000);
 	
 	// set up the scene
-	
+	//
 	setButtonVisibility(PLAY);
 	adjustButtons();
 	enviroment = new Enviroment();
 	
 	//GO
+	//sound();
 	enviroment.goGame();
 	enviroment.started = true;
 	//enviroment.goGame();
@@ -180,7 +182,7 @@ function playButtons(){
 	}
 	if(document.getElementById("pauseButton") == undefined){
 		pauseButtonparent.appendChild(pauseButton);
-		if(isSoundActive){
+		if(isSoundActive=='true'){
 			if(document.getElementById("muteButton") != undefined){
 				pauseButtonparent.removeChild(document.getElementById("muteButton"));
 			}
@@ -253,14 +255,15 @@ function deadButtons(){
 
 function changeSound(){
 	getMusic();
-	if(isSoundActive){
+	
+	if(isSoundActive=='true'){
 		muteButton = document.getElementById("muteButton");
-		soundButtonparent.removeChild(muteButton);
+		soundButtonparent.removeChild(muteButton); 
 		soundButtonparent.appendChild(soundButton);
 		music.muted = true;
 		
-		
-		isSoundActive = false;
+		isSoundActive = 'false';
+		sessionStorage.setItem('isSoundActive', 'false');
 	}
 	else{
 		soundButton = document.getElementById("soundButton");
@@ -268,10 +271,10 @@ function changeSound(){
 		soundButtonparent.appendChild(muteButton);
 		music.muted = false;
 		
-
-		isSoundActive = true;
+		isSoundActive = 'true';
+		sessionStorage.setItem('isSoundActive', 'true');
 	}
-	//console.log(music);
+	
 	adjustButtons();
 }
 
@@ -284,4 +287,14 @@ function getMusic(){
 		
 	}
 
+}
+
+function sound(){
+	getMusic();
+	if(isSoundActive=='true'){
+		music.muted = false;
+	}
+	else{
+		music.muted = true;
+	}
 }
