@@ -13,7 +13,7 @@ const ALTO = 1;
 const CENTRO = 0;
 const DESTRA = 1;
 const SINISTRA = -1;
-
+const MIN_INTERCEPTION_SPACE=4;
 const MIN_LENGTH = 10;
 
 
@@ -33,51 +33,23 @@ export class Obstacle {
         this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
         this.lane;
         this.black_and_white = false;
+        this.interceptions = 0;
 
         this.obstacle.receiveShadow = true;
         this.setPosition(last_tail_position);
         
     }
 
-    setPosition(last_tail_position_z){
+    setPosition(last_tail_position_z, last_lane,  obstacles){
 
         //console.log("setting position");
 
         this.setObstacleColor(this.black_and_white);
 
-        var randval = Math.random();
-
-        if (randval <= 0.33){
-            this.lane = 0;
-            this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
-        }
-        else if (randval > 0.33 && randval < 0.66){
-            this.lane = 1;
-            this.obstacle.position.x = CENTRO;
-        }
-        else{
-            this.lane = 2;
-            this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
-        }
-
-
-        //NO ALL TALL OBSTACLE IN LINE
-        if(last_tail_position_z[(this.lane + 1) % 3] !=null
-            && last_tail_position_z[(this.lane + 2) % 3] != null
-            && last_tail_position_z[(this.lane + 1) % 3].type == ALTO 
-            &&  last_tail_position_z[(this.lane + 2) % 3].type == ALTO ){
-                this.type = BASSO;
-        }
-        else{
-            let scale =  Math.round(Math.random()+1);
-            this.obstacle.scale.y = scale;
-            this.type= scale-1;
-            this.obstacle.position.y = PLAYER_EDGE/2 * scale;
-
-        }
+        this.chose_lane(last_lane);
+        //this.setObstacleColor(false);
 
         //NO COLLISION ON THE SAME LANE
-        
         if(last_tail_position_z[this.lane] == null  || 
         (last_tail_position_z[this.lane].getTailPositionZ() >  -1* (MIN_DISTANCE + MIN_LENGTH))){
 
@@ -87,7 +59,41 @@ export class Obstacle {
             this.obstacle.position.z = (-1 * Math.random() * DISTANCE) + last_tail_position_z[this.lane].getTailPositionZ() - this.length;
         }
 
-        this.setObstacleColor(false);
+        //NO ALL TALL OBSTACLE IN LINE
+        this.interceptions = 0;
+        if(obstacles != undefined){
+                
+            for (let i=0; i<obstacles.length; i+=1){
+                if(obstacles[i].type==ALTO && this.intercept(obstacles[i])){
+                    obstacles[i].interceptions += 1+ this.interceptions;
+                    this.interceptions +=  obstacles[i].interceptions;
+                    
+                    obstacles[i].setObstacleColor(false);
+                    this.setObstacleColor(false);
+                }
+            }
+            if(this.interceptions <2 || this.type==BASSO){
+                let scale =  Math.round(Math.random()+1);
+                this.obstacle.scale.y = scale;
+                this.type= scale-1;
+                this.obstacle.position.y = PLAYER_EDGE/2 * scale;
+            }else{
+                this.obstacle.scale.y = 1;
+                this.type = BASSO;
+                this.obstacle.position.y = PLAYER_EDGE/2;
+                console.log("---------CORREGGO----------")
+                //this.obstacle.material.color.setHex(0x000000);
+            
+            }
+        }
+        else{
+            let scale =  Math.round(Math.random()+1);
+            this.obstacle.scale.y = scale;
+            this.type= scale-1;
+            this.obstacle.position.y = PLAYER_EDGE/2 * scale;
+        }
+
+        //this.setObstacleColor(false);
 
     }
 
@@ -111,11 +117,14 @@ export class Obstacle {
 
 
     setObstacleColor(bianconero){
+            
             if(bianconero){
                 this.obstacle.material.color.setHex(0xffffff); 
             }
             else{
-                this.obstacle.material.color.setHex(Math.random() * 0xffffff); 
+                /*if(this.interceptions==0)*/ this.obstacle.material.color.setHex(Math.random() * 0xffffff); 
+                //else if(this.interceptions==1) this.obstacle.material.color.setHex(0xff0000);
+                //else if(this.interceptions==2) this.obstacle.material.color.setHex(0x00ff00);
             }
     }
 
@@ -125,5 +134,74 @@ export class Obstacle {
 
     getLane(){
         return this.lane;
+    }
+
+    intercept(obstacle){
+        //console.log(this.getFrontPositionZ()+"  "+this.getTailPositionZ()+"  "+obstacle.getFrontPositionZ()+"  "+obstacle.getTailPositionZ());
+        if(obstacle.playing && this.getFrontPositionZ() < obstacle.getFrontPositionZ()+MIN_INTERCEPTION_SPACE && this.getFrontPositionZ() > obstacle.getTailPositionZ()-MIN_INTERCEPTION_SPACE && obstacle.type==ALTO){
+            return true;
+        }else if(obstacle.playing && this.getTailPositionZ() < obstacle.getFrontPositionZ()+MIN_INTERCEPTION_SPACE && this.getTailPositionZ()>obstacle.getTailPositionZ()-MIN_INTERCEPTION_SPACE && obstacle.type==ALTO){
+            return true;
+        }
+
+        return false;
+    }
+
+    chose_lane(lane){
+        var randval = Math.random();
+
+        if(lane==null){
+            if (randval <= 0.33){
+                this.lane = 0;
+                this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
+            }
+            else if (randval > 0.33 && randval < 0.66){
+                this.lane = 1;
+                this.obstacle.position.x = CENTRO;
+            }
+            else{
+                this.lane = 2;
+                this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
+            }
+        }else if(lane==0){
+            if (randval <= 0.1){
+                this.lane = 0;
+                this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
+            }
+            else if (randval > 0.1 && randval < 0.55){
+                this.lane = 1;
+                this.obstacle.position.x = CENTRO;
+            }
+            else{
+                this.lane = 2;
+                this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
+            }
+        }else if(lane==1){
+            if (randval <= 0.45){
+                this.lane = 0;
+                this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
+            }
+            else if (randval > 0.45 && randval < 0.55){
+                this.lane = 1;
+                this.obstacle.position.x = CENTRO;
+            }
+            else{
+                this.lane = 2;
+                this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
+            }
+        }else if(lane==2){
+            if (randval <= 0.45){
+                this.lane = 0;
+                this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
+            }
+            else if (randval > 0.45 && randval < 0.9){
+                this.lane = 1;
+                this.obstacle.position.x = CENTRO;
+            }
+            else{
+                this.lane = 2;
+                this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
+            }
+        }
     }
 }

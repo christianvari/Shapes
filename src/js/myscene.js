@@ -48,6 +48,7 @@ export class MyScene {
         this.clock = new Clock();
 
         this.last_tail_position_z = [null,null,null];
+        this.last_lane = null;
 
         this.generateObstacles();
         this.addObjectsToScene();
@@ -71,10 +72,12 @@ export class MyScene {
         );
         
         let o = this.obstacles[index];
-        o.setPosition(this.last_tail_position_z);
+        //console.log(this.obstacles);
+        o.setPosition(this.last_tail_position_z, this.last_lane, this.obstacles);
         let lane = o.getLane();
-
-
+        
+        
+        this.last_lane = o.getLane();
         this.last_tail_position_z[lane] = o;
 
 

@@ -154,7 +154,7 @@ export class Enviroment {
 			if((this.myscene.player.getPositionZ() + (PLAYER_EDGE/2)  < this.myscene.getObstacleTailPositionZ(i))) {
 
 
-				console.log("SCENDO");
+				//console.log("SCENDO");
 				
 				this.myscene.player.going_down = true;
 				this.myscene.player.isOnTheSecondLevel=false;
@@ -172,7 +172,7 @@ export class Enviroment {
 				(this.myscene.player.getPositionX() + (PLAYER_EDGE/2) < this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2)))
 				){
 
-					console.log("SCENDO DI LATO)");
+					//console.log("SCENDO DI LATO)");
 
 					
 
@@ -195,7 +195,7 @@ export class Enviroment {
 
 					if(this.myscene.player.getPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
 						
-						console.log("SALGO");
+						//console.log("SALGO");
 
 						this.myscene.player.playerBaseY = this.myscene.getObstacleTop(i);
 						this.myscene.player.isOnTheSecondLevel = true;

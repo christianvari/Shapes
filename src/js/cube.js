@@ -60,7 +60,7 @@ export class Cube {
     goDown(){
 
         if(this.going_down){
-            console.log("goDown");
+            //console.log("goDown");
             if(this.getBottomPositionY() < this.edge/2){
                 this.playerBaseY = this.edge/2;
                 this.player.position.y = this.playerBaseY;
