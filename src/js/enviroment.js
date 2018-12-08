@@ -1,6 +1,7 @@
 import { MyScene, NUM_OBSTACLES, PLAYER_EDGE } from "./myscene.js";
-import {WebGLRenderer, Clock} from "./lib/three.module.js"
-import {setButtonVisibility, DEAD, PLAY, PAUSE} from "./start.js"
+import {WebGLRenderer, Clock} from "./lib/three.module.js";
+import {setButtonVisibility, DEAD, PLAY, PAUSE} from "./start.js";
+import {MAX_LIGHT_INTENSITY} from "./myscene.js";
 /*
 Class Enviroment
 ***
@@ -86,6 +87,8 @@ export class Enviroment {
 					this.myscene.flashLight();
 				}
 				else{
+					this.myscene.sun.intensity = MAX_LIGHT_INTENSITY; 
+            		this.myscene.hemisphereLight.intensity = MAX_LIGHT_INTENSITY; 
 					this.die();
 				}
 			}

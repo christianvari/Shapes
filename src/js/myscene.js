@@ -19,7 +19,7 @@ export const PLAYER_EDGE = 1.5;
 const CAMERA_POSITION = [0,5,8];
 const CAMERA_ROTATION_X = -20;
 const DESTROY_OBSTACLE_Z_POSITION = CAMERA_POSITION[2] + LENGHT_SCALE;
-const MAX_LIGHT_INTENSITY = 0.9;
+export const MAX_LIGHT_INTENSITY = 0.9;
 const TIME_STEP = 0.05;
 
 var playerColor = 0xffffff;
