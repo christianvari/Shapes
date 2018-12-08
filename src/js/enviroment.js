@@ -12,10 +12,11 @@ const MIN_LIVING_OBSTACLES = 8;
 const OBSTACLE_FIRE_RATE_DELTA = 0.1;
 const CHANGE_LEVEL = 1000;
 const VELOCITY_STEP_DELTA = 0.1;
+export const INITIAL_VELOCITY = 0.5;
 const MAX_LEVEL = 10;
 const NUM_OF_SPECIAL_LEVELS = 3; 	 //to change if other special levels are added
 const PERC_NORMAL_LEVEL = 0.5;  	 // 60% to do a normal level
-export const time_scale = 1;
+export var time_scale = 1;
 
 var OBSTACLE_FIRE_RATE = 1;
 var SCORE_MULTIPLYER = 100;
@@ -221,6 +222,8 @@ export class Enviroment {
 		if( this.level < MAX_LEVEL){
 			OBSTACLE_FIRE_RATE -= OBSTACLE_FIRE_RATE_DELTA;
 			this.myscene.VELOCITY_STEP += VELOCITY_STEP_DELTA;
+			time_scale += (VELOCITY_STEP_DELTA*1/5)/INITIAL_VELOCITY;
+			//console.log(time_scale)
 			
 		}
 

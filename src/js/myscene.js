@@ -3,7 +3,7 @@ import {MyCamera} from "./mycamera.js";
 import {Cube} from "./cube.js";
 import {Ground} from "./ground.js";
 import { Obstacle, LENGHT_SCALE } from "./obstacle.js";
-
+import {INITIAL_VELOCITY} from "./enviroment.js"
 /*
 Class Enviroment
 ***
@@ -39,7 +39,7 @@ export class MyScene {
         this.scene.fog = new Fog(0xffffff, 50, 140)
         this.obstacles = [];
         this.living_obstacles = 0;
-        this.VELOCITY_STEP = 0.5;
+        this.VELOCITY_STEP = INITIAL_VELOCITY;
         this.hemisphereLight = new HemisphereLight(0xffffff,0x000000, MAX_LIGHT_INTENSITY);
         this.sun = new DirectionalLight( 0xffffff, MAX_LIGHT_INTENSITY);
         this.time = 0;
