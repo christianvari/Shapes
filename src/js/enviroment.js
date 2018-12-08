@@ -284,7 +284,7 @@ export class Enviroment {
 		
 		if(!this.started) return;
 		//console.log(this.myscene.player.command +"  "+this.myscene.player.next_command+"  "+this.myscene.player.currentPosition)
-		if ( keyEvent.keyCode == 37) {//left
+		if ( keyEvent.keyCode == 37 || keyEvent.keyCode == 65) {//left
 			
 			if(this.myscene.player.command==-1){
 				
@@ -304,7 +304,7 @@ export class Enviroment {
 				else if(this.myscene.player.currentPosition==1 && this.myscene.player.command==3) this.myscene.player.next_command=2;
 			}
 		
-		}else if(keyEvent.keyCode == 39){//right
+		}else if(keyEvent.keyCode == 39 || keyEvent.keyCode == 68){//right
 			if(this.myscene.player.command==-1){
 					
 				if(this.myscene.player.currentPosition==0){
@@ -322,7 +322,7 @@ export class Enviroment {
 				else if(this.myscene.player.currentPosition==0 && this.myscene.player.command==2) this.myscene.player.next_command=0;
 			}
 		}
-		else if(keyEvent.keyCode == 38 && !this.myscene.player.isOnTheSecondLevel){//up
+		else if((keyEvent.keyCode == 38 || keyEvent.keyCode == 87 || keyEvent.keyCode == 32) && !this.myscene.player.isOnTheSecondLevel){//up
 			if(this.myscene.player.command==-1){
 				this.myscene.player.command=4;
 			}else if(this.myscene.player.next_command==-1){
