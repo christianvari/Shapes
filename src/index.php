@@ -40,6 +40,14 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script type="text/javascript" lang="javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+        <script> 
+            var screenHeight = screen.height;
+            console.log("altezza " + screenHeight);
+            if (screenHeight < 800) {
+                console.log("Porcodio");
+                $('.background').css('zoom', 0.8);
+            }
+        </script>
         <script type="text/javascript" lang="javascript" src="./js/startPage/startPageScript.js"></script>
         <script type="module" src="./js/startPage/background.js"></script>
     </head>

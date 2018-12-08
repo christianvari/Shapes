@@ -75,11 +75,20 @@
     <title>Registration</title>
     <link rel="icon" href="./util/shapes_logo_transparency.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" lang="javascript" src="./bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="register.css" rel="stylesheet"/>
+
+    <script type="text/javascript" lang="javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script> 
+        var screenHeight = screen.height;
+        console.log("altezza " + screenHeight);
+        if (screenHeight < 800) {
+            console.log("Porcodio");
+            $('.background').css('zoom', 0.8);
+        }
+    </script>
+
     <script type="module" src="./js/registrationPage/background.js"></script>
 </head>
 <body>
@@ -105,7 +114,6 @@
                 </table>
                 
             </form>
-            
             
         </div>
     </div>

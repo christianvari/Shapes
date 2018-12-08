@@ -18,12 +18,7 @@ if(!isWebGLSupported()){
     alert("Your graphics card does not seem to support WebGL.\n This game will not work.");
 }
 else{
-    var screenHeight = screen.height;
-    console.log("altezza " + screenHeight);
-    if (screenHeight < 800) {
-        console.log("Porcodio");
-        $('body').css('zoom', 0.8);
-    }
+
 	goLive();
 }
 
