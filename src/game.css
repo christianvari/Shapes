@@ -55,8 +55,8 @@ div.background{
 
 .svg {
     
-    width: 180px;
-    height: 180px;
+    width: 18%;
+    height: 18%;
 }
 svg path,
 svg circle {
@@ -93,9 +93,9 @@ div.topright{
     font-size: 18px;
 }
 
-div.bottomleft{
+div.highscorediv{
     position: absolute;
-    bottom: 8px;
+    top: 18%;
     left: 16px;
     font-size: 18px;
 }
@@ -106,8 +106,6 @@ div.bottomright{
     right: 16px;
     font-size: 18px;
 }
-
-
 
 #highscores {
     position: absolute;
