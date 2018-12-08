@@ -60,6 +60,7 @@ div.background{
 }
 svg path,
 svg circle {
+    transition: all .1s ease;
     -webkit-transition: all .1s ease;
     -moz-transition: all .1s ease;
     -ms-transition: all .1s ease;
