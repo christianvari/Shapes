@@ -14,6 +14,7 @@
         <meta charset="utf-8" />
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="./util/shapes_logo_transparency.png"/>
         <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
         <script type="module" src="./js/startcredits.js"></script>
         <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
