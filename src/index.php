@@ -44,7 +44,7 @@
             var screenHeight = screen.height;
             console.log("altezza " + screenHeight);
             if (screenHeight < 800) {
-                console.log("Porcodio");
+                console.log("minore di 800");
                 $('.background').css('zoom', 0.8);
             }
         </script>
