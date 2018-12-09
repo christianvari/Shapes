@@ -21,38 +21,45 @@
         
     </head>
     <body id="fullspace">
-        <audio id="gameMusic" src="./audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
-        <iframe src="./audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
-        <script>
-            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-            if(!isChrome){
-                document.getElementById("iframeAudio").remove()
-            }
-            else{
-                document.getElementById("gameMusic").remove()
-            }
-        </script>
-        
-        <div class="score">
-            <p><?php echo $_SESSION['username'] ?></p><p id="scoreText">0</p>
-        </div>
-        
-        <div id="highscores" class="highscorediv">
+        <div id = "game_items">
+            <audio id="gameMusic" src="./audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
+            <iframe src="./audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
+            <script>
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if(!isChrome){
+                    document.getElementById("iframeAudio").remove()
+                }
+                else{
+                    document.getElementById("gameMusic").remove()
+                }
+                var screenHeight = screen.height;
+                //console.log("altezza " + screenHeight);
+                if (screenHeight < 800) {
+                    //console.log("minore di 800");
+                    $("#game_items").css("zoom", 0.7);
+                }
+            </script>
+            
+            <div class="score">
+                <p><?php echo $_SESSION['username'] ?></p><p id="scoreText">0</p>
+            </div>
+            
+            <div id="highscores" class="highscorediv">
 
-        </div>
+            </div>
 
-        <div class="background" id="centerdiv">
+            <div class="background" id="centerdiv">
+                    
+            </div>
+            
+            <div class="topright" id="topright">
                 
-        </div>
-        
-        <div class="topright" id="topright">
-            
-        </div>
+            </div>
 
-        <div class="bottomright" id="bottomright">
-            
+            <div class="bottomright" id="bottomright">
+                
+            </div>
+
         </div>
-    
-        
     </body>
 </html>
