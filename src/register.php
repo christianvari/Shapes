@@ -81,19 +81,18 @@
 
     <script type="text/javascript" lang="javascript" src="./bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script> 
-        var screenHeight = screen.height;
-        console.log("altezza " + screenHeight);
-        if (screenHeight < 800) {
-            console.log("Porcodio");
-            $('.background').css('zoom', 0.8);
-        }
-    </script>
-
     <script type="module" src="./js/registrationPage/background.js"></script>
 </head>
 <body>
     <div class="background">
+        <script> 
+            var screenHeight = screen.height;
+            //console.log("altezza " + screenHeight);
+            if (screenHeight < 800) {
+                //console.log("minore di 800");
+                $('.background').css('zoom', 0.7);
+            }
+        </script>
         <h1>Registration</h1>
         <div class="centerzone">
             <form action="" size="30" class="form-signin" method="POST" name="registerForm" onsubmit="return true;">
