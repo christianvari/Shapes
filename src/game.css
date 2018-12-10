@@ -110,6 +110,10 @@ svg:active path{
 
 td{
     padding: 0 15px 0 15px;
+    font-family: 'ShapesFont';
+    font-size: 170%;
+    font-size-adjust: inherit;
+    color: rgb(255, 255, 255);
 }
 
 #game_over{
