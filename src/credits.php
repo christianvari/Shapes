@@ -15,7 +15,7 @@
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="./util/shapes_logo_transparency.png"/>
-        <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
+        
         <script type="module" src="./js/credits/startcredits.js"></script>
         <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="credits.css" rel="stylesheet"/>
@@ -32,10 +32,19 @@
             else{
                 document.getElementById("gameMusic").remove()
             }
+            
         </script>
         <div class="background">
+            <script>
+                var screenHeight = screen.height;
+                //console.log("altezza " + screenHeight);
+                if (screenHeight < 800) {
+                    //console.log("minore di 800");
+                    $(".background").css("zoom", 0.7);
+                }
+            </script>
             <h1>Credits</h1>
-            <h1 class="bottom" id="bottomText">press SPACE to continue to the game</h1>
+            <h1 id="bottomText">press SPACE to continue to the game</h1>
         </div>
     </body>
 </html>

@@ -11,7 +11,7 @@
     color: rgb(255, 255, 255);
   }
 
-  h1.bottom {
+  #bottomText {
     font-family: 'ShapesFont';
     font-size: 400%;
     font-size-adjust: inherit;
@@ -28,3 +28,13 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
