@@ -15,6 +15,7 @@ const DESTRA = 1;
 const SINISTRA = -1;
 const MIN_INTERCEPTION_SPACE=4;
 const MIN_LENGTH = 10;
+const MIN_GAP = 2;
 
 
 export class Obstacle {
@@ -56,7 +57,7 @@ export class Obstacle {
             this.obstacle.position.z = -1 * Math.random() * DISTANCE - MIN_DISTANCE - this.length;
         }
         else{
-            this.obstacle.position.z = (-1 * Math.random() * DISTANCE) + last_tail_position_z[this.lane].getTailPositionZ() - this.length;
+            this.obstacle.position.z = (-1 * Math.random() * DISTANCE) + last_tail_position_z[this.lane].getTailPositionZ() - this.length - MIN_GAP ;
         }
 
         //NO ALL TALL OBSTACLE IN LINE
@@ -64,15 +65,15 @@ export class Obstacle {
         if(obstacles != undefined){
                 
             for (let i=0; i<obstacles.length; i+=1){
-                if(obstacles[i].type==ALTO && this.intercept(obstacles[i])){
+                if(this.intercept(obstacles[i])){
                     obstacles[i].interceptions += 1+ this.interceptions;
                     this.interceptions +=  obstacles[i].interceptions;
                     
-                    obstacles[i].setObstacleColor(false);
-                    this.setObstacleColor(false);
+                    //obstacles[i].setObstacleColor(false);
+                    //this.setObstacleColor(false);
                 }
             }
-            if(this.interceptions <2 || this.type==BASSO){
+            if(this.interceptions <2){
                 let scale =  Math.round(Math.random()+1);
                 this.obstacle.scale.y = scale;
                 this.type= scale-1;
@@ -81,7 +82,8 @@ export class Obstacle {
                 this.obstacle.scale.y = 1;
                 this.type = BASSO;
                 this.obstacle.position.y = PLAYER_EDGE/2;
-                console.log("---------CORREGGO----------")
+                //console.log(".");
+                //console.log("---------CORREGGO----------")
                 //this.obstacle.material.color.setHex(0x000000);
             
             }
