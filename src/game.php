@@ -49,6 +49,10 @@
                 </table>
             </div>
             
+            <div id = "game_over"></div>
+            <div id = "score_on_gameover"></div>
+            <div id = "new_record"></div>
+            
             <div id="highscores">
 
             </div>

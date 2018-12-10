@@ -11,23 +11,23 @@
     color: rgb(255, 255, 255);
   }
 
-  #bottomText {
-    font-family: 'ShapesFont';
-    font-size: 400%;
-    font-size-adjust: inherit;
-    color: rgb(255, 255, 255);
-    margin-top: 30%;
-  }
+#bottomText {
+  font-family: 'ShapesFont';
+  font-size: 400%;
+  font-size-adjust: inherit;
+  color: rgb(255, 255, 255);
+  margin-top: 30%;
+}
 
-  .background{
-    margin-top: 5%;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.background{
+  margin-top: 5%;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 canvas {
   width: 100%;
