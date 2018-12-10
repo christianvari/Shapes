@@ -138,7 +138,7 @@ function adjustButtons(){
 				}
 				else if(imgID == "infoButton"){
 					$svg.click(function(){
-						window.location.replace("credits.html");
+						window.location.replace("credits.php");
 					});
 				}
 				

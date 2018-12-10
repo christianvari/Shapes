@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="./util/shapes_logo_transparency.png"/>
         <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
-        <script type="module" src="./js/startcredits.js"></script>
+        <script type="module" src="./js/credits/startcredits.js"></script>
         <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="credits.css" rel="stylesheet"/>
     </head>

@@ -1,5 +1,5 @@
 import { MySceneCredits } from "./myscenecredits.js";
-import {WebGLRenderer, Clock} from "./lib/three.module.js"
+import {WebGLRenderer, Clock} from "../lib/three.module.js"
 
 
 

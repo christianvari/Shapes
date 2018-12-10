@@ -1,6 +1,6 @@
-import {Scene, HemisphereLight, DirectionalLight, Fog, Clock} from "./lib/three.module.js";
-import {MyCamera} from "./mycamera.js";
-import {Ground} from "./ground.js";
+import {Scene, HemisphereLight, DirectionalLight, Fog, Clock} from "../lib/three.module.js";
+import {MyCamera} from "../mycamera.js";
+import {Ground} from "./groundcredits.js";
 import { ObstacleCredits} from "./obstacleCredits.js";
 
 /*
@@ -90,15 +90,12 @@ export class MySceneCredits {
 
     }
 
+
     handleKeyDown(keyEvent){
-        console.log("handler")
-        console.log(keyEvent)
 		if(keyEvent.keyCode == 32){  //this is UP (check space code)
-			console.log("gestione su")
-			window.location.replace("game.html");
+			window.location.replace("game.php");
 		}
 	}
-
     
 
     addObjectsToScene(){
