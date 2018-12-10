@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8"/>
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="./util/shapes_logo_transparency.png"/>
@@ -41,10 +41,19 @@
             </script>
             
             <div class="score">
-                <p><?php echo $_SESSION['username'] ?></p><p id="scoreText">0</p>
+                <table>
+                    <tr>
+                        <td><?php echo $_SESSION['username']?></td>
+                        <td id="scoreText">0</td>
+                    </tr>
+                </table>
             </div>
             
-            <div id="highscores" class="highscorediv">
+            <div id = "game_over"></div>
+            <div id = "score_on_gameover"></div>
+            <div id = "new_record"></div>
+            
+            <div id="highscores">
 
             </div>
 
@@ -52,11 +61,11 @@
                     
             </div>
             
-            <div class="topright" id="topright">
+            <div id="topright">
                 
             </div>
 
-            <div class="bottomright" id="bottomright">
+            <div id="bottomright">
                 
             </div>
 

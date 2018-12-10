@@ -1,13 +1,13 @@
-import { BoxBufferGeometry, TextureLoader, MeshBasicMaterial, MeshFaceMaterial, Mesh, MeshStandardMaterial } from "./lib/three.module.js";
+import { BoxBufferGeometry, TextureLoader, MeshBasicMaterial, MeshFaceMaterial, Mesh, MeshStandardMaterial } from "../lib/three.module.js";
 
 const BLOCK_EDGE = 3;
 const BLOCK_LENGTH = 10;
 const INITIAL_POSITION = -150;
-const FIRST_PHOTO_PATH = "./images/mickey.jpg";
-const SECOND_PHOTO_PATH = "./images/donald.jpg";
-const FIRST_TEXT_PATH = "./images/marco.png";
-const SECOND_TEXT_PATH = "./images/christian.png";
-const THIRD_TEXT_PATH = "./images/william.png";
+const FIRST_PHOTO_PATH = "../images/mickey.jpg";
+const SECOND_PHOTO_PATH = "../images/donald.jpg";
+const FIRST_TEXT_PATH = "../images/marco.png";
+const SECOND_TEXT_PATH = "../images/christian.png";
+const THIRD_TEXT_PATH = "../images/william.png";
 const X_DISPLACEMENT = 2.5;
 const FIRST_COLOR = 0x0040ff;
 const SECOND_COLOR = 0xffff00;

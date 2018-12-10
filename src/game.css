@@ -87,28 +87,66 @@ svg:active path{
     height: 100px; 
 }
 
-div.topright{
+#topright{
     position: absolute;
     top: 8px;
     right: 16px;
     font-size: 18px;
 }
 
-div.highscorediv{
+#highscores{
     position: absolute;
     bottom: 8px;
     left: 16px;
     font-size: 18px;
 }
 
-div.bottomright{
+#bottomright{
     position: absolute;
     bottom: 8px;
     right: 16px;
     font-size: 18px;
 }
 
-#highscores {
+td{
+    padding: 0 15px 0 15px;
+    font-family: 'ShapesFont';
+    font-size: 170%;
+    font-size-adjust: inherit;
+    color: rgb(255, 255, 255);
+}
+
+#game_over{
     position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#score_on_gameover{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin-top: 13%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+#new_record{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-top: 37%;
+    margin-left: auto;
+    margin-right: auto;
+}  
+#game_over_text {
+    font-family: 'ShapesFont';
+    font-size: 600%;
+    font-size-adjust: inherit;
+    color: rgb(255, 255, 255);
 }
 

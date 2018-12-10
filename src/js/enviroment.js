@@ -100,14 +100,14 @@ export class Enviroment {
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("new_record").innerHTML = this.responseText;
+					document.getElementById("new_record").innerHTML = "<h1 id = 'game_over_text'>"+this.responseText+"</h1>";
 
 				}
 			};
-			xmlhttp.open("GET", "setHighscore.php?q=" + this.score, true);
+			xmlhttp.open("GET", "server_side/setHighscore.php?q=" + this.score, true);
 			xmlhttp.send();
-			document.getElementById("game_over").textContent = "Game Over" ;
-			document.getElementById("score").textContent = this.score;
+			document.getElementById("game_over").innerHTML = "<h1 id='game_over_text'>Game Over</h1>";
+			document.getElementById("score_on_gameover").innerHTML ="<h1 id = 'game_over_text'>" + this.score + "</h1>";
 		}
 
 		

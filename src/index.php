@@ -1,29 +1,5 @@
 <?php
-   include("config.php");
-   session_start();
-   $error = "";
-   $error_tip = "";
-   
-   if($_SERVER["REQUEST_METHOD"] == "POST") {
-      
-        $myusername = mysqli_real_escape_string($db,$_POST['inputName']);
-        $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
-
-        $sql = "SELECT PASSWORD FROM PLAYER_DATA WHERE USERNAME = '$myusername'";
-        $result = mysqli_query($db,$sql);
-        $password = mysqli_fetch_assoc($result);
-        $count = mysqli_num_rows($result);
-
-        if(password_verify($mypassword, $password['PASSWORD']) && $count == 1){
-
-            $_SESSION['username'] = $myusername;
-            header("location: game.php");
-            
-        }else{
-            $error = "is-invalid";
-            $error_tip = "<div class='invalid-feedback'>Username or password is wrong</div>";
-        }
-    }
+    include("server_side/login.php");
 ?>
 
 
@@ -35,11 +11,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="icon" href="./util/shapes_logo_transparency.png"/>
 
-        <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="index.css" rel="stylesheet"/>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script type="text/javascript" lang="javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <script type="text/javascript" lang="javascript" src="./js/startPage/startPageScript.js"></script>
         <script type="module" src="./js/startPage/background.js"></script>
     </head>
