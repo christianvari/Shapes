@@ -60,7 +60,7 @@ function getHighscore(){
 			document.getElementById("highscores").innerHTML = this.responseText;
 		}
 	};
-	xmlhttp.open("GET", "getHighscore.php", true);
+	xmlhttp.open("GET", "server_side/getHighscore.php", true);
 	xmlhttp.send();
 }
 

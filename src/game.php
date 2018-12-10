@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8"/>
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="./util/shapes_logo_transparency.png"/>
