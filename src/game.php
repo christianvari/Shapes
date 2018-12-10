@@ -41,10 +41,15 @@
             </script>
             
             <div class="score">
-                <p><?php echo $_SESSION['username'] ?></p><p id="scoreText">0</p>
+                <table>
+                    <tr>
+                        <td><?php echo $_SESSION['username']?></td>
+                        <td id="scoreText">0</td>
+                    </tr>
+                </table>
             </div>
             
-            <div id="highscores" class="highscorediv">
+            <div id="highscores">
 
             </div>
 
@@ -52,11 +57,11 @@
                     
             </div>
             
-            <div class="topright" id="topright">
+            <div id="topright">
                 
             </div>
 
-            <div class="bottomright" id="bottomright">
+            <div id="bottomright">
                 
             </div>
 

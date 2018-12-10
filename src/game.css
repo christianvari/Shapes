@@ -87,28 +87,28 @@ svg:active path{
     height: 100px; 
 }
 
-div.topright{
+#topright{
     position: absolute;
     top: 8px;
     right: 16px;
     font-size: 18px;
 }
 
-div.highscorediv{
+#highscores{
     position: absolute;
     bottom: 8px;
     left: 16px;
     font-size: 18px;
 }
 
-div.bottomright{
+#bottomright{
     position: absolute;
     bottom: 8px;
     right: 16px;
     font-size: 18px;
 }
 
-#highscores {
-    position: absolute;
+td{
+    padding: 0 15px 0 15px;
 }
 
