@@ -17,7 +17,6 @@
         <link rel="icon" href="./util/shapes_logo_transparency.png"/>
         
         <script type="module" src="./js/credits/startcredits.js"></script>
-        <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="credits.css" rel="stylesheet"/>
     </head>
 
