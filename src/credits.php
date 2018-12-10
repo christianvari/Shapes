@@ -22,7 +22,7 @@
     </head>
 
     <body id="fullspace">
-        <audio id="gameMusic" src="./audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
+        <audio id="gameMusic" src="./audio/Shapes - soundtrack[1].mp3" preload="auto" autoplay loop></audio>
         <iframe src="./audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
         <script>
             var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
