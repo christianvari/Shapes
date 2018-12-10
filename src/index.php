@@ -17,6 +17,7 @@
         if(password_verify($mypassword, $password['PASSWORD']) && $count == 1){
 
             $_SESSION['username'] = $myusername;
+            $_SESSION['sound'] = "true";
             header("location: game.php");
             
         }else{
