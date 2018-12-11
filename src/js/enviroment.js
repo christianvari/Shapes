@@ -2,6 +2,7 @@ import { MyScene, NUM_OBSTACLES, PLAYER_EDGE } from "./myscene.js";
 import {WebGLRenderer, Clock} from "./lib/three.module.js";
 import {setButtonVisibility, DEAD, PLAY, PAUSE} from "./start.js";
 import {MAX_LIGHT_INTENSITY} from "./myscene.js";
+import {BASSO, ALTO} from "./obstacle.js";
 /*
 Class Enviroment
 ***
@@ -155,41 +156,56 @@ export class Enviroment {
 	collisionLogic(i){
 
 
-		if(this.myscene.player.isOnTheSecondLevel && this.player_on_obstacle_index == i){
+		if(this.myscene.player.isOnTheSecondLevel ){
+
+			if(this.player_on_obstacle_index == i){
+				if((this.myscene.player.getPositionZ() + (PLAYER_EDGE/2)  < this.myscene.getObstacleTailPositionZ(i))) {
 
 
-			if((this.myscene.player.getPositionZ() + (PLAYER_EDGE/2)  < this.myscene.getObstacleTailPositionZ(i))) {
-
-
-				//console.log("SCENDO");
-				
-				this.myscene.player.going_down = true;
-				this.myscene.player.isOnTheSecondLevel=false;
-				this.player_on_obstacle_index = -1;
-			}
-			else if(this.myscene.player.getPositionX() != this.myscene.getObstaclePositionX(i)){
-
-				//console.log(this.myscene.player.command + " "+
-				//(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/+ " > " + this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2)));
-
-
-				if((((this.myscene.player.command == 0|| this.myscene.player.command == 1)) && 
-				(this.myscene.player.getPositionX() - (PLAYER_EDGE/2) > this.myscene.getObstaclePositionX(i)+ (PLAYER_EDGE/2)))
-				|| (((this.myscene.player.command == 2|| this.myscene.player.command == 3)) && 
-				(this.myscene.player.getPositionX() + (PLAYER_EDGE/2) < this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2)))
-				){
-
-					//console.log("SCENDO DI LATO)");
-
+					//console.log("SCENDO");
 					
-
-					//this.myscene.player.going_down = true;
-					
+					this.myscene.player.going_down = true;
+					this.myscene.player.isOnTheSecondLevel=false;
 					this.player_on_obstacle_index = -1;
 				}
+				else if(this.myscene.player.getPositionX() != this.myscene.getObstaclePositionX(i)){
 
+					//console.log(this.myscene.player.command + " "+
+					//(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/+ " > " + this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2)));
+
+
+					if(/*((*/(this.myscene.player.command == 0|| this.myscene.player.command == 1)/*) && 
+					(this.myscene.player.getPositionX() - (PLAYER_EDGE/2) > this.myscene.getObstaclePositionX(i)+ (PLAYER_EDGE/2)))*/
+					|| /*((*/(this.myscene.player.command == 2|| this.myscene.player.command == 3))/* && 
+					(this.myscene.player.getPositionX() + (PLAYER_EDGE/2) < this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2)))
+					)*/{
+
+						//console.log("SCENDO DI LATO)");
+
+						//this.myscene.player.going_down = true;
+						
+						this.player_on_obstacle_index = -1;
+						
+					}
+					else{
+						let landingOnObstacle=false;
+						for (let j=0; j<NUM_OBSTACLES; j+=1){
+							if(this.myscene.player.getPositionX() == this.myscene.obstacles[j].getPositionX()
+									&& this.myscene.obstacles[j].getFrontPositionZ() >= this.myscene.player.getPositionZ()+PLAYER_EDGE
+									&& this.myscene.obstacles[j].getTailPositionZ() <= this.myscene.player.getPositionZ()-PLAYER_EDGE
+									&& this.myscene.obstacles[j].type==BASSO){
+										landingOnObstacle=true;
+										this.player_on_obstacle_index = j;		
+							}
+						}
+						if(!landingOnObstacle && this.myscene.player.command!=4){
+							this.myscene.player.going_down = true;
+							this.myscene.player.isOnTheSecondLevel=false;
+							this.player_on_obstacle_index = -1;
+						}
+					}
+				}
 			}
-
 		}
 		else{
 
