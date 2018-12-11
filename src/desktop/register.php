@@ -1,5 +1,5 @@
 <?php
-    include("server_side/registration.php");
+    include("../server_side/registration.php");
 ?>
 
 <!DOCTYPE html>
@@ -7,15 +7,15 @@
 <head>
     <meta charset="utf-8" />
     <title>Registration</title>
-    <link rel="icon" href="./util/shapes_logo_transparency.png"/>
+    <link rel="icon" href="../util/shapes_logo_transparency.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="./util/shapes_logo_transparency.png"/>
+    <link rel="icon" href="../util/shapes_logo_transparency.png"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="register.css" rel="stylesheet"/>
+    <link href="../css/register.css" rel="stylesheet"/>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="module" src="./js/registrationPage/background.js"></script>
+    <script type="module" src="../js/registrationPage/background.js"></script>
 </head>
 <body>
     <div class="background">

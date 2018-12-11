@@ -1,11 +1,5 @@
 <?php
-
-    session_start(); 
-
-    if (!isset($_SESSION['username'])) {
-        header('location: index.php');
-    }
-
+    include("../server_side/check_session.php");
 ?>
 
 <!DOCTYPE html>
@@ -14,15 +8,15 @@
         <meta charset="utf-8" />
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="./util/shapes_logo_transparency.png"/>
+        <link rel="icon" href="../util/shapes_logo_transparency.png"/>
         
-        <script type="module" src="./js/credits/startcredits.js"></script>
-        <link href="credits.css" rel="stylesheet"/>
+        <script type="module" src="../js/credits/startcredits.js"></script>
+        <link href="../css/credits.css" rel="stylesheet"/>
     </head>
 
     <body id="fullspace">
-        <audio id="gameMusic" src="./audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
-        <iframe src="./audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
+        <audio id="gameMusic" src="../audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
+        <iframe src="../audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
         <script>
             var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
             if(!isChrome){

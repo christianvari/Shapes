@@ -12,34 +12,34 @@ var state = PLAY;
 
 var restartButtonparent = document.getElementById("centerdiv");
 var restartButton = document.createElement("img") ;
-restartButton.setAttribute("src", "./images/retry1.svg");
+restartButton.setAttribute("src", "../images/retry1.svg");
 restartButton.setAttribute("id", "restartButton");
 restartButton.setAttribute("class", "svg");
 
 var playButtonparent = document.getElementById("centerdiv");
 var playButton = document.createElement("img") ;
-playButton.setAttribute("src", "./images/play.svg");
+playButton.setAttribute("src", "../images/play.svg");
 playButton.setAttribute("id", "playButton");
 playButton.setAttribute("class", "svg");
 
 var pauseButtonparent = document.getElementById("topright");
 var pauseButton = document.createElement("img") ;
-pauseButton.setAttribute("src", "./images/pause.svg");
+pauseButton.setAttribute("src", "../images/pause.svg");
 pauseButton.setAttribute("id", "pauseButton");
 pauseButton.setAttribute("class", "svg inTopRight");
 
 var infoButtonparent = document.getElementById("bottomright");
 var infoButton = document.createElement("img");
-infoButton.setAttribute("src", "./images/info.svg");
+infoButton.setAttribute("src", "../images/info.svg");
 infoButton.setAttribute("id", "infoButton");
 infoButton.setAttribute("class", "svg inBottomRight");
 
 var muteButton =  document.createElement("img");
-muteButton.setAttribute("src", "./images/sound.svg");
+muteButton.setAttribute("src", "../images/sound.svg");
 muteButton.setAttribute("id", "muteButton");
 muteButton.setAttribute("class", "svg inTopRight");
 var soundButton = document.createElement("img");
-soundButton.setAttribute("src", "./images/mute.svg");
+soundButton.setAttribute("src", "../images/mute.svg");
 soundButton.setAttribute("id", "soundButton");
 soundButton.setAttribute("class", "svg inTopRight");
 var soundButtonparent = document.getElementById("topright");
@@ -60,7 +60,7 @@ function getHighscore(){
 			document.getElementById("highscores").innerHTML = this.responseText;
 		}
 	};
-	xmlhttp.open("GET", "server_side/getHighscore.php", true);
+	xmlhttp.open("GET", "../server_side/getHighscore.php", true);
 	xmlhttp.send();
 }
 

@@ -104,7 +104,7 @@ export class Enviroment {
 
 				}
 			};
-			xmlhttp.open("GET", "server_side/setHighscore.php?q=" + this.score, true);
+			xmlhttp.open("GET", "../server_side/setHighscore.php?q=" + this.score, true);
 			xmlhttp.send();
 			document.getElementById("game_over").innerHTML = "<h1 id='game_over_text'>Game Over</h1>";
 			document.getElementById("score_on_gameover").innerHTML ="<h1 id = 'game_over_text'>" + this.score + "</h1>";

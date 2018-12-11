@@ -1,10 +1,6 @@
 <?php
 
-    session_start(); 
-
-    if (!isset($_SESSION['username'])) {
-        header('location: index.php');
-    }
+    include("../server_side/check_session.php");
 
 ?>
 
@@ -14,16 +10,16 @@
         <meta charset="utf-8"/>
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="./util/shapes_logo_transparency.png"/>
-        <link rel="stylesheet" type="text/css" media="screen" href="game.css" />
+        <link rel="icon" href="../util/shapes_logo_transparency.png"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="../css/game.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script type="module" src="js/start.js"></script>
+        <script type="module" src="../js/start.js"></script>
         
     </head>
     <body id="fullspace">
         <div id = "game_items">
-            <audio id="gameMusic" src="./audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
-            <iframe src="./audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
+            <audio id="gameMusic" src="../audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
+            <iframe src="../audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
             <script>
                 var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
                 if(!isChrome){
