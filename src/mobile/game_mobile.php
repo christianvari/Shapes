@@ -13,6 +13,7 @@
         <link rel="icon" href="../util/shapes_logo_transparency.png"/>
         <link rel="stylesheet" type="text/css" media="screen" href="../css/game_mobile.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="../js/lib/hammer.min.js"></script>
         <script type="module" src="../js/start.js"></script>
         
     </head>

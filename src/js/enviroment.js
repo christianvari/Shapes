@@ -47,7 +47,12 @@ export class Enviroment {
 
 		//Install Event Handler
 		window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
-		document.onkeydown = this.handleKeyDown.bind(this);
+		if(document.location.pathname == "/desktop/game.php"){
+			document.onkeydown = this.handleKeyDown.bind(this);
+		}
+		else{
+			this.enableSwipes();
+		}
 
 		//Inizialize Interface
 		this.inizializeCanvas();
@@ -287,7 +292,7 @@ export class Enviroment {
 		
 		if(!this.started) return;
 		//console.log(this.myscene.player.command +"  "+this.myscene.player.next_command+"  "+this.myscene.player.currentPosition)
-		if ( keyEvent.keyCode == 37 || keyEvent.keyCode == 65) {//left
+		if ( keyEvent.keyCode == 37 || keyEvent.keyCode == 65 || keyEvent == "swipeleft") {//left
 			
 			if(this.myscene.player.command==-1){
 				
@@ -307,7 +312,7 @@ export class Enviroment {
 				else if(this.myscene.player.currentPosition==1 && this.myscene.player.command==3) this.myscene.player.next_command=2;
 			}
 		
-		}else if(keyEvent.keyCode == 39 || keyEvent.keyCode == 68){//right
+		}else if(keyEvent.keyCode == 39 || keyEvent.keyCode == 68 || keyEvent=="swiperight"){//right
 			if(this.myscene.player.command==-1){
 					
 				if(this.myscene.player.currentPosition==0){
@@ -325,7 +330,9 @@ export class Enviroment {
 				else if(this.myscene.player.currentPosition==0 && this.myscene.player.command==2) this.myscene.player.next_command=0;
 			}
 		}
-		else if((keyEvent.keyCode == 38 || keyEvent.keyCode == 87 || keyEvent.keyCode == 32) && !this.myscene.player.isOnTheSecondLevel){//up
+		else if((keyEvent.keyCode == 38 || keyEvent.keyCode == 87 || keyEvent.keyCode == 32 || keyEvent=="swipeup") 
+			&& !this.myscene.player.isOnTheSecondLevel){//up
+
 			if(this.myscene.player.command==-1){
 				this.myscene.player.command=4;
 			}else if(this.myscene.player.next_command==-1){
@@ -333,7 +340,13 @@ export class Enviroment {
 			}
 		}
 		 
-	}	
+	}
+
+	enableSwipes(){
+		let hammer = new Hammer(document.getElementById("fullspace"));
+		hammer.get('swipe').set({direction: Hammer.DIRECTION_ALL});
+		hammer.on("swipeleft swiperight swipeup", (ev) => (this.handleKeyDown(ev.type)));
+	}
 
 	changeLevelAux(){		// random chosing between normal and special level
 		let x = Math.random();
