@@ -21,17 +21,17 @@
     </head>
     <body>
         <div id="center"><h1 >SHAPES</h1></div>
-            <form action="" class="form-signin" method="POST" name="myForm" onSubmit="return checkName();">
-                <div id="left">
-                    <input type="text" name="inputName" class="form-control" placeholder="Player Name" required autofocus/>
-                    <br>
-                    <input type="password" name="password" class="form-control <?php echo $error; ?>" placeholder="Password" required/>
-                    <?php echo $error_tip;?>
-                    <p>Not registered? Click <a href="./register_mobile.php">here</a></p>
-                </div>
-                <div id="right">
-                    <button  class="btn btn-lg btn-primary btn-block" type="submit">PLAY</button>
-                </div>
-            </form>
+        <form action="" class="form-signin" method="POST" name="myForm" onSubmit="return checkName();">
+            <div id="left">
+                <input type="text" name="inputName" class="form-control" placeholder="Player Name" required autofocus/>
+                <br>
+                <input type="password" name="password" class="form-control <?php echo $error; ?>" placeholder="Password" required/>
+                <?php echo $error_tip;?>
+                <p>Not registered? Click <a href="./register_mobile.php">here</a></p>
+            </div>
+            <div id="right">
+                <button  class="btn btn-lg btn-primary btn-block" type="submit">PLAY</button>
+            </div>
+        </form>
     </body>
 </html>
