@@ -49,8 +49,8 @@ var isSoundActive = sessionStorage.getItem('isSoundActive');
 if(isSoundActive==null) isSoundActive='true';
 var music;
 
-sound();
-init();
+document.onload = init();
+//init();
 
 
 function getHighscore(){
@@ -66,6 +66,7 @@ function getHighscore(){
 
 
 function init() {
+	sound();
 	getHighscore();
 	
 	window.setInterval(getHighscore, 10000);
