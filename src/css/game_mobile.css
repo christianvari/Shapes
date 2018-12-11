@@ -14,10 +14,6 @@ div.score{
     top: 10px;
     left: 30px;
     position: absolute;
-    font-family: 'ShapesFont';
-    font-size: 250%;
-    font-size-adjust: inherit; 
-    color: #000000;
 }
 
 @font-face {
@@ -78,13 +74,13 @@ svg:active path{
 
 
 .inTopRight{
-    width: 100px;
-    height: 100px; 
+    width: 50px;
+    height: 50px; 
 }
 
 .inBottomRight{
-    width: 100px;
-    height: 100px; 
+    width: 50px;
+    height: 50px; 
 }
 
 #topright{
@@ -109,9 +105,9 @@ svg:active path{
 }
 
 td.highscores_table{
-    padding: 0 15px 0 15px;
+    padding: 0 0px 0 15px;
     font-family: 'ShapesFont';
-    font-size: 170%;
+    font-size: 150%;
     font-size-adjust: inherit;
     color: rgb(255, 255, 255);
 }
@@ -119,9 +115,9 @@ td.highscores_table{
 td.name_and_scores {
     padding: 0 15px 0 15px;
     font-family: 'ShapesFont';
-    font-size: 170%;
+    font-size: 150%;
     font-size-adjust: inherit; 
-    color: rgb(0,0,0);
+    color: #000000;
 }
 
 #game_over{

@@ -13,7 +13,7 @@
     if (mysqli_num_rows($result) > 0) {
         // output data of each row
         while($row = mysqli_fetch_assoc($result)) {
-            $str = $str . "<tr><td>" . $row["PLAYER"]. "</td>" . "<td>" . $row["HIGHSCORE"] . "</td></tr>";
+            $str = $str . "<tr><td class='highscores_table'>" . $row["PLAYER"]. "</td>" . "<td class='highscores_table'>" . $row["HIGHSCORE"] . "</td></tr>";
         }
     }
 

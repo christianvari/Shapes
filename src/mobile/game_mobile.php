@@ -11,7 +11,7 @@
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="../util/shapes_logo_transparency.png"/>
-        <link rel="stylesheet" type="text/css" media="screen" href="../css/game.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="../css/game_mobile.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script type="module" src="../js/start.js"></script>
         
@@ -27,12 +27,6 @@
                 }
                 else{
                     document.getElementById("gameMusic").remove()
-                }
-                var screenHeight = screen.height;
-                //console.log("altezza " + screenHeight);
-                if (screenHeight < 800) {
-                    //console.log("minore di 800");
-                    $("#game_items").css("zoom", 0.7);
                 }
             </script>
             
@@ -50,11 +44,8 @@
             <div id = "new_record"></div>
             
             <div id="highscores"></div>
-
             <div class="background" id="centerdiv"></div>
-            
             <div id="topright"></div>
-
             <div id="bottomright"></div>
 
         </div>
