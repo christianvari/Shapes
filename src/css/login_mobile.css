@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'ShapesFont';
+    src: url('../fonts/b.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+    font-stretch: 'extra-expanded';
+} 
+
+h1 {
+    font-family: 'ShapesFont';
+    font-size: 500%;
+    font-size-adjust: inherit;
+    color: rgb(0, 92, 170);
+}
+
+html{
+    height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    height: 100%;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.form-signin {
+    width: 100%;
+    margin-top: 15%;
+    position: absolute;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 2%;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 2%; 
+}
+
+#center{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#right{
+
+    float: right;
+    width: 50%;
+    padding: 2%;
+    margin-top: 4%;
+
+
+}
+
+#left{
+    float: left;
+    width: 50%;
+    padding: 2%;
+}
