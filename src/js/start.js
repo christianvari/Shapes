@@ -259,17 +259,26 @@ function changeSound(){
 	if(music!=undefined){
 		if(isSoundActive=='true'){
 			muteButton = document.getElementById("muteButton");
-			soundButtonparent.removeChild(muteButton); 
-			soundButtonparent.appendChild(soundButton);
-			
+			if(muteButton!=undefined){
+				soundButtonparent.removeChild(muteButton); 
+			}
+			let sound = document.getElementById("soundButton");
+			if(sound == undefined){
+				soundButtonparent.appendChild(soundButton);
+			}
 			
 			isSoundActive = 'false';
 			sessionStorage.setItem('isSoundActive', 'false');
 		}
 		else{
 			soundButton = document.getElementById("soundButton");
-			soundButtonparent.removeChild(soundButton);
-			soundButtonparent.appendChild(muteButton);
+			if(soundButton!=undefined){
+				soundButtonparent.removeChild(soundButton);
+			}
+			let mute = document.getElementById("muteButton");
+			if(mute==undefined){
+				soundButtonparent.appendChild(muteButton);
+			}
 			
 			
 			isSoundActive = 'true';
