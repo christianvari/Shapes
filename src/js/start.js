@@ -47,7 +47,7 @@ var soundButtonparent = document.getElementById("topright");
 
 var isSoundActive = sessionStorage.getItem('isSoundActive');
 if(isSoundActive==null) isSoundActive='true';
-var music;
+var music=undefined;
 
 document.onload = init();
 //init();
@@ -66,7 +66,7 @@ function getHighscore(){
 
 
 function init() {
-	getMusic();
+	changeSound();
 	getHighscore();
 	
 	window.setInterval(getHighscore, 10000);
@@ -285,10 +285,12 @@ function getMusic(){
 	else if (document.getElementById("iframeAudio") != undefined) {
 		var iframe = document.getElementById('iframeAudio');
 		var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-		music = innerDoc.getElementsByName('media')[0];
+		if(innerDoc.getElementsByName('media')[0]!= undefined){
+			music = innerDoc.getElementsByName('media')[0];
+		}
 		
 	}
-	sound();
+	//sound();
 
 }
 
