@@ -66,7 +66,7 @@ function getHighscore(){
 
 
 function init() {
-	sound();
+	getMusic();
 	getHighscore();
 	
 	window.setInterval(getHighscore, 10000);
@@ -256,26 +256,27 @@ function deadButtons(){
 
 function changeSound(){
 	getMusic();
-	
-	if(isSoundActive=='true'){
-		muteButton = document.getElementById("muteButton");
-		soundButtonparent.removeChild(muteButton); 
-		soundButtonparent.appendChild(soundButton);
-		music.muted = true;
-		
-		isSoundActive = 'false';
-		sessionStorage.setItem('isSoundActive', 'false');
-	}
-	else{
-		soundButton = document.getElementById("soundButton");
-		soundButtonparent.removeChild(soundButton);
-		soundButtonparent.appendChild(muteButton);
-		music.muted = false;
-		
-		isSoundActive = 'true';
-		sessionStorage.setItem('isSoundActive', 'true');
-	}
-	
+	if(music!=undefined){
+		if(isSoundActive=='true'){
+			muteButton = document.getElementById("muteButton");
+			soundButtonparent.removeChild(muteButton); 
+			soundButtonparent.appendChild(soundButton);
+			
+			
+			isSoundActive = 'false';
+			sessionStorage.setItem('isSoundActive', 'false');
+		}
+		else{
+			soundButton = document.getElementById("soundButton");
+			soundButtonparent.removeChild(soundButton);
+			soundButtonparent.appendChild(muteButton);
+			
+			
+			isSoundActive = 'true';
+			sessionStorage.setItem('isSoundActive', 'true');
+		}
+		sound();
+	}	
 	adjustButtons();
 }
 
@@ -287,12 +288,13 @@ function getMusic(){
 		music = innerDoc.getElementsByName('media')[0];
 		
 	}
+	sound();
 
 }
 
 function sound(){
-	getMusic();
-	if(isSoundActive=='true'){
+	
+	if(isSoundActive=='true' && music!=undefined){
 		music.muted = false;
 	}
 	else{
