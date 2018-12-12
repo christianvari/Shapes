@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.cronies.shapes.MainActivity">
+    <activity android:name="Shapes"
+        android:screenOrientation="landscape"
+        android:label="@string/app_name">
+        <intent-filter>
+            <action android:name="com.gmaninc.package.INTRO" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </activity>
+
+
+</android.support.constraint.ConstraintLayout>
