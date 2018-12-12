@@ -98,13 +98,15 @@ export class MyScene {
     addLight(){
         
         this.sun.position.set( 12,6,7 );
-        this.sun.castShadow = true;
-    
-        //Set up shadow properties for the sun light
-        this.sun.shadow.mapSize.width = 256;
-        this.sun.shadow.mapSize.height = 256;
-        this.sun.shadow.camera.near = 0.5;
-        this.sun.shadow.camera.far = 50 ;
+        if(document.location.pathname == "/desktop/game.php"){
+            this.sun.castShadow = true;
+        
+            //Set up shadow properties for the sun light
+            this.sun.shadow.mapSize.width = 256;
+            this.sun.shadow.mapSize.height = 256;
+            this.sun.shadow.camera.near = 0.5;
+            this.sun.shadow.camera.far = 50 ;
+        }
         
         this.scene.add(this.sun);
         this.scene.add(this.hemisphereLight);

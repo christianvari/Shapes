@@ -123,9 +123,10 @@ export class ObstacleCredits{
             this.obstacle.position.x = 0;
         }
 
-
-        this.obstacle.receiveShadow = true;
-        this.obstacle.castShadow = true;
+        if(document.location.pathname == "/desktop/credits.php"){
+            this.obstacle.receiveShadow = true;
+            this.obstacle.castShadow = true;
+        }
     }
 
 

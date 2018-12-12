@@ -29,14 +29,16 @@ export class Obstacle {
 
         this.center_y = PLAYER_EDGE/2;
         this.obstacle = new Mesh(geometry, material);
-        this.obstacle.castShadow=true;
+        if(document.location.pathname == "/desktop/game.php"){
+            this.obstacle.castShadow=true;
+            this.obstacle.receiveShadow = true;
+        }
         this.playing = false;
         this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
         this.lane;
         this.black_and_white = false;
         this.interceptions = 0;
 
-        this.obstacle.receiveShadow = true;
         this.setPosition(last_tail_position);
         
     }

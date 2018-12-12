@@ -25,8 +25,10 @@ export class Cube {
         var cubeMaterial = new MeshStandardMaterial( { color: color } )
 
         this.player = new Mesh( cubeGeometry, cubeMaterial );
-        this.player.receiveShadow = true;
-        this.player.castShadow=true;
+        if(document.location.pathname == "/desktop/game.php"){
+            this.player.receiveShadow = true;
+            this.player.castShadow=true;
+        }
         this.playerBaseY=edge/2;
         this.player.position.y=this.playerBaseY;
         this.player.position.z=0;

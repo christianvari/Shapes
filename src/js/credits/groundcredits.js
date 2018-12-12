@@ -20,7 +20,9 @@ export class Ground {
         let groundGeometry = new PlaneBufferGeometry(width, heigth);
         let groundMaterial = new MeshStandardMaterial({color : color});
         this.ground = new Mesh(groundGeometry, groundMaterial);
-        this.ground.receiveShadow = true;
+        if(document.location.pathname == "/desktop/credits.php"){
+            this.ground.receiveShadow = true;
+        }
         //this.ground.castShadow=true;
         
         let sideBoxGeometry = new BoxBufferGeometry(sideWidth,sideHeigth, sideLong);
@@ -29,8 +31,10 @@ export class Ground {
         this.rightSide = new Mesh(sideBoxGeometry, sideBoxMaterial);
         this.leftSide = new Mesh(sideBoxGeometry, sideBoxMaterial);
 
-        this.rightSide.receiveShadow = true;
-        this.leftSide.receiveShadow = true;
+        if(document.location.pathname == "/desktop/credits.php"){
+            this.rightSide.receiveShadow = true;
+            this.leftSide.receiveShadow = true;
+        }
         
         this.rightSide.position.x = 4*PLAYER_EDGE +sideWidth/2;
         this.rightSide.position.y = sideHeigth/2;
