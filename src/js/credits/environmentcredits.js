@@ -13,7 +13,12 @@ export class EnviromentCredits {
 		this.clock = new Clock();
 		this.sceneWidth = window.innerWidth;
 		this.sceneHeight = window.innerHeight;
-		this.renderer = new WebGLRenderer({antialias : true});
+		if(document.location.pathname == "/desktop/credits.php"){
+			this.renderer = new WebGLRenderer({antialias : true});
+		}
+		else{
+			this.renderer = new WebGLRenderer();
+		}
 		this.myscene = new MySceneCredits(this.sceneWidth, this.sceneHeight);
 
 
@@ -29,7 +34,9 @@ export class EnviromentCredits {
 
 		this.renderer.setClearColor(0xfffafa, 1); 
 		this.renderer.setPixelRatio( window.devicePixelRatio );
-		this.renderer.shadowMap.enabled = true;//enable shadow
+		if(document.location.pathname == "/desktop/credits.php"){
+			this.renderer.shadowMap.enabled = true;//enable shadow
+		}
 		this.renderer.setSize( this.sceneWidth, this.sceneHeight );
 		document.body.appendChild( this.renderer.domElement );
 	

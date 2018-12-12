@@ -27,7 +27,7 @@ var SCORE_MULTIPLYER = 100;
 export class Enviroment {
 
 	constructor() {
-
+		this.loop = this.goGame.bind(this);
 		this.started = false;
 
 		this.score = 0;
@@ -35,7 +35,12 @@ export class Enviroment {
 		this.clock = new Clock();
 		this.sceneWidth = window.innerWidth;
 		this.sceneHeight = window.innerHeight;
-		this.renderer = new WebGLRenderer({antialias : true});
+		if(document.location.pathname == "/desktop/game.php"){
+			this.renderer = new WebGLRenderer({antialias : true});
+		}
+		else{
+			this.renderer = new WebGLRenderer();
+		}
 		this.myscene = new MyScene(this.sceneWidth, this.sceneHeight);
 
 		this.obstacle_index = 0;
@@ -65,7 +70,9 @@ export class Enviroment {
 
 		this.renderer.setClearColor(0xfffafa, 1); 
 		this.renderer.setPixelRatio( window.devicePixelRatio );
-		this.renderer.shadowMap.enabled = true;//enable shadow
+		if(document.location.pathname == "/desktop/game.php"){
+			this.renderer.shadowMap.enabled = true;//enable shadow
+		}
 		this.renderer.setSize( this.sceneWidth, this.sceneHeight );
 		document.body.appendChild( this.renderer.domElement );
 	
@@ -80,7 +87,7 @@ export class Enviroment {
 
 		if(!this.finished){
 
-			window.requestAnimationFrame(this.goGame.bind(this));//request next update
+			window.requestAnimationFrame(this.loop);//request next update
 
 			if(this.started){
 
