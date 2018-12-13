@@ -12,7 +12,6 @@ div.score{
     width: 100;
     height: 100;
     top: 10px;
-    left: 30px;
     position: absolute;
 }
 
@@ -93,7 +92,6 @@ svg:active path{
 #highscores{
     position: absolute;
     bottom: 8px;
-    left: 16px;
     font-size: 18px;
 }
 
@@ -105,9 +103,9 @@ svg:active path{
 }
 
 td.highscores_table{
-    padding: 0 0px 0 15px;
+    padding: 0 15px 0 15px;
     font-family: 'ShapesFont';
-    font-size: 150%;
+    font-size: 95%;
     font-size-adjust: inherit;
     color: rgb(255, 255, 255);
 }
@@ -149,7 +147,7 @@ td.name_and_scores {
 }  
 #game_over_text {
     font-family: 'ShapesFont';
-    font-size: 600%;
+    font-size: 300%;
     font-size-adjust: inherit;
     color: rgb(255, 255, 255);
 }
