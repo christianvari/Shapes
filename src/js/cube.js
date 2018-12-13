@@ -10,7 +10,7 @@ var:
     currentposition
 */
 
-const time_to_jump = 1.2;
+const time_to_jump = 1.5;
 const h_jump = 0.14;
 var gravity_constant;
 var velocity_to_jump;
