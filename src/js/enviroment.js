@@ -2,7 +2,6 @@ import { MyScene, NUM_OBSTACLES, PLAYER_EDGE } from "./myscene.js";
 import {WebGLRenderer, Clock} from "./lib/three.module.js";
 import {setButtonVisibility, goToPause, DEAD, PLAY, PAUSE} from "./start.js";
 import {MAX_LIGHT_INTENSITY} from "./myscene.js";
-import {BASSO, ALTO} from "./obstacle.js";
 /*
 Class Enviroment
 ***
@@ -10,6 +9,8 @@ var:
     ground
 */
 
+const BASSO = 0;
+const ALTO = 1;
 const MIN_LIVING_OBSTACLES = 8;
 const OBSTACLE_FIRE_RATE_DELTA = 0.1;
 const CHANGE_LEVEL = 1000;
@@ -314,7 +315,7 @@ export class Enviroment {
 		//	it is possible to store a next_command (ex. if a player wants to turn fast or to prevent to collide a obstacle )
 		//	the next_command will start after the termination of the previous one
 		
-		console.log(keyEvent.keyCode);
+		//console.log(keyEvent.keyCode);
 		if(!this.started) return;
 		//console.log(this.myscene.player.command +"  "+this.myscene.player.next_command+"  "+this.myscene.player.currentPosition)
 		if ( keyEvent.keyCode == 37 || keyEvent.keyCode == 65 || keyEvent == "swipeleft") {//left

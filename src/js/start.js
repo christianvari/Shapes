@@ -49,7 +49,7 @@ var isSoundActive = sessionStorage.getItem('isSoundActive');
 if(isSoundActive==null) isSoundActive='true';
 var music=undefined;
 
-document.onload = init();
+$(document).ready(init);
 //init();
 
 
@@ -325,6 +325,7 @@ function sound(){
 }
 
 function initialSound(){
+
 	getMusic();
 	sound();
 }

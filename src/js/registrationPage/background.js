@@ -14,19 +14,19 @@ var cube2;
 const BACKGROND_COLOR = 0xffcc99;
 const SPEED_MULTIPLIER = 0.02;
 
-if(!isWebGLSupported()){
-    alert("Your graphics card does not seem to support WebGL.\n This game will not work.");
-}
-else{
-
-	goLive();
-}
+$(document).ready(goLive);
 
 
 function goLive() {
-    createEnviroment();
 
-    animate();
+    if(!isWebGLSupported()){
+        alert("Your graphics card does not seem to support WebGL.\n This game will not work.");
+    }
+    else{
+    
+        createEnviroment();
+        animate();
+    }
 }
 
 function createEnviroment(){

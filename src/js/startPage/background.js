@@ -14,7 +14,7 @@ const BACKGROND_COLOR = 0xcad8f7;
 const SPEED_MULTIPLIER = 0.02;
 
 
-goLive();
+$(document).ready(goLive);
 
 
 function goLive() {

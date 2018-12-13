@@ -17,7 +17,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <script type="text/javascript" lang="javascript" src="../js/startPage/startPageScript.js"></script>
-        <script type="module" src="../js/startPage/background.js"></script>
+        <script src="../js/build/background_login.js"></script>
     </head>
     <body class="text-center" >
         <div class="background">
