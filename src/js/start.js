@@ -122,11 +122,8 @@ function adjustButtons(){
 				}
 				else if(imgID=="pauseButton"){
 					$svg.click(function(){
-					
-						setButtonVisibility(PAUSE)
-						enviroment.started = false;
-						music.pause();
-						state = PAUSE;
+						goToPause();
+						
 					});
 				}
 				else if(imgID=="restartButton"){
@@ -325,4 +322,11 @@ function sound(){
 function initialSound(){
 	getMusic();
 	sound();
+}
+
+export function goToPause(){
+	setButtonVisibility(PAUSE)
+	enviroment.started = false;
+	music.pause();
+	state = PAUSE;
 }
