@@ -19,15 +19,14 @@
     </head>
     <body id="fullspace">
         <div id = "game_items">
-            <audio id="gameMusic" src="../audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
-            <iframe src="../audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
+            <div id ="music"></div> 
             <script>
                 var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
                 if(!isChrome){
-                    document.getElementById("iframeAudio").remove()
+                    document.getElementById("music").innerHTML = "<audio id='gameMusic' src='../audio/Shapes - soundtrack.mp3' preload='auto' autoplay loop></audio>" ;
                 }
                 else{
-                    document.getElementById("gameMusic").remove()
+                    document.getElementById("music").innerHTML = "<iframe src='../audio/Shapes - soundtrack.mp3' allow='autoplay' style='display:none' id='iframeAudio'></iframe>"; 
                 }
             </script>
             

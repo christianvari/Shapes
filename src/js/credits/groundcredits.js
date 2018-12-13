@@ -1,5 +1,4 @@
 import{PlaneBufferGeometry, MeshStandardMaterial, Mesh, BoxBufferGeometry} from "../lib/three.module.js";
-import { PLAYER_EDGE } from "./myscenecredits.js";
 /*
 Class ground
 ***
@@ -13,9 +12,9 @@ const sideLong = 200;
 
 export class Ground {
 
-    constructor(width, heigth, color){
+    constructor(player_edge, width, heigth, color){
 
-        sideHeigth  = PLAYER_EDGE*2.5;
+        sideHeigth  = player_edge*2.5;
 
         let groundGeometry = new PlaneBufferGeometry(width, heigth);
         let groundMaterial = new MeshStandardMaterial({color : color});
@@ -36,11 +35,11 @@ export class Ground {
             this.leftSide.receiveShadow = true;
         }
         
-        this.rightSide.position.x = 4*PLAYER_EDGE +sideWidth/2;
+        this.rightSide.position.x = 4*player_edge +sideWidth/2;
         this.rightSide.position.y = sideHeigth/2;
         this.rightSide.position.z = -sideLong/2+3;
 
-        this.leftSide.position.x = -(4*PLAYER_EDGE +sideWidth/2);
+        this.leftSide.position.x = -(4*player_edge +sideWidth/2);
         this.leftSide.position.y = sideHeigth/2;
         this.leftSide.position.z = -sideLong/2+3;
                 

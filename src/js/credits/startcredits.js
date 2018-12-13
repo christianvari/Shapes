@@ -1,7 +1,7 @@
 //Import
 import {EnviromentCredits} from "./environmentcredits.js";
 
-init();
+$(document).ready(init);
 
 
 function init() {

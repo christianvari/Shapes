@@ -9,24 +9,24 @@
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="../util/shapes_logo_transparency.png"/>
-        
-        <script type="module" src="../js/credits/startcredits.js"></script>
-        <script src="../js/lib/hammer.min.js"></script>
         <link href="../css/credits_mobile.css" rel="stylesheet"/>
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="../js/lib/hammer.min.js"></script>
+        <script src="../js/build/start_credits.js"></script>
     </head>
 
     <body id="fullspace">
-        <audio id="gameMusic" src="../audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
-        <iframe src="../audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
+        <div id ="music"></div> 
         <script>
             var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
             if(!isChrome){
-                document.getElementById("iframeAudio").remove()
+                document.getElementById("music").innerHTML = "<audio id='gameMusic' src='../audio/Shapes - soundtrack.mp3' preload='auto' autoplay loop></audio>" ;
             }
             else{
-                document.getElementById("gameMusic").remove()
+                document.getElementById("music").innerHTML = "<iframe src='../audio/Shapes - soundtrack.mp3' allow='autoplay' style='display:none' id='iframeAudio'></iframe>"; 
             }
-            
         </script>
         <div class="background">
             

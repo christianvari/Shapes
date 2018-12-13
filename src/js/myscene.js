@@ -35,7 +35,7 @@ export class MyScene {
         this.scene = new Scene();
         this.camera = new MyCamera(sceneWidth, sceneHeight, CAMERA_POSITION, CAMERA_ROTATION_X);
         this.player = new Cube(PLAYER_EDGE, playerColor);
-        this.ground = new Ground(groundWidth, groundHeigth, groundColor);
+        this.ground = new Ground(PLAYER_EDGE, groundWidth, groundHeigth, groundColor);
         this.scene.fog = new Fog(0xffffff, 50, 140)
         this.obstacles = [];
         this.living_obstacles = 0;

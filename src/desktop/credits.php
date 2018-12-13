@@ -9,36 +9,34 @@
         <title>SHAPES</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="../util/shapes_logo_transparency.png"/>
+        <link href="../css/credits.css" rel="stylesheet"/>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script type="module" src="../js/credits/startcredits.js"></script>
-        <link href="../css/credits.css" rel="stylesheet"/>
+        <script src="../js/build/start_credits.js"></script>
     </head>
 
     <body id="fullspace">
-        <audio id="gameMusic" src="../audio/Shapes - soundtrack.mp3" preload="auto" autoplay loop></audio>
-        <iframe src="../audio/Shapes - soundtrack.mp3" allow="autoplay" style="display:none" id="iframeAudio"></iframe> 
-        <script>
-            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-            if(!isChrome){
-                document.getElementById("iframeAudio").remove()
-            }
-            else{
-                document.getElementById("gameMusic").remove()
-            }
-            
-        </script>
-        <div class="background">
+        <div id="credit_items">
+            <div id ="music"></div> 
             <script>
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if(!isChrome){
+                    document.getElementById("music").innerHTML = "<audio id='gameMusic' src='../audio/Shapes - soundtrack.mp3' preload='auto' autoplay loop></audio>" ;
+                }
+                else{
+                    document.getElementById("music").innerHTML = "<iframe src='../audio/Shapes - soundtrack.mp3' allow='autoplay' style='display:none' id='iframeAudio'></iframe>"; 
+                }
                 var screenHeight = screen.height;
                 //console.log("altezza " + screenHeight);
                 if (screenHeight < 800) {
                     //console.log("minore di 800");
-                    $(".background").css("zoom", 0.7);
+                    $("#credit_items").css("zoom", 0.8);
                 }
             </script>
-            <h1>Credits</h1>
-            <h1 id="bottomText">press SPACE to continue to the game</h1>
+            <div class="background">
+                <h1>Credits</h1>
+                <h1 id="bottomText">press SPACE to continue to the game</h1>
+            </div>
         </div>
     </body>
 </html>

@@ -1,4 +1,4 @@
-var Start = (function (exports) {
+(function () {
 	'use strict';
 
 	// Polyfills
@@ -47522,594 +47522,6 @@ var Start = (function (exports) {
 	}
 
 	/*
-	Class cube
-	***
-	var:
-	    player
-	    currentposition
-	*/
-
-	const time_to_jump = 1.5;
-	const h_jump = 0.14;
-	var gravity_constant;
-	var velocity_to_jump;
-	const time_to_change_line=0.3;
-	const n_time_fractions = 62.8;
-	const GO_DOWN_STEP = 0.1;
-
-	class Cube {
-
-	    constructor(edge, color){
-	        this.edge=edge;
-	        var cubeGeometry = new BoxBufferGeometry(edge, edge, edge);
-	        var cubeMaterial = new MeshStandardMaterial( { color: color } );
-
-	        this.player = new Mesh( cubeGeometry, cubeMaterial );
-	        if(document.location.pathname == "/desktop/game.php"){
-	            this.player.receiveShadow = true;
-	            this.player.castShadow=true;
-	        }
-	        this.playerBaseY=edge/2;
-	        this.player.position.y=this.playerBaseY;
-	        this.player.position.z=0;
-	        this.player.position.x=0;
-	        this.currentPosition = 0;
-	        this.command=-1;
-	        this.next_command=-1;
-	        this.time=0;
-	        this.second_turn=false;
-	        this.isTranslating = 0;
-	        this.wantsToTranslate=false;
-	        this.isOnTheSecondLevel = false;
-
-	        this.going_down = false;
-
-
-	        gravity_constant = 8 * h_jump / Math.pow(time_to_jump,2);
-	        velocity_to_jump = 4 * h_jump/time_to_jump;
-	    }
-
-	    getPlayer() {return this.player}
-
-	    getPositionX(){return this.player.position.x}
-	    getPositionY(){return this.player.position.y}
-	    getPositionZ(){return this.player.position.z}
-
-	    getBottomPositionY(){
-	        return this.player.position.y - (this.edge/2);
-	    }
-
-	    goDown(){
-
-	        if(this.going_down){
-	            //console.log("goDown");
-	            if(this.getBottomPositionY() < this.edge/2){
-	                this.playerBaseY = this.edge/2;
-	                this.player.position.y = this.playerBaseY;
-	                this.going_down = false;
-	                this.translateCommand();
-	            }
-	            else{
-	                this.player.position.y -= GO_DOWN_STEP * time_scale;
-	                // this.isOnTheSecondLevel = false;  da riverede per scendere quando in pizzo in pizzo all'ostacolo
-	            }
-	        }
-	    }
-	    
-	    rotate(){
-
-	        /*  commands schema
-
-	              0    1
-	            | -> | -> |
-	            | <- | <- |
-	              2    3
-	        
-	            4 to jump
-	              */
-	        // console.log("y: "+this.player.position.y+" yBase: "+playerBaseY); 
-	        if(this.isTranslating != 0){
-	            this.translateAux();
-	        }
-
-	        
-	        if(this.command==-1) return;
-	        
-	        let teta = 3/2 * ((Math.PI/n_time_fractions)/time_to_change_line)*time_scale;
-	        
-	        if(this.currentPosition==0 && this.command==1 && this.isOnTheSecondLevel){
-	            //console.log("COMMAND 1 UP");
-	            if(!this.second_turn){
-	                
-	                this.player.rotation.z -= teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = this.edge/2;
-	                let b = this.edge;
-	                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
-	                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
-	                
-	                if(this.player.rotation.z < -Math.PI){
-	                    this.player.rotation.z = -Math.PI/2;
-	                    this.player.position.y= this.edge/2;
-	                    this.player.position.x= this.edge;
-	                    this.second_turn=true;
-	                    
-	                }
-	            }else{
-	                //console.log("second turn: "+this.player.rotation.z)
-	                this.player.rotation.z -= teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = 3*this.edge/2;            //check center and continue
-	                let b = 0;
-	                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
-	                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
-	                
-	                if(this.player.rotation.z < -Math.PI){
-	                    
-	                    this.player.rotation.z = -Math.PI;
-	                    this.player.position.y=this.edge/2;
-	                    this.player.position.x=2*this.edge;
-	                    this.second_turn=false;
-	                    this.isOnTheSecondLevel = false;
-	                    this.currentPosition=1;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    this.isOnTheSecondLevel = false;
-	                    this.playerBaseY = this.edge/2;
-	                    
-	                }
-	            }
-	            
-	            return;
-	        }else if(this.currentPosition == 0 && this.command==2 && this.isOnTheSecondLevel){
-	            //console.log("COMMAND 2 UP");
-	            if(!this.second_turn){
-	                
-	                this.player.rotation.z += teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = -this.edge/2;
-	                let b = this.edge;
-	                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
-	                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-	                
-	                if(this.player.rotation.z > Math.PI){
-	                    this.player.rotation.z = Math.PI/2;
-	                    this.player.position.y= this.edge/2;
-	                    this.player.position.x= -this.edge;
-	                    this.second_turn=true;
-	                    
-	                }
-	            }else{
-	                
-	                this.player.rotation.z += teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = -3*this.edge/2;            //check center and continue
-	                let b = 0;
-	                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
-	                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-	                
-	                if(this.player.rotation.z > Math.PI){
-	                    
-	                    this.player.rotation.z = Math.PI;
-	                    this.player.position.y=this.edge/2;
-	                    this.player.position.x=-2*this.edge;
-	                    this.second_turn=false;
-	                    this.isOnTheSecondLevel = false;
-	                    this.currentPosition=-1;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    this.isOnTheSecondLevel = false;
-	                    this.playerBaseY = this.edge/2;
-	                    
-	                }
-	            }
-	            
-	            return;
-	        }else if(this.currentPosition == -1 && this.command==0 && this.isOnTheSecondLevel){
-	            //console.log("COMMAND 0 UP");
-	            if(!this.second_turn){
-	                
-	                this.player.rotation.z -= teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = -3*this.edge/2;
-	                let b = this.edge;
-	                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
-	                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
-	                
-	                if(this.player.rotation.z < 0){
-	                    this.player.rotation.z = Math.PI/2;
-	                    this.player.position.y= this.edge/2;
-	                    this.player.position.x= -this.edge;
-	                    this.second_turn=true;
-	                    
-	                }
-	            }else{
-	                
-	                this.player.rotation.z -= teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = -this.edge/2;            //check center and continue
-	                let b = 0;
-	                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
-	                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
-	                
-	                if(this.player.rotation.z < 0){
-	                    
-	                    this.player.rotation.z = 0;
-	                    this.player.position.y=this.edge/2;
-	                    this.player.position.x=0;
-	                    this.second_turn=false;
-	                    this.isOnTheSecondLevel = false;
-	                    this.currentPosition=0;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    this.isOnTheSecondLevel = false;
-	                    this.playerBaseY = this.edge/2;
-	                    
-	                }
-	            }
-	            
-	            return;
-	        }else if(this.currentPosition == 1 && this.command==3 && this.isOnTheSecondLevel){
-	            //console.log("COMMAND 3 UP");
-	            if(!this.second_turn){
-	                
-	                this.player.rotation.z += teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = 3*this.edge/2;
-	                let b = this.edge;
-	                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
-	                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-	                
-	                if(this.player.rotation.z >0 ){
-	                    this.player.rotation.z = -Math.PI/2;
-	                    this.player.position.y= this.edge/2;
-	                    this.player.position.x= this.edge;
-	                    this.second_turn=true;
-	                    
-	                }
-	            }else{
-	                
-	                this.player.rotation.z += teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = this.edge/2;            //check center and continue
-	                let b = 0;
-	                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
-	                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-	                
-	                if(this.player.rotation.z >0){
-	                    
-	                    this.player.rotation.z = 0;
-	                    this.player.position.y = this.edge/2;
-	                    this.player.position.x = 0;
-	                    this.second_turn=false;
-	                    this.isOnTheSecondLevel = false;
-	                    this.currentPosition=0;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    this.isOnTheSecondLevel = false;
-	                    this.playerBaseY = this.edge/2;
-	                    
-	                }
-	            }
-	            
-	            return;
-	        }
-	        
-	        
-	        teta = ((Math.PI/n_time_fractions)/time_to_change_line)*time_scale;
-
-	        
-
-	        if(this.currentPosition==0 && this.command==1){
-	            //console.log("COMMAND: 1");
-	            if(!this.second_turn){
-	                this.player.rotation.z -= teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = this.edge/2;
-	                let b = -this.edge/2+this.playerBaseY;
-	                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
-	                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
-	                
-	                if(this.player.rotation.z < -Math.PI/2){
-	                    this.player.rotation.z = -Math.PI/2;
-	                    this.player.position.y=this.playerBaseY;
-	                    this.player.position.x=this.edge;
-	                    this.second_turn=true;
-	                }
-	            }else{
-	                this.player.rotation.z -= teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = this.edge+this.edge/2;
-	                let b = -this.edge/2+this.playerBaseY;
-	                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
-	                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
-	                
-	                if(this.player.rotation.z < -Math.PI){
-	                    this.player.rotation.z = -Math.PI;
-	                    this.player.position.y=this.playerBaseY;
-	                    this.player.position.x=2*this.edge;
-	                    this.currentPosition=1;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    this.second_turn=false;
-	                }
-	            }
-	        }else if(this.currentPosition == 0 && this.command==2){
-	            //console.log("COMMAND: 2")
-	            if(!this.second_turn){
-	                this.player.rotation.z += teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = -this.edge/2;
-	                let b = -this.edge/2+this.playerBaseY;
-	                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
-	                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-	                
-	                if(this.player.rotation.z > Math.PI/2){
-	                    this.player.rotation.z = Math.PI/2;
-	                    this.player.position.x=-this.edge;
-	                    this.player.position.y = this.playerBaseY;
-	                    this.second_turn=true;
-	                }
-	            }else{
-	                this.player.rotation.z += teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = -this.edge-this.edge/2;
-	                let b = -this.edge/2+this.playerBaseY;
-	                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
-	                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-	                
-	                if(this.player.rotation.z > Math.PI){
-	                    this.player.rotation.z = Math.PI;
-	                    this.player.position.x=-2*this.edge;
-	                    this.player.position.y = this.playerBaseY;
-	                    this.currentPosition=-1;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    this.second_turn=false;
-	                }
-	            }
-	        }else if(this.currentPosition == -1 && this.command==0){
-	            //console.log("COMMAND: 0")
-	            if(!this.second_turn){
-	                this.player.rotation.z -= teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = -this.edge-this.edge/2;
-	                let b = -this.edge/2+this.playerBaseY;
-	                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
-	                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
-	                
-	                if(this.player.rotation.z < Math.PI/2){
-	                    this.player.rotation.z = Math.PI/2;
-	                    this.player.position.x= -this.edge;
-	                    this.player.position.y=this.playerBaseY;
-	                    this.second_turn=true;
-	                }
-	            }else{
-	                this.player.rotation.z -= teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = -this.edge/2;
-	                let b = -this.edge/2+this.playerBaseY;
-	                this.player.position.x = a + (x-a)*Math.cos(-teta) - (y-b)*Math.sin(-teta);
-	                this.player.position.y = b + (x-a)*Math.sin(-teta) + (y-b)*Math.cos(-teta);
-	                
-	                if(this.player.rotation.z <0){
-	                    this.player.rotation.z = 0;
-	                    this.player.position.x=0;
-	                    this.player.position.y=this.playerBaseY;
-	                    this.currentPosition = 0;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    this.second_turn=false;
-	                }
-	            }
-	        }else if(this.currentPosition == 1 && this.command==3){
-	            //console.log("COMMAND: 3")
-	            if(!this.second_turn){
-	                this.player.rotation.z += teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = this.edge+this.edge/2;
-	                let b = -this.edge/2+this.playerBaseY;
-	                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
-	                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-	                
-	                if(this.player.rotation.z > -Math.PI/2){
-	                    this.player.rotation.z = -Math.PI/2;
-	                    this.player.position.x= this.edge;
-	                    this.player.position.y= this.playerBaseY;
-	                    this.second_turn=true;
-	                }
-	            }else{
-	                this.player.rotation.z += teta;
-	                let x = this.player.position.x;
-	                let y = this.player.position.y;
-	                let a = this.edge/2;
-	                let b = -this.edge/2+this.playerBaseY;
-	                this.player.position.x = a + (x-a)*Math.cos(teta) - (y-b)*Math.sin(teta);
-	                this.player.position.y = b + (x-a)*Math.sin(teta) + (y-b)*Math.cos(teta);
-	                
-	                if(this.player.rotation.z >0){
-	                    this.player.rotation.z = 0;
-	                    this.player.position.x=0;
-	                    this.player.position.y=this.playerBaseY; 
-	                    this.currentPosition = 0;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    this.second_turn=false;
-	                }
-	            }
-	        }else if(this.command==4){ //salto in alto
-	            if(!this.wantsToTranslate){
-	                this.player.position.y += ((-(1/2)*gravity_constant*Math.pow(this.time+0.05,2) + velocity_to_jump*(this.time+0.05))-(-(1/2)*gravity_constant*Math.pow(this.time,2) + velocity_to_jump*this.time))/0.05;
-	                this.time+=0.05;
-
-	                this.player.rotation.x -= (3/2*Math.PI)/(time_to_jump/0.05);
-	                
-	                
-	                if(this.player.position.y < this.playerBaseY){
-	                    this.player.position.y=this.playerBaseY;
-	                    this.player.rotation.x = 0;
-	                    this.command = this.next_command;
-	                    this.next_command=-1;
-	                    
-	                    this.time=0;
-	                }
-	            }
-	        
-	        }
-	        else{
-	            this.command = this.next_command;
-	            this.next_command=-1; 
-	        }
-	        //console.log(this.player.position.x, this.player.position.y, this.currentPosition, this.isOnTheSecondLevel)
-
-	    }
-
-	    translateX(direction){
-
-	        /*
-	              -1    1
-	            | <- | -> |
-	            | -> | <- |
-	              -2    2
-	        */
-	       /*
-	       if(this.jumpingTranslatingIsPossible()==-1 && this.isTranslating==0){
-	           this.wantsToTranslate=true;
-	           if(direction==-1 && this.currentPosition==0)
-	                this.isTranslating=-1;
-	            else if(direction==1 && this.currentPosition==0)
-	                this.isTranslating=1;
-	            else if(direction==-1 && this.currentPosition==1)
-	                this.isTranslating=2;
-	            else if(direction==1 && this.currentPosition==-1)
-	                this.isTranslating=-2;
-	       }*/
-
-	       
-	        
-	        if(this.isTranslating==0 && this.jumpingTranslatingIsPossible()==0){
-	            if(direction==-1 && this.currentPosition==0){
-	                this.isTranslating=-1;
-	                this.wantsToTranslate=true;
-	            }
-	            else if(direction==1 && this.currentPosition==0){
-	                this.isTranslating=1;
-	                this.wantsToTranslate=true;
-	            }
-	            else if(direction==-1 && this.currentPosition==1){
-	                this.isTranslating=2;
-	                this.wantsToTranslate=true;
-	            }
-	            else if(direction==1 && this.currentPosition==-1){
-	                this.isTranslating=-2;
-	                this.wantsToTranslate=true;
-	            }
-	        } 
-	        else{
-	            if(direction==-1 && this.currentPosition==0){
-	                this.setCommand(2);
-	            }
-	            else if(direction==1 && this.currentPosition==0){
-	                this.setCommand(1);
-	            }
-	            else if(direction==-1 && this.currentPosition==1){
-	                this.setCommand(3);
-	            }
-	            else if(direction==1 && this.currentPosition==-1){
-	                this.setCommand(0);
-	            }
-	        }   
-	    }
-
-	    translateAux(){
-	        let inc = 2*((2*this.edge/n_time_fractions)/time_to_change_line)*time_scale;
-	        
-	        if(this.isTranslating==1){
-	            this.player.position.x += inc;
-	            if(this.player.position.x > 2*this.edge){
-	                this.player.position.x = 2*this.edge;
-	                this.isTranslating=0;
-	                this.player.rotation.z = -Math.PI;
-	                this.currentPosition=1;
-	                this.wantsToTranslate=false;
-	            }
-	        }
-	        else if(this.isTranslating== -1){
-	            this.player.position.x -= inc;
-	            if(this.player.position.x < -2*this.edge){
-	                this.player.position.x = -2*this.edge;
-	                this.isTranslating=0;
-	                this.player.rotation.z = Math.PI;
-	                this.currentPosition=-1;
-	                this.wantsToTranslate=false;
-	            }
-	        }
-	        else if(this.isTranslating == 2){
-	            this.player.position.x -= inc;
-	            if(this.player.position.x < 0){
-	                this.player.position.x = 0;
-	                this.isTranslating=0;
-	                this.player.rotation.z = 0;
-	                this.currentPosition = 0;
-	                this.wantsToTranslate=false;
-	            }
-	        }
-	        else if(this.isTranslating == -2){
-	            this.player.position.x += inc;
-	            if(this.player.position.x > 0){
-	                this.player.position.x = 0;
-	                this.isTranslating=0;
-	                this.player.rotation.z = 0;
-	                this.currentPosition = 0;
-	                this.wantsToTranslate=false;
-	            }
-	        }
-
-	    }
-
-	    jumpingTranslatingIsPossible(){
-	        let per = 0.20;
-	        let good_time= (time_to_jump-(time_to_jump*per));
-	        
-	        if(this.time <= good_time){
-	            return 0;
-	        }
-	        else{
-	            return 1;
-	        }
-	    }
-
-	    setCommand(i){
-	        if(this.command==-1) this.command = i;
-	        else if (this.next_command==-1) this.next_command = i;
-	    }
-
-	    setNextCommand(i){
-	        if (this.next_command==-1) this.next_command = i;
-	    }
-
-	    translateCommand(){
-	        this.command = this.next_command;
-	        this.next_command = -1;
-	    }
-	}
-
-	/*
 	Class ground
 	***
 	var:
@@ -48122,14 +47534,14 @@ var Start = (function (exports) {
 
 	class Ground {
 
-	    constructor(player_edge,width, heigth, color){
+	    constructor(player_edge, width, heigth, color){
 
 	        sideHeigth  = player_edge*2.5;
 
 	        let groundGeometry = new PlaneBufferGeometry(width, heigth);
 	        let groundMaterial = new MeshStandardMaterial({color : color});
 	        this.ground = new Mesh(groundGeometry, groundMaterial);
-	        if(document.location.pathname == "/desktop/game.php"){
+	        if(document.location.pathname == "/desktop/credits.php"){
 	            this.ground.receiveShadow = true;
 	        }
 	        //this.ground.castShadow=true;
@@ -48140,7 +47552,7 @@ var Start = (function (exports) {
 	        this.rightSide = new Mesh(sideBoxGeometry, sideBoxMaterial);
 	        this.leftSide = new Mesh(sideBoxGeometry, sideBoxMaterial);
 
-	        if(document.location.pathname == "/desktop/game.php"){
+	        if(document.location.pathname == "/desktop/credits.php"){
 	            this.rightSide.receiveShadow = true;
 	            this.leftSide.receiveShadow = true;
 	        }
@@ -48168,301 +47580,276 @@ var Start = (function (exports) {
 
 	}
 
-	/* Class Obstacle
+	const BLOCK_EDGE = 3;
+	const BLOCK_LENGTH = 10;
+	const INITIAL_POSITION = -150;
+	const FIRST_PHOTO_PATH = "../images/mickey.jpg";
+	const SECOND_PHOTO_PATH = "../images/donald.jpg";
+	const FIRST_TEXT_PATH = "../images/marco.png";
+	const SECOND_TEXT_PATH = "../images/christian.png";
+	const THIRD_TEXT_PATH = "../images/william.png";
+	const THANKS_PATH = "../images/thanks.png";
+	const X_DISPLACEMENT = 2.5;
+	const FIRST_COLOR = 0x0040ff;
+	const SECOND_COLOR = 0xffff00;
+	const FIRST_TEXT_COLOR = 0x0040ff;
+	const SECOND_TEXT_COLOR = 0xffff00;
+	const THIRD_TEXT_COLOR = 0x00ff00;
+	const THANKS_COLOR = 0xffffff;
 
-	*/
+	class ObstacleCredits{
 
-	const LENGHT_SCALE = 30;
-	const DISTANCE = 50;
-	const MIN_DISTANCE = 150;
-	const BASSO = 0;
-	const ALTO = 1;
-	const CENTRO = 0;
-	const DESTRA$1 = 1;
-	const SINISTRA$1 = -1;
-	const MIN_INTERCEPTION_SPACE=4;
-	const MIN_LENGTH = 10;
-	const MIN_GAP = 2;
+	    constructor(i){
 
+	        this.length = BLOCK_LENGTH;
+	        this.obstacle = null;
+	        this.stopped = false;
+	        this.time = 0;
+	        this.positionZ = 0;
 
-	class Obstacle {
+	        if(i==1){
 
-	    constructor(last_tail_position, player_edge){
-	        
-	        this.length = Math.random()*LENGHT_SCALE + MIN_LENGTH;
-	        this.PLAYER_EDGE = player_edge;
+	            var geometry = new BoxBufferGeometry(BLOCK_EDGE, BLOCK_EDGE, BLOCK_LENGTH);
+	            var loader = new TextureLoader();
+	            var texture = loader.load(FIRST_PHOTO_PATH);
+	            var materials = [
+	                new MeshStandardMaterial( { color: FIRST_COLOR}),
+	                new MeshStandardMaterial( { color: FIRST_COLOR}),
+	                new MeshStandardMaterial( { color: FIRST_COLOR}),
+	                new MeshStandardMaterial( { color: FIRST_COLOR}),
+	                new MeshBasicMaterial( { map: texture}),
+	                new MeshStandardMaterial( { color: FIRST_COLOR})
+	            ];
+	            
+	            this.obstacle = new Mesh(geometry, materials);
+	            this.obstacle.position.y = BLOCK_EDGE/2;
+	            this.obstacle.position.z = INITIAL_POSITION;
+	            this.positionZ = INITIAL_POSITION;
+	            this.obstacle.position.x = -X_DISPLACEMENT;
+	        }
 
-	        var geometry = new BoxBufferGeometry(player_edge,player_edge,this.length);
-	        var material = new MeshStandardMaterial();
+	        if(i==2){
+	            var geometry = new BoxBufferGeometry(BLOCK_EDGE, BLOCK_EDGE, BLOCK_LENGTH);
+	            var loader = new TextureLoader();
+	            var texture = loader.load(SECOND_PHOTO_PATH);
+	            var materials = [
+	                new MeshStandardMaterial( { color: SECOND_COLOR}),
+	                new MeshStandardMaterial( { color: SECOND_COLOR}),
+	                new MeshStandardMaterial( { color: SECOND_COLOR}),
+	                new MeshStandardMaterial( { color: SECOND_COLOR}),
+	                new MeshBasicMaterial( { map: texture}),
+	                new MeshStandardMaterial( { color: SECOND_COLOR})
+	            ];
+	            
+	            this.obstacle = new Mesh(geometry, materials);
+	            this.obstacle.position.y = BLOCK_EDGE/2;
+	            this.obstacle.position.z = INITIAL_POSITION;
+	            this.positionZ = INITIAL_POSITION;
+	            this.obstacle.position.x = X_DISPLACEMENT;
+	        }
+	        if (i==3){
+	            var geometry = new BoxBufferGeometry(BLOCK_EDGE, BLOCK_EDGE, BLOCK_LENGTH);
+	            var loader = new TextureLoader();
+	            var texture = loader.load(FIRST_TEXT_PATH);
+	            var materials = [
+	                new MeshStandardMaterial( { color: FIRST_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: FIRST_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: FIRST_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: FIRST_TEXT_COLOR}),
+	                new MeshBasicMaterial( { map: texture}),
+	                new MeshStandardMaterial( { color: FIRST_TEXT_COLOR})
+	            ];
+	            
+	            this.obstacle = new Mesh(geometry, materials);
+	            this.obstacle.position.y = BLOCK_EDGE/2;
+	            this.obstacle.position.z = INITIAL_POSITION;
+	            this.positionZ = INITIAL_POSITION;
+	            this.obstacle.position.x = X_DISPLACEMENT;
+	        }
+	        if (i==4){
+	            var geometry = new BoxBufferGeometry(BLOCK_EDGE, BLOCK_EDGE, BLOCK_LENGTH);
+	            var loader = new TextureLoader();
+	            var texture = loader.load(SECOND_TEXT_PATH);
+	            var materials = [
+	                new MeshStandardMaterial( { color: SECOND_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: SECOND_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: SECOND_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: SECOND_TEXT_COLOR}),
+	                new MeshBasicMaterial( { map: texture}),
+	                new MeshStandardMaterial( { color: SECOND_TEXT_COLOR})
+	            ];
+	            
+	            this.obstacle = new Mesh(geometry, materials);
+	            this.obstacle.position.y = BLOCK_EDGE/2;
+	            this.obstacle.position.z = INITIAL_POSITION;
+	            this.positionZ = INITIAL_POSITION;
+	            this.obstacle.position.x = -X_DISPLACEMENT;
+	        }
+	        if (i==5){
+	            var geometry = new BoxBufferGeometry(BLOCK_EDGE*1.5, BLOCK_EDGE, BLOCK_LENGTH);
+	            var loader = new TextureLoader();
+	            var texture = loader.load(THIRD_TEXT_PATH);
+	            var materials = [
+	                new MeshStandardMaterial( { color: THIRD_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: THIRD_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: THIRD_TEXT_COLOR}),
+	                new MeshStandardMaterial( { color: THIRD_TEXT_COLOR}),
+	                new MeshBasicMaterial( { map: texture}),
+	                new MeshStandardMaterial( { color: THIRD_TEXT_COLOR})
+	            ];
+	            
+	            this.obstacle = new Mesh(geometry, materials);
+	            this.obstacle.position.y = BLOCK_EDGE/2;
+	            this.obstacle.position.z = INITIAL_POSITION;
+	            this.positionZ = INITIAL_POSITION;
+	            this.obstacle.position.x = 0;
+	        }
+	        if (i==6){
+	            var geometry = new BoxBufferGeometry(BLOCK_EDGE*1.5, BLOCK_EDGE, BLOCK_LENGTH);
+	            var loader = new TextureLoader();
+	            var texture = loader.load(THANKS_PATH);
+	            var materials = [
+	                new MeshStandardMaterial( { color: THANKS_COLOR}),
+	                new MeshStandardMaterial( { color: THANKS_COLOR}),
+	                new MeshStandardMaterial( { color: THANKS_COLOR}),
+	                new MeshStandardMaterial( { color: THANKS_COLOR}),
+	                new MeshBasicMaterial( { map: texture}),
+	                new MeshStandardMaterial( { color: THANKS_COLOR})
+	            ];
+	            
+	            this.obstacle = new Mesh(geometry, materials);
+	            this.obstacle.position.y = BLOCK_EDGE/2;
+	            this.obstacle.position.z = INITIAL_POSITION;
+	            this.positionZ = INITIAL_POSITION;
+	            this.obstacle.position.x = 0;
+	        }
 
-	        this.center_y = player_edge/2;
-	        this.obstacle = new Mesh(geometry, material);
-	        if(document.location.pathname == "/desktop/game.php"){
-	            this.obstacle.castShadow=true;
+	        if(document.location.pathname == "/desktop/credits.php"){
 	            this.obstacle.receiveShadow = true;
-	        }
-	        this.playing = false;
-	        this.type = BASSO; //tipo di ostacolo 0 => BASSO, 1 => ALTO
-	        this.lane;
-	        this.black_and_white = false;
-	        this.interceptions = 0;
-
-	        this.setPosition(last_tail_position);
-	        
-	    }
-
-	    setPosition(last_tail_position_z, last_lane,  obstacles){
-
-	        //console.log("setting position");
-
-	        this.setObstacleColor(this.black_and_white);
-
-	        this.chose_lane(last_lane);
-	        //this.setObstacleColor(false);
-
-	        //NO COLLISION ON THE SAME LANE
-	        if(last_tail_position_z[this.lane] == null  || 
-	        (last_tail_position_z[this.lane].getTailPositionZ() >  -1* (MIN_DISTANCE + MIN_LENGTH))){
-
-	            this.obstacle.position.z = -1 * Math.random() * DISTANCE - MIN_DISTANCE - this.length;
-	        }
-	        else{
-	            this.obstacle.position.z = (-1 * Math.random() * DISTANCE) + last_tail_position_z[this.lane].getTailPositionZ() - this.length - MIN_GAP ;
-	        }
-
-	        //NO ALL TALL OBSTACLE IN LINE
-	        this.interceptions = 0;
-	        if(obstacles != undefined){
-	                
-	            for (let i=0; i<obstacles.length; i+=1){
-	                if(this.intercept(obstacles[i])){
-	                    obstacles[i].interceptions += 1+ this.interceptions;
-	                    this.interceptions +=  obstacles[i].interceptions;
-	                    
-	                    //obstacles[i].setObstacleColor(false);
-	                    //this.setObstacleColor(false);
-	                }
-	            }
-	            if(this.interceptions <2){
-	                let scale =  Math.round(Math.random()+1);
-	                this.obstacle.scale.y = scale;
-	                this.type= scale-1;
-	                this.obstacle.position.y = this.PLAYER_EDGE/2 * scale;
-	            }else{
-	                this.obstacle.scale.y = 1;
-	                this.type = BASSO;
-	                this.obstacle.position.y = this.PLAYER_EDGE/2;
-	                //console.log(".");
-	                //console.log("---------CORREGGO----------")
-	                //this.obstacle.material.color.setHex(0x000000);
-	            
-	            }
-	        }
-	        else{
-	            let scale =  Math.round(Math.random()+1);
-	            this.obstacle.scale.y = scale;
-	            this.type= scale-1;
-	            this.obstacle.position.y = this.PLAYER_EDGE/2 * scale;
-	        }
-
-	        //this.setObstacleColor(false);
-
-	    }
-
-	    getObstacle() {return this.obstacle}
-	    getPositionZ() {return this.obstacle.position.z}
-	    getPositionX() {return this.obstacle.position.x}
-	    getPositionY() {return this.obstacle.position.y}
-
-
-	    getTailPositionZ(){
-	        return this.obstacle.position.z - (this.length/2);
-	    }
-
-	    getFrontPositionZ(){
-	        return this.obstacle.position.z + (this.length/2);
-	    }
-
-	    getTop() {
-	        return this.obstacle.position.y*3 ;
-	    }
-
-
-	    setObstacleColor(bianconero){
-	            
-	            if(bianconero){
-	                this.obstacle.material.color.setHex(0xffffff); 
-	            }
-	            else{
-	                /*if(this.interceptions==0)*/ this.obstacle.material.color.setHex(Math.random() * 0xffffff); 
-	                //else if(this.interceptions==1) this.obstacle.material.color.setHex(0xff0000);
-	                //else if(this.interceptions==2) this.obstacle.material.color.setHex(0x00ff00);
-	            }
-	    }
-
-	    setBlackAndWhite(bool){
-	        this.black_and_white = bool;
-	    }
-
-	    getLane(){
-	        return this.lane;
-	    }
-
-	    intercept(obstacle){
-	        //console.log(this.getFrontPositionZ()+"  "+this.getTailPositionZ()+"  "+obstacle.getFrontPositionZ()+"  "+obstacle.getTailPositionZ());
-	        if(obstacle.playing && this.getFrontPositionZ() < obstacle.getFrontPositionZ()+MIN_INTERCEPTION_SPACE && this.getFrontPositionZ() > obstacle.getTailPositionZ()-MIN_INTERCEPTION_SPACE && obstacle.type==ALTO){
-	            return true;
-	        }else if(obstacle.playing && this.getTailPositionZ() < obstacle.getFrontPositionZ()+MIN_INTERCEPTION_SPACE && this.getTailPositionZ()>obstacle.getTailPositionZ()-MIN_INTERCEPTION_SPACE && obstacle.type==ALTO){
-	            return true;
-	        }
-
-	        return false;
-	    }
-
-	    chose_lane(lane){
-	        var randval = Math.random();
-
-	        if(lane==null){
-	            if (randval <= 0.33){
-	                this.lane = 0;
-	                this.obstacle.position.x = SINISTRA$1 * 2*this.PLAYER_EDGE;
-	            }
-	            else if (randval > 0.33 && randval < 0.66){
-	                this.lane = 1;
-	                this.obstacle.position.x = CENTRO;
-	            }
-	            else{
-	                this.lane = 2;
-	                this.obstacle.position.x = DESTRA$1* 2*this.PLAYER_EDGE;
-	            }
-	        }else if(lane==0){
-	            if (randval <= 0.1){
-	                this.lane = 0;
-	                this.obstacle.position.x = SINISTRA$1 * 2*this.PLAYER_EDGE;
-	            }
-	            else if (randval > 0.1 && randval < 0.55){
-	                this.lane = 1;
-	                this.obstacle.position.x = CENTRO;
-	            }
-	            else{
-	                this.lane = 2;
-	                this.obstacle.position.x = DESTRA$1* 2*this.PLAYER_EDGE;
-	            }
-	        }else if(lane==1){
-	            if (randval <= 0.45){
-	                this.lane = 0;
-	                this.obstacle.position.x = SINISTRA$1 * 2*this.PLAYER_EDGE;
-	            }
-	            else if (randval > 0.45 && randval < 0.55){
-	                this.lane = 1;
-	                this.obstacle.position.x = CENTRO;
-	            }
-	            else{
-	                this.lane = 2;
-	                this.obstacle.position.x = DESTRA$1* 2*this.PLAYER_EDGE;
-	            }
-	        }else if(lane==2){
-	            if (randval <= 0.45){
-	                this.lane = 0;
-	                this.obstacle.position.x = SINISTRA$1 * 2*this.PLAYER_EDGE;
-	            }
-	            else if (randval > 0.45 && randval < 0.9){
-	                this.lane = 1;
-	                this.obstacle.position.x = CENTRO;
-	            }
-	            else{
-	                this.lane = 2;
-	                this.obstacle.position.x = DESTRA$1* 2*this.PLAYER_EDGE;
-	            }
+	            this.obstacle.castShadow = true;
 	        }
 	    }
+
+
+	    addStep(i){
+	        this.obstacle.position.z += i;
+	        this.positionZ += i;
+	        //console.log("addStep: "+this.obstacle.position.z+" "+this.positionZ)
+	    }
+
+	    setPositionZ(i){
+	        this.obstacle.position.z = i;
+	        this.positionZ = i;
+	    }
+
+
 	}
 
-	/*
-	Class Enviroment
-	***
-	var:
-	    ground
-	*/
-
-
-	const NUM_OBSTACLES = 10;
 	const PLAYER_EDGE = 1.5;
 
 
 	const CAMERA_POSITION = [0,5,8];
 	const CAMERA_ROTATION_X = -20;
-	const DESTROY_OBSTACLE_Z_POSITION = CAMERA_POSITION[2] + LENGHT_SCALE;
+	const DESTROY_OBSTACLE_Z_POSITION = 10;
 	const MAX_LIGHT_INTENSITY = 0.9;
-	const TIME_STEP = 0.05;
+	const TIME_STEP = 1;
+	const TIME_STOPPED = 140;
+	const STOP_POSITION = -6;
 
-	var playerColor = 0xffffff;
 	var groundWidth = 500;
 	var groundHeigth = 500;
 	var groundColor = 0x000000; 
 
 
 
-	class MyScene {
+	class MySceneCredits {
 	    constructor(sceneWidth, sceneHeight){
 	        
+	        this.notFinished = true;
 	        this.scene = new Scene();
 	        this.camera = new MyCamera(sceneWidth, sceneHeight, CAMERA_POSITION, CAMERA_ROTATION_X);
-	        this.player = new Cube(PLAYER_EDGE, playerColor);
 	        this.ground = new Ground(PLAYER_EDGE, groundWidth, groundHeigth, groundColor);
 	        this.scene.fog = new Fog(0xffffff, 50, 140);
-	        this.obstacles = [];
+	        this.firstObstacle;
+	        this.secondObstacle;
+	        this.thirdObstacle;
+	        this.thanksObstacle;
+	        this.firstText;
 	        this.living_obstacles = 0;
-	        this.VELOCITY_STEP = INITIAL_VELOCITY;
+	        this.VELOCITY_STEP = 0.5;
 	        this.hemisphereLight = new HemisphereLight(0xffffff,0x000000, MAX_LIGHT_INTENSITY);
 	        this.sun = new DirectionalLight( 0xffffff, MAX_LIGHT_INTENSITY);
-	        this.time = 0;
-	        this.isFlashing = false;
-
+	        this.scenetime = 0;
+	        
 	        this.clock = new Clock();
 
-	        this.last_tail_position_z = [null,null,null];
-	        this.last_lane = null;
+	        this.walkingThings = [];
 
-	        this.generateObstacles();
+	        this.generateSituation();
 	        this.addObjectsToScene();
 	    }
 
-	    generateObstacles(){
+	    generateSituation(){
 
-	        for(let i = 0; i< NUM_OBSTACLES; i++){
-	            let o = new Obstacle(this.last_tail_position_z, PLAYER_EDGE);
-	            this.obstacles.push(o);
-	            this.scene.add(o.obstacle);
+
+	        if (this.scenetime == 0){
+	            this.firstObstacle = new ObstacleCredits(1);
+	            this.scene.add(this.firstObstacle.obstacle);
+	            let a = this.walkingThings.push(this.firstObstacle);
+	            
+	            this.firstText = new ObstacleCredits(3);
+	            this.scene.add(this.firstText.obstacle);
+	            this.walkingThings.push(this.firstText);
+	        
+	        }
+	        if (this.scenetime == 250){
+	            this.secondObstacle = new ObstacleCredits(2);
+	            this.scene.add(this.secondObstacle.obstacle);
+	            this.walkingThings.push(this.secondObstacle);
+
+	            this.secondText = new ObstacleCredits(4);
+	            this.scene.add(this.secondText.obstacle);
+	            this.walkingThings.push(this.secondText);
+	        }
+	        if(this.scenetime == 500){
+	            this.thirdText = new ObstacleCredits(5);
+	            this.scene.add(this.thirdText.obstacle);
+	            this.walkingThings.push(this.thirdText);
+	        }
+	        if(this.scenetime == 750){
+	            this.thanksObstacle = new ObstacleCredits(6);
+	            this.scene.add(this.thanksObstacle.obstacle);
+	            this.walkingThings.push(this.thanksObstacle);
+	        }
+	        if(this.scenetime == 1150){
+	            this.notFinished = false;
+	            if(document.location.pathname == "/desktop/credits.php"){
+	                document.onkeydown = this.handleKeyDown.bind(this);
+	            }
+	            else{
+	                this.enableSwipes();
+	            }
+	            
 	        }
 
 	    }
 
-	    startObstacle(){
-	        let index = this.obstacles.findIndex( 
-	            function findPlaying(element){
-	                return !element.playing;
-	            }
-	        );
-	        
-	        let o = this.obstacles[index];
-	        //console.log(this.obstacles);
-	        o.setPosition(this.last_tail_position_z, this.last_lane, this.obstacles);
-	        let lane = o.getLane();
-	        
-	        
-	        this.last_lane = o.getLane();
-	        this.last_tail_position_z[lane] = o;
 
-
-
-	        this.obstacles[index].playing = true;
-	        this.living_obstacles+=1;
-	        
+	    handleKeyDown(keyEvent){
+			if(keyEvent.keyCode == 32){  //this is UP (check space code)
+				window.location.replace("game.php");
+			}else if(keyEvent=="swipeup"){
+	            window.location.replace("game_mobile.php");
+	        }
 	    }
+	    
+	    enableSwipes(){
+			let hammer = new Hammer(document.getElementById("fullspace"));
+			hammer.get('swipe').set({direction: Hammer.DIRECTION_ALL});
+			hammer.on("swipeleft swiperight swipeup", (ev) => (this.handleKeyDown(ev.type)));
+		}
 
 	    addObjectsToScene(){
-	        this.scene.add(this.player.getPlayer());
 	        this.scene.add(this.ground.ground);
 	        this.scene.add(this.ground.rightSide);
 	        this.scene.add(this.ground.leftSide);
@@ -48472,7 +47859,8 @@ var Start = (function (exports) {
 	    addLight(){
 	        
 	        this.sun.position.set( 12,6,7 );
-	        if(document.location.pathname == "/desktop/game.php"){
+
+	        if(document.location.pathname == "/desktop/credits.php"){
 	            this.sun.castShadow = true;
 	        
 	            //Set up shadow properties for the sun light
@@ -48488,156 +47876,85 @@ var Start = (function (exports) {
 
 	    getScene(){return this.scene}
 
-	    obstacleMovement(i){
 
-	        let o = this.obstacles[i];
-	        if(!o.playing) return 0;
+	    getNextMovement(){
 
-	        else if (o.getPositionZ() > DESTROY_OBSTACLE_Z_POSITION) {
-	            o.playing=false;
-	            this.living_obstacles-=1;
-	            return 1;
-	        }
-	        else {
-	            o.getObstacle().position.z += this.VELOCITY_STEP;
-	            return 0;
-	        }
-	    }
-
-	    getObstacleTailPositionZ(i){
-	            return this.obstacles[i].getTailPositionZ();
-	    }
-	    getObstacleFrontPositionZ(i){
-	        return this.obstacles[i].getFrontPositionZ();
-	    }
-
-	    getObstaclePositionZ(i){
-	        return this.obstacles[i].getPositionZ();
-	    }
-
-	    getObstaclePositionX(i){
-	        return this.obstacles[i].getPositionX();
-	    }
-
-	    getObstaclePositionY(i){
-	        return this.obstacles[i].getPositionY();
-	    }
-
-	    getObstacleTop(i){
-	        return this.obstacles[i].getTop();
-	    }
-
-	    setObstacleColor(bianconero){
-
-	        for(let i = 0; i< NUM_OBSTACLES; i++){
-	            this.obstacles[i].setObstacleColor(bianconero);
-	            this.obstacles[i].setBlackAndWhite(bianconero);
+	        //console.log("getNextMovement")
+	        //for update position
+	        for(let i=0; i<this.walkingThings.length; i++){
+	            //console.log(this.walkingThings[i])
+	            this.walk(this.walkingThings[i]);
+	            //console.log("in primo ciclo " + i)
 	        }
 
-
+	        //for update time
+	        for(let i=0; i<this.walkingThings.length; i++){
+	            if(this.walkingThings[i].stopped){
+	                this.walkingThings[i].time += 1;
+	            }
+	        }
+	        this.scenetime += 1;
+	        //console.log(this.scenetime);
+	        this.generateSituation();
 	    }
-	    flashLight(){
-	        if(!this.isFlashing && this.sun.intensity==MAX_LIGHT_INTENSITY) return;
-	        if(!this.isFlashing) {
-	            this.sun.intensity = MAX_LIGHT_INTENSITY; 
-	            this.hemisphereLight.intensity = MAX_LIGHT_INTENSITY; 
-	            this.time = 0; 
-	            return;
+
+	    walk(o){
+	        //console.log("walk")
+	        //console.log(o.stopped +" "+o.positionZ)
+	        if (!o.stopped && o.positionZ < STOP_POSITION){
+	            //console.log("dentro")
+	            o.addStep(TIME_STEP);
+	        }
+	        else if(!o.stopped && o.positionZ >= STOP_POSITION){
+	            o.setPositionZ(STOP_POSITION);
+	            o.stopped = true;
+	        }
+	        else if(o.stopped && o.time<TIME_STOPPED);
+	        else if(o.stopped && o.time > TIME_STOPPED){
+	            o.addStep(TIME_STEP);
+	            if(o.positionZ > DESTROY_OBSTACLE_Z_POSITION){
+	                this.walkingThings.splice(this.walkingThings.indexOf(o),1);
+	            }
 	        }
 
-	        this.sun.intensity = (MAX_LIGHT_INTENSITY/2 * Math.cos(this.time)) + MAX_LIGHT_INTENSITY/2;
-	        this.hemisphereLight.intensity = (MAX_LIGHT_INTENSITY/2 * Math.cos(this.time)) + MAX_LIGHT_INTENSITY/2;
-
-	        this.time += TIME_STEP;
 	    }
-
-	    enableFlashing(){
-	        this.isFlashing = true;
-	    }
-
-	    disableFlashing(){
-	        this.isFlashing = false;
-	    }
-
-
 	}
 
-	/*
-	Class Enviroment
-	***
-	var:
-	    ground
-	*/
+	class EnviromentCredits {
 
-	const BASSO$1 = 0;
-	const MIN_LIVING_OBSTACLES = 8;
-	const OBSTACLE_FIRE_RATE_DELTA = 0.1;
-	const CHANGE_LEVEL = 1000;
-	const VELOCITY_STEP_DELTA = 0.1;
-	const INITIAL_VELOCITY = 0.5;
-	const MAX_LEVEL = 10;
-	const NUM_OF_SPECIAL_LEVELS = 3; 	 //to change if other special levels are added
-	const PERC_NORMAL_LEVEL = 0.5;  	 // 60% to do a normal level
-	var time_scale = 1;
+	    constructor() {
 
-	var OBSTACLE_FIRE_RATE = 1;
-	var SCORE_MULTIPLYER = 100;
-
-
-	class Enviroment {
-
-		constructor() {
-			this.loop = this.goGame.bind(this);
-			this.started = false;
-
-			this.score = 0;
-			this.scoreText;
+	        
 			this.clock = new Clock();
 			this.sceneWidth = window.innerWidth;
 			this.sceneHeight = window.innerHeight;
-			if(document.location.pathname == "/desktop/game.php"){
+			if(document.location.pathname == "/desktop/credits.php"){
 				this.renderer = new WebGLRenderer({antialias : true});
 			}
 			else{
 				this.renderer = new WebGLRenderer();
 			}
-			this.myscene = new MyScene(this.sceneWidth, this.sceneHeight);
+			this.myscene = new MySceneCredits(this.sceneWidth, this.sceneHeight);
 
-			this.obstacle_index = 0;
-			this.player_on_obstacle_index = -1;
-			this.level = 0;
-			this.special_level = -1;
-
-			this.isLiving=true;
-			this.finished=false;
 
 			//Install Event Handler
 			window.addEventListener('resize', this.onWindowResize.bind(this), false);//resize callback
-			if(document.location.pathname == "/desktop/game.php"){
-				document.onkeydown = this.handleKeyDown.bind(this);
-			}
-			else{
-				document.onkeydown = this.handleKeyDown.bind(this);
-				this.enableSwipes();
-			}
+			//document.onkeydown = this.handleKeyDown.bind(this);
 
 			//Inizialize Interface
 			this.inizializeCanvas();
-
-
 		}
 
 		inizializeCanvas(){
 
 			this.renderer.setClearColor(0xfffafa, 1); 
 			this.renderer.setPixelRatio( window.devicePixelRatio );
-			if(document.location.pathname == "/desktop/game.php"){
+			if(document.location.pathname == "/desktop/credits.php"){
 				this.renderer.shadowMap.enabled = true;//enable shadow
 			}
 			this.renderer.setSize( this.sceneWidth, this.sceneHeight );
 			document.body.appendChild( this.renderer.domElement );
 		
-			this.scoreText = document.getElementById("scoreText");
 		}
 
 		renderize(){
@@ -48646,211 +47963,25 @@ var Start = (function (exports) {
 
 		goGame(){
 
-			if(!this.finished){
+			window.requestAnimationFrame(this.goGame.bind(this));//request next update
 
-				window.requestAnimationFrame(this.loop);//request next update
-
-				if(this.started){
-
-					if(this.isLiving){
-
-						this.myscene.player.rotate();
-						this.myscene.player.goDown();
-						this.obstacleLogic();
-						this.myscene.camera.rotate();
-						this.myscene.flashLight();
-					}
-					else{
-						this.myscene.sun.intensity = MAX_LIGHT_INTENSITY; 
-	            		this.myscene.hemisphereLight.intensity = MAX_LIGHT_INTENSITY; 
-						this.die();
-					}
-				}
-				this.renderize();
-			}
-			else {
-				setButtonVisibility(DEAD);
-				
-				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						document.getElementById("new_record").innerHTML = "<h1 id = 'game_over_text'>"+this.responseText+"</h1>";
-
-					}
-				};
-				xmlhttp.open("GET", "../server_side/setHighscore.php?q=" + this.score, true);
-				xmlhttp.send();
-				document.getElementById("game_over").innerHTML = "<h1 id='game_over_text'>Game Over</h1>";
-				document.getElementById("score_on_gameover").innerHTML ="<h1 id = 'game_over_text'>" + this.score + "</h1>";
-			}
-
-			
-		}
-
-		die(){
-
-			this.myscene.player.getPlayer().rotation.y += 5 * Math.PI/180;
-
-			if(!(this.myscene.player.getPlayer().position.x < 0.05 && this.myscene.player.getPlayer().position.x> -0.05))
-			{
-				if(this.myscene.player.currentPosition == -1){
-				this.myscene.player.getPlayer().position.x += 0.05;
-				}
-				else if(this.myscene.player.currentPosition == 1){
-					this.myscene.player.getPlayer().position.x -= 0.05;
-				}
-			}
-			if(! (this.myscene.player.getPlayer().position.z > 2)){
-				this.myscene.player.getPlayer().position.z +=0.05;
-			}
-
-			if(! (this.myscene.player.getPlayer().position.y > 3)){
-				this.myscene.player.getPlayer().position.y +=0.05;
-			}
-			if (this.myscene.player.getPlayer().scale.x > 0){
-				this.myscene.player.getPlayer().scale.x-=0.005;
-				this.myscene.player.getPlayer().scale.z-=0.005;
-				this.myscene.player.getPlayer().scale.y-=0.005;
-
-			}
-			else {
-				this.finished = true;
-			}
-
-			
-		}
-
-		gameOver(){
-
-			this.isLiving = false;
-
-		}
-
-		collisionLogic(i){
-
-
-			if(this.myscene.player.isOnTheSecondLevel ){
-
-				if(this.player_on_obstacle_index == i){
-					if((this.myscene.player.getPositionZ() + (PLAYER_EDGE/2)  < this.myscene.getObstacleTailPositionZ(i))) {
-
-
-						//console.log("SCENDO");
-						
-						this.myscene.player.going_down = true;
-						this.myscene.player.isOnTheSecondLevel=false;
-						this.player_on_obstacle_index = -1;
-					}
-					else if(this.myscene.player.getPositionX() != this.myscene.getObstaclePositionX(i)){
-
-						//console.log(this.myscene.player.command + " "+
-						//(this.myscene.player.getPositionX() /*- (PLAYER_EDGE/2)*/+ " > " + this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2)));
-
-
-						if(/*((*/(this.myscene.player.command == 0|| this.myscene.player.command == 1)/*) && 
-						(this.myscene.player.getPositionX() - (PLAYER_EDGE/2) > this.myscene.getObstaclePositionX(i)+ (PLAYER_EDGE/2)))*/
-						|| /*((*/(this.myscene.player.command == 2|| this.myscene.player.command == 3))/* && 
-						(this.myscene.player.getPositionX() + (PLAYER_EDGE/2) < this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2)))
-						)*/{
-
-							//console.log("SCENDO DI LATO)");
-
-							//this.myscene.player.going_down = true;
-							
-							this.player_on_obstacle_index = -1;
-							
-						}
-						else{
-							let landingOnObstacle=false;
-							for (let j=0; j<NUM_OBSTACLES; j+=1){
-								if(this.myscene.player.getPositionX() == this.myscene.obstacles[j].getPositionX()
-										&& this.myscene.obstacles[j].getFrontPositionZ() >= this.myscene.player.getPositionZ()+PLAYER_EDGE
-										&& this.myscene.obstacles[j].getTailPositionZ() <= this.myscene.player.getPositionZ()-PLAYER_EDGE
-										&& this.myscene.obstacles[j].type==BASSO$1){
-											landingOnObstacle=true;
-											this.player_on_obstacle_index = j;		
-								}
-							}
-							if(!landingOnObstacle && this.myscene.player.command!=4){
-								this.myscene.player.going_down = true;
-								this.myscene.player.isOnTheSecondLevel=false;
-								this.player_on_obstacle_index = -1;
-							}
-						}
-					}
-				}
+			if(this.myscene.notFinished){
+				this.myscene.getNextMovement();
+				//console.log("goGame");
 			}
 			else{
-
-				if(this.myscene.player.getPositionZ() - (PLAYER_EDGE/2) <= this.myscene.getObstacleFrontPositionZ(i) && 
-				this.myscene.player.getPositionZ() >= this.myscene.getObstacleTailPositionZ(i)){
-					
-					if((this.myscene.player.getPositionX() - (PLAYER_EDGE/2) == this.myscene.getObstaclePositionX(i) + (PLAYER_EDGE/2))
-						|| (this.myscene.player.getPositionX() + (PLAYER_EDGE/2) == this.myscene.getObstaclePositionX(i) - (PLAYER_EDGE/2))
-						|| (this.myscene.player.getPositionX() == this.myscene.getObstaclePositionX(i))){
-
-						if(this.myscene.player.getPositionY() > this.myscene.getObstacleTop(i) && !this.myscene.player.isOnTheSecondLevel){
-							
-							//console.log("SALGO");
-
-							this.myscene.player.playerBaseY = this.myscene.getObstacleTop(i);
-							this.myscene.player.isOnTheSecondLevel = true;
-							this.player_on_obstacle_index = i;
-						}
-						else{
-							if(!this.myscene.player.isOnTheSecondLevel) //al secondo livello non si muore
-								this.gameOver();
-						}
-					}
-				}
-			}
-			
-		}
-
-		changeLevel(){
-
-			// MAX_LEVEL is only used to know if I can accelerate obstacle
-			// player can play forever and levels will change without changing velocity
-			if( this.level < MAX_LEVEL){
-				OBSTACLE_FIRE_RATE -= OBSTACLE_FIRE_RATE_DELTA;
-				this.myscene.VELOCITY_STEP += VELOCITY_STEP_DELTA;
-				time_scale += (VELOCITY_STEP_DELTA*1/5)/INITIAL_VELOCITY;
-				//console.log(time_scale)
+				//this.spaunText("press SPACE to continue");
+				document.getElementById("bottomText").style.visibility = "visible";
 				
+	            
 			}
 
-			this.changeLevelAux();
-		}
+			this.renderize();
 
-		scorelogic(new_points){
-
-			this.score += new_points * SCORE_MULTIPLYER; 
-			this.scoreText.innerHTML= this.score.toString();
-			
-			if(Math.floor(this.score / CHANGE_LEVEL) != this.level){
-				this.changeLevel();
-				this.level += 1;
-			}
 
 		}
 
-		obstacleLogic(){
-			let living_obstacles = this.myscene.living_obstacles;
-			//console.log(living_obstacles);
-			if(living_obstacles < MIN_LIVING_OBSTACLES  && this.clock.getElapsedTime() > OBSTACLE_FIRE_RATE){
-				this.clock.elapsedTime = 0;
-				this.myscene.startObstacle();
-			}
-			let new_points = 0;
-			for(let i =0; i<NUM_OBSTACLES; i+=1){
-				new_points += this.myscene.obstacleMovement(i);
 
-				this.collisionLogic(i);
-			}
-
-			this.scorelogic(new_points);
-
-		}
 
 		onWindowResize() {
 			//resize & align
@@ -48861,470 +47992,23 @@ var Start = (function (exports) {
 			this.myscene.camera.getCamera().updateProjectionMatrix();
 		}
 		
-		handleKeyDown(keyEvent){
-
-			/*	commands schema
-
-	              0    1
-	            | -> | -> |
-	            | <- | <- |
-	              2    3
-	        */
-			//I store in command the actual command to start,
-			//	it is possible to store a next_command (ex. if a player wants to turn fast or to prevent to collide a obstacle )
-			//	the next_command will start after the termination of the previous one
-			
-			//console.log(keyEvent.keyCode);
-			if(!this.started) return;
-			//console.log(this.myscene.player.command +"  "+this.myscene.player.next_command+"  "+this.myscene.player.currentPosition)
-			if ( keyEvent.keyCode == 37 || keyEvent.keyCode == 65 || keyEvent == "swipeleft") {//left
-				
-				if(this.myscene.player.command==-1){
-					
-						if(this.myscene.player.currentPosition==0){
-							this.myscene.player.command=2;
-						}
-						else if(this.myscene.player.currentPosition==1){
-							this.myscene.player.command=3;
-						}	
-				}else if(this.myscene.player.command == 4){
-					
-					this.myscene.player.translateX(-1);					
-					
-				}else if(this.myscene.player.next_command==-1){
-					if(this.myscene.player.currentPosition==0 && this.myscene.player.command==1) this.myscene.player.next_command=3;
-					else if(this.myscene.player.currentPosition==-1 && this.myscene.player.command==0) this.myscene.player.next_command=2;
-					else if(this.myscene.player.currentPosition==1 && this.myscene.player.command==3) this.myscene.player.next_command=2;
-				}
-			
-			}else if(keyEvent.keyCode == 39 || keyEvent.keyCode == 68 || keyEvent=="swiperight"){//right
-				if(this.myscene.player.command==-1){
-						
-					if(this.myscene.player.currentPosition==0){
-						this.myscene.player.command=1;
-					}
-					else if(this.myscene.player.currentPosition==-1){
-						this.myscene.player.command=0;
-					}	
-				}else if(this.myscene.player.command == 4){
-					this.myscene.player.translateX(1);
-					
-				}else if(this.myscene.player.next_command==-1){
-					if(this.myscene.player.currentPosition==1 && this.myscene.player.command==3) this.myscene.player.next_command=1;
-					else if(this.myscene.player.currentPosition==-1 && this.myscene.player.command==0) this.myscene.player.next_command=1;
-					else if(this.myscene.player.currentPosition==0 && this.myscene.player.command==2) this.myscene.player.next_command=0;
-				}
-			}
-			else if((keyEvent.keyCode == 38 || keyEvent.keyCode == 87 || keyEvent.keyCode == 32 || keyEvent=="swipeup") 
-				&& !this.myscene.player.isOnTheSecondLevel && this.myscene.player.command==-1 && this.myscene.player.going_down==false){//up
-
-				
-				this.myscene.player.command=4;
-				
-			}
-			else if(keyEvent.keyCode == 80){ // key 'P'
-				goToPause();
-			}
-		}
-
-		enableSwipes(){
-			let hammer = new Hammer(document.getElementById("fullspace"));
-			hammer.get('swipe').set({direction: Hammer.DIRECTION_ALL});
-			hammer.on("swipeleft swiperight swipeup", (ev) => (this.handleKeyDown(ev.type)));
-		}
-
-		changeLevelAux(){		// random chosing between normal and special level
-			let x = Math.random();
-			
-			this.turnOffSpecial();	//need to turn off some special features that can be enabled (colors, camera rotation and other)
-			
-			if(x < PERC_NORMAL_LEVEL) this.changeToNormalLevel();
-			else this.changeToSpecialLevel();	
-		}
-
-		changeToNormalLevel(){
-				
-			this.myscene.ground.changeColor(Math.random() * 0xffffff);
-		}
-
-		changeToSpecialLevel(){
-			
-			let x = Math.floor(Math.random() * NUM_OF_SPECIAL_LEVELS); //remember to modify NUM_OF_SPECIAL_LEVELS if you add one
-
-			this.special_level = x;
-			if (x==0) this.blackAndWhite();
-			else if (x==1) this.rotationLevel();
-			else if (x==2) this.flashingLights();
-
-
-		}
-
-		turnOffSpecial(){	// each unset for special feature is to be added 
-
-
-			if(this.special_level == 0) this.myscene.setObstacleColor(false);
-			else if(this.special_level == 1) this.myscene.camera.unsetRotation();
-			else if(this.special_level == 2)this.myscene.disableFlashing();
-
-			this.special_level = -1;
-		}
-
-		/* SPECIAL LEVELS */
-
-		blackAndWhite(){
-			this.myscene.ground.changeColor(0x000000);
-			this.myscene.setObstacleColor(true);
-		}
-
-		rotationLevel(){
-			this.changeToNormalLevel();  // only to change color
-			this.myscene.camera.setRotation();
-		}
-
-		flashingLights(){
-			this.changeToNormalLevel();
-			this.myscene.enableFlashing();
-		}
-
 
 	}
 
 	//Import
 
-
-	var enviroment;
-	const PLAY = 1;
-	const PAUSE = 2;
-	const DEAD = 3;
-
-	var restartButtonparent = document.getElementById("centerdiv");
-	var restartButton = document.createElement("img") ;
-	restartButton.setAttribute("src", "../images/retry1.svg");
-	restartButton.setAttribute("id", "restartButton");
-	restartButton.setAttribute("class", "svg");
-
-	var playButtonparent = document.getElementById("centerdiv");
-	var playButton = document.createElement("img") ;
-	playButton.setAttribute("src", "../images/play.svg");
-	playButton.setAttribute("id", "playButton");
-	playButton.setAttribute("class", "svg");
-
-	var pauseButtonparent = document.getElementById("topright");
-	var pauseButton = document.createElement("img") ;
-	pauseButton.setAttribute("src", "../images/pause.svg");
-	pauseButton.setAttribute("id", "pauseButton");
-	pauseButton.setAttribute("class", "svg inTopRight");
-
-	var infoButtonparent = document.getElementById("bottomright");
-	var infoButton = document.createElement("img");
-	infoButton.setAttribute("src", "../images/info.svg");
-	infoButton.setAttribute("id", "infoButton");
-	infoButton.setAttribute("class", "svg inBottomRight");
-
-	var muteButton =  document.createElement("img");
-	muteButton.setAttribute("src", "../images/sound.svg");
-	muteButton.setAttribute("id", "muteButton");
-	muteButton.setAttribute("class", "svg inTopRight");
-	var soundButton = document.createElement("img");
-	soundButton.setAttribute("src", "../images/mute.svg");
-	soundButton.setAttribute("id", "soundButton");
-	soundButton.setAttribute("class", "svg inTopRight");
-	var soundButtonparent = document.getElementById("topright");
-
-
-	var isSoundActive = sessionStorage.getItem('isSoundActive');
-	if(isSoundActive==null) isSoundActive='true';
-	var music=undefined;
-
 	$(document).ready(init);
-	//init();
-
-
-	function getHighscore(){
-		var xmlhttp = new XMLHttpRequest();
-	    xmlhttp.onreadystatechange = function() {
-	        if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("highscores").innerHTML = this.responseText;
-			}
-		};
-		xmlhttp.open("GET", "../server_side/getHighscore.php", true);
-		xmlhttp.send();
-	}
 
 
 	function init() {
-		initialSound();
-		getHighscore();
-		
-		window.setInterval(getHighscore, 10000);
-		
+
 		// set up the scene
-		//
-		setButtonVisibility(PLAY);
-		adjustButtons();
-		enviroment = new Enviroment();
-		
+		var enviromentcredits = new EnviromentCredits();
+
 		//GO
-		//sound();
-		enviroment.goGame();
-		enviroment.started = true;
-		//enviroment.goGame();
-
-		getMusic();
-	}
-
-	function adjustButtons(){
-
-		$(function() {
-			$('img.svg').each(function() {
-				var $img = $(this);
-				var imgID = $img.attr('id');
-				var imgClass = $img.attr('class');
-				var imgURL = $img.attr('src');
-				$.get(imgURL, function(data) {
-					
-					var $svg = $(data).find('svg');
-		
-					if (typeof imgID !== 'undefined') {
-						$svg = $svg.attr('id', imgID);
-					}
-					
-					if (typeof imgClass !== 'undefined') {
-						$svg = $svg.attr('class', imgClass + ' replaced-svg');
-					}
-
-					$svg = $svg.removeAttr('xmlns:a');
-			
-					$img.replaceWith($svg);
-					
-					//add event handler
-					if( imgID=="playButton"){
-						$svg.click(function(){
-							
-							setButtonVisibility(PLAY);
-							enviroment.started = true;
-							music.play();
-						});
-					}
-					else if(imgID=="pauseButton"){
-						$svg.click(function(){
-							goToPause();
-							
-						});
-					}
-					else if(imgID=="restartButton"){
-						$svg.click(function(){
-							window.location.reload();
-						});
-					}
-					else if(imgID=="soundButton" || imgID == "muteButton"){
-						$svg.click(function(){
-							changeSound();
-						});
-					}
-					else if(imgID == "infoButton"){
-						$svg.click(function(){
-							if(document.location.pathname == "/desktop/game.php"){
-								window.location.replace("credits.php");
-							}
-							else{
-								window.location.replace("credits_mobile.php");
-							}
-						});
-					}
-					
-				}, 'xml');
-			});
-			
-		});
-	}
-
-
-	function setButtonVisibility(s){
-		
-		if(s==PAUSE){
-			console.log("PAUSE");
-			pauseButtons();
-		}
-		else if(s==PLAY){
-			console.log("PLAY");
-			playButtons();
-		}
-		else if(s == DEAD){
-			console.log("DEAD");
-			deadButtons();
-		}
-	}
-
-
-	function playButtons(){
-		if(document.getElementById("infoButton") != undefined){
-			infoButton = document.getElementById("infoButton");
-			infoButtonparent = infoButton.parentNode;
-			infoButtonparent.removeChild(infoButton);
-		}
-		if(document.getElementById("playButton") != undefined){
-			playButton = document.getElementById("playButton");
-			playButtonparent = playButton.parentNode;
-			playButtonparent.removeChild(playButton);
-		}
-		if(document.getElementById("pauseButton") == undefined){
-			pauseButtonparent.appendChild(pauseButton);
-			if(isSoundActive=='true'){
-				if(document.getElementById("muteButton") != undefined){
-					pauseButtonparent.removeChild(document.getElementById("muteButton"));
-				}
-				if(document.getElementById("soundButton") == undefined){
-					pauseButtonparent.appendChild(muteButton);
-				}
-			}else{
-				if(document.getElementById("soundButton") != undefined){
-					pauseButtonparent.removeChild(document.getElementById("soundButton"));
-				}
-				if(document.getElementById("muteButton") == undefined){
-					pauseButtonparent.appendChild(soundButton);
-				}
-			}
-		}
-		if(document.getElementById("restartButton") != undefined){
-			restartButton = document.getElementById("restartButton");
-			restartButtonparent = restartButton.parentNode;
-			restartButtonparent.removeChild(document.getElementById("restartButton"));
-		}
-		if(document.getElementById("infoButton") != undefined){
-			infoButton = document.getElementById("infoButton");
-			infoButtonparent = infoButton.parentNode;
-			infoButtonparent.removeChild(infoButton);
-		}
-		adjustButtons();
-	}
-
-	function pauseButtons(){
-		if(document.getElementById("playButton") == undefined){
-			playButtonparent.appendChild(playButton);
-		}
-		if(document.getElementById("pauseButton") != undefined){
-			pauseButton = document.getElementById("pauseButton");
-			pauseButtonparent = pauseButton.parentNode;
-			pauseButtonparent.removeChild(pauseButton);
-		}
-		if(document.getElementById("restartButton") != undefined){
-			restartButton = document.getElementById("restartButton");
-			restartButtonparent = restartButton.parentNode;
-			restartButtonparent.removeChild(document.getElementById("restartButton"));
-		}
-		if(document.getElementById("infoButton") != undefined){
-			infoButton = document.getElementById("infoButton");
-			infoButtonparent = infoButton.parentNode;
-			infoButtonparent.removeChild(infoButton);
-		}
-		adjustButtons();
-	}
-
-	function deadButtons(){
-		if(document.getElementById("infoButton") == undefined){
-			infoButtonparent.appendChild(infoButton);
-		}
-		if(document.getElementById("playButton") != undefined){
-			playButton = document.getElementById("playButton");
-			playButtonparent = playButton.parentNode;
-			playButtonparent.removeChild(playButton);
-		}
-		if(document.getElementById("pauseButton") != undefined){
-			pauseButton = document.getElementById("pauseButton");
-			pauseButtonparent = pauseButton.parentNode;
-			pauseButtonparent.removeChild(pauseButton);
-		}
-		if(document.getElementById("restartButton") == undefined){
-			restartButtonparent.appendChild(restartButton);
-		}
-		adjustButtons();
-	}
-
-	function changeSound(){
-		getMusic();
-		console.log(isSoundActive);
-		console.log(music);
-		if(music!=undefined){
-			if( isSoundActive=='true'){
-				console.log("è attivo");
-				let mute = document.getElementById("muteButton");
-				if(mute!=undefined){
-					soundButtonparent.removeChild(mute); 
-				}
-				let sound = document.getElementById("soundButton");
-				if(sound == undefined){
-					soundButtonparent.appendChild(soundButton);
-				}
-				
-				isSoundActive = 'false';
-				sessionStorage.setItem('isSoundActive', 'false');
-			}
-			else{
-				console.log("non è attivo");
-
-				let sound = document.getElementById("soundButton");
-				if(sound!=undefined){
-					soundButtonparent.removeChild(sound);
-				}
-				let mute = document.getElementById("muteButton");
-				if(mute==undefined){
-					soundButtonparent.appendChild(muteButton);
-				}
-				
-				
-				isSoundActive = 'true';
-				sessionStorage.setItem('isSoundActive', 'true');
-			}
-			sound();
-		}	
-		console.log(isSoundActive);
-
-		adjustButtons();
-	}
-
-	function getMusic(){
-		if(document.getElementById("gameMusic") != undefined){ music = document.getElementById("gameMusic");}
-		else if (document.getElementById("iframeAudio") != undefined) {
-			var iframe = document.getElementById('iframeAudio');
-			var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-			if(innerDoc.getElementsByName('media')[0]!= undefined){
-				music = innerDoc.getElementsByName('media')[0];
-			}
-			
-		}
-		//sound();
+		document.getElementById("bottomText").style.visibility = "hidden";
+		enviromentcredits.goGame();
 
 	}
 
-	function sound(){
-		
-		if(isSoundActive=='true' && music!=undefined){
-			music.muted = false;
-		}
-		else{
-			music.muted = true;
-		}
-	}
-
-	function initialSound(){
-
-		getMusic();
-		sound();
-	}
-
-	function goToPause(){
-		setButtonVisibility(PAUSE);
-		enviroment.started = false;
-		music.pause();
-	}
-
-	exports.PLAY = PLAY;
-	exports.PAUSE = PAUSE;
-	exports.DEAD = DEAD;
-	exports.setButtonVisibility = setButtonVisibility;
-	exports.goToPause = goToPause;
-
-	return exports;
-
-}({}));
+}());
