@@ -40,6 +40,7 @@ export class MySceneCredits {
         this.firstObstacle;
         this.secondObstacle;
         this.thirdObstacle;
+        this.thanksObstacle;
         this.firstText;
         this.living_obstacles = 0;
         this.VELOCITY_STEP = 0.5;
@@ -82,7 +83,12 @@ export class MySceneCredits {
             this.scene.add(this.thirdText.obstacle);
             this.walkingThings.push(this.thirdText);
         }
-        if(this.scenetime == 850){
+        if(this.scenetime == 750){
+            this.thanksObstacle = new ObstacleCredits(6);
+            this.scene.add(this.thanksObstacle.obstacle);
+            this.walkingThings.push(this.thanksObstacle);
+        }
+        if(this.scenetime == 1150){
             this.notFinished = false;
             document.onkeydown = this.handleKeyDown.bind(this);
             

@@ -8,12 +8,14 @@ const SECOND_PHOTO_PATH = "../images/donald.jpg";
 const FIRST_TEXT_PATH = "../images/marco.png";
 const SECOND_TEXT_PATH = "../images/christian.png";
 const THIRD_TEXT_PATH = "../images/william.png";
+const THANKS_PATH = "../images/thanks.png";
 const X_DISPLACEMENT = 2.5;
 const FIRST_COLOR = 0x0040ff;
 const SECOND_COLOR = 0xffff00;
 const FIRST_TEXT_COLOR = 0x0040ff;
 const SECOND_TEXT_COLOR = 0xffff00;
 const THIRD_TEXT_COLOR = 0x00ff00;
+const THANKS_COLOR = 0xffffff;
 
 export class ObstacleCredits{
 
@@ -114,6 +116,25 @@ export class ObstacleCredits{
                 new MeshStandardMaterial( { color: THIRD_TEXT_COLOR}),
                 new MeshBasicMaterial( { map: texture}),
                 new MeshStandardMaterial( { color: THIRD_TEXT_COLOR})
+            ];
+            
+            this.obstacle = new Mesh(geometry, materials);
+            this.obstacle.position.y = BLOCK_EDGE/2;
+            this.obstacle.position.z = INITIAL_POSITION;
+            this.positionZ = INITIAL_POSITION;
+            this.obstacle.position.x = 0;
+        }
+        if (i==6){
+            var geometry = new BoxBufferGeometry(BLOCK_EDGE*1.5, BLOCK_EDGE, BLOCK_LENGTH);
+            var loader = new TextureLoader();
+            var texture = loader.load(THANKS_PATH);
+            var materials = [
+                new MeshStandardMaterial( { color: THANKS_COLOR}),
+                new MeshStandardMaterial( { color: THANKS_COLOR}),
+                new MeshStandardMaterial( { color: THANKS_COLOR}),
+                new MeshStandardMaterial( { color: THANKS_COLOR}),
+                new MeshBasicMaterial( { map: texture}),
+                new MeshStandardMaterial( { color: THANKS_COLOR})
             ];
             
             this.obstacle = new Mesh(geometry, materials);
