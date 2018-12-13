@@ -57,6 +57,7 @@ export class Enviroment {
 			document.onkeydown = this.handleKeyDown.bind(this);
 		}
 		else{
+			document.onkeydown = this.handleKeyDown.bind(this);
 			this.enableSwipes();
 		}
 
