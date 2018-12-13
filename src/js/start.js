@@ -191,10 +191,10 @@ function playButtons(){
 				pauseButtonparent.appendChild(muteButton);
 			}
 		}else{
-			if(document.getElementById("muteButton") != undefined){
+			if(document.getElementById("soundButton") != undefined){
 				pauseButtonparent.removeChild(document.getElementById("soundButton"));
 			}
-			if(document.getElementById("soundButton") == undefined){
+			if(document.getElementById("muteButton") == undefined){
 				pauseButtonparent.appendChild(soundButton);
 			}
 		}
@@ -258,9 +258,9 @@ function changeSound(){
 	getMusic();
 	if(music!=undefined){
 		if(isSoundActive=='true'){
-			muteButton = document.getElementById("muteButton");
-			if(muteButton!=undefined){
-				soundButtonparent.removeChild(muteButton); 
+			let mute = document.getElementById("muteButton");
+			if(mute!=undefined){
+				soundButtonparent.removeChild(mute); 
 			}
 			let sound = document.getElementById("soundButton");
 			if(sound == undefined){
@@ -271,9 +271,9 @@ function changeSound(){
 			sessionStorage.setItem('isSoundActive', 'false');
 		}
 		else{
-			soundButton = document.getElementById("soundButton");
-			if(soundButton!=undefined){
-				soundButtonparent.removeChild(soundButton);
+			let sound = document.getElementById("soundButton");
+			if(sound!=undefined){
+				soundButtonparent.removeChild(sound);
 			}
 			let mute = document.getElementById("muteButton");
 			if(mute==undefined){
