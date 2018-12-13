@@ -16,6 +16,7 @@ var gravity_constant;
 var velocity_to_jump;
 const time_to_change_line=0.3;
 const n_time_fractions = 62.8;
+const GO_DOWN_STEP = 0.1;
 
 export class Cube {
 
@@ -70,7 +71,7 @@ export class Cube {
                 this.translateCommand();
             }
             else{
-                this.player.position.y -= 0.1;
+                this.player.position.y -= GO_DOWN_STEP * time_scale;
                 // this.isOnTheSecondLevel = false;  da riverede per scendere quando in pizzo in pizzo all'ostacolo
             }
         }
