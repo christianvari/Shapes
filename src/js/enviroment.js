@@ -356,13 +356,11 @@ export class Enviroment {
 			}
 		}
 		else if((keyEvent.keyCode == 38 || keyEvent.keyCode == 87 || keyEvent.keyCode == 32 || keyEvent=="swipeup") 
-			&& !this.myscene.player.isOnTheSecondLevel){//up
+			&& !this.myscene.player.isOnTheSecondLevel && this.myscene.player.command==-1 && this.myscene.player.going_down==false){//up
 
-			if(this.myscene.player.command==-1){
-				this.myscene.player.command=4;
-			}else if(this.myscene.player.next_command==-1){
-				this.myscene.player.next_command=4;
-			}
+			
+			this.myscene.player.command=4;
+			
 		}
 		else if(keyEvent.keyCode == 80){ // key 'P'
 			goToPause();
