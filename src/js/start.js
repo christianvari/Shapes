@@ -138,7 +138,12 @@ function adjustButtons(){
 				}
 				else if(imgID == "infoButton"){
 					$svg.click(function(){
-						window.location.replace("credits.php");
+						if(document.location.pathname == "/desktop/game.php"){
+							window.location.replace("credits.php");
+						}
+						else{
+							window.location.replace("credits_mobile.php");
+						}
 					});
 				}
 				
