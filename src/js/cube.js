@@ -1,6 +1,5 @@
 import {BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
 import { time_scale } from "./enviroment.js";
-import { PLAYER_EDGE } from "./myscene.js";
 
 /*
 Class cube
@@ -57,7 +56,7 @@ export class Cube {
     getPositionZ(){return this.player.position.z}
 
     getBottomPositionY(){
-        return this.player.position.y - (PLAYER_EDGE/2);
+        return this.player.position.y - (this.edge/2);
     }
 
     goDown(){

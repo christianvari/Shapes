@@ -57,7 +57,7 @@ export class MyScene {
     generateObstacles(){
 
         for(let i = 0; i< NUM_OBSTACLES; i++){
-            let o = new Obstacle(this.last_tail_position_z);
+            let o = new Obstacle(this.last_tail_position_z, PLAYER_EDGE);
             this.obstacles.push(o);
             this.scene.add(o.obstacle);
         }

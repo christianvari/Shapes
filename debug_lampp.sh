@@ -1,3 +1,6 @@
 #! /bin/bash
 
-rm -r /opt/lampp/htdocs/* && cp -r ./src/* /opt/lampp/htdocs/
+rollup ./src/js/start.js --format iife --name "Start" --file ./src/js/buid/start.js ;
+sudo rm -r /opt/lampp/htdocs/* ;
+sudo cp -r ./src/* /opt/lampp/htdocs/;
+

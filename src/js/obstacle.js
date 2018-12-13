@@ -1,5 +1,4 @@
 import { BoxBufferGeometry, MeshStandardMaterial, Mesh} from "./lib/three.module.js";
-import { PLAYER_EDGE } from "./myscene.js";
 
 /* Class Obstacle
 
@@ -20,14 +19,15 @@ const MIN_GAP = 2;
 
 export class Obstacle {
 
-    constructor(last_tail_position){
+    constructor(last_tail_position, player_edge){
         
         this.length = Math.random()*LENGHT_SCALE + MIN_LENGTH;
+        this.PLAYER_EDGE = player_edge;
 
-        var geometry = new BoxBufferGeometry(PLAYER_EDGE,PLAYER_EDGE,this.length);
+        var geometry = new BoxBufferGeometry(player_edge,player_edge,this.length);
         var material = new MeshStandardMaterial();
 
-        this.center_y = PLAYER_EDGE/2;
+        this.center_y = player_edge/2;
         this.obstacle = new Mesh(geometry, material);
         if(document.location.pathname == "/desktop/game.php"){
             this.obstacle.castShadow=true;
@@ -79,11 +79,11 @@ export class Obstacle {
                 let scale =  Math.round(Math.random()+1);
                 this.obstacle.scale.y = scale;
                 this.type= scale-1;
-                this.obstacle.position.y = PLAYER_EDGE/2 * scale;
+                this.obstacle.position.y = this.PLAYER_EDGE/2 * scale;
             }else{
                 this.obstacle.scale.y = 1;
                 this.type = BASSO;
-                this.obstacle.position.y = PLAYER_EDGE/2;
+                this.obstacle.position.y = this.PLAYER_EDGE/2;
                 //console.log(".");
                 //console.log("---------CORREGGO----------")
                 //this.obstacle.material.color.setHex(0x000000);
@@ -94,7 +94,7 @@ export class Obstacle {
             let scale =  Math.round(Math.random()+1);
             this.obstacle.scale.y = scale;
             this.type= scale-1;
-            this.obstacle.position.y = PLAYER_EDGE/2 * scale;
+            this.obstacle.position.y = this.PLAYER_EDGE/2 * scale;
         }
 
         //this.setObstacleColor(false);
@@ -157,7 +157,7 @@ export class Obstacle {
         if(lane==null){
             if (randval <= 0.33){
                 this.lane = 0;
-                this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
+                this.obstacle.position.x = SINISTRA * 2*this.PLAYER_EDGE;
             }
             else if (randval > 0.33 && randval < 0.66){
                 this.lane = 1;
@@ -165,12 +165,12 @@ export class Obstacle {
             }
             else{
                 this.lane = 2;
-                this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
+                this.obstacle.position.x = DESTRA* 2*this.PLAYER_EDGE;
             }
         }else if(lane==0){
             if (randval <= 0.1){
                 this.lane = 0;
-                this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
+                this.obstacle.position.x = SINISTRA * 2*this.PLAYER_EDGE;
             }
             else if (randval > 0.1 && randval < 0.55){
                 this.lane = 1;
@@ -178,12 +178,12 @@ export class Obstacle {
             }
             else{
                 this.lane = 2;
-                this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
+                this.obstacle.position.x = DESTRA* 2*this.PLAYER_EDGE;
             }
         }else if(lane==1){
             if (randval <= 0.45){
                 this.lane = 0;
-                this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
+                this.obstacle.position.x = SINISTRA * 2*this.PLAYER_EDGE;
             }
             else if (randval > 0.45 && randval < 0.55){
                 this.lane = 1;
@@ -191,12 +191,12 @@ export class Obstacle {
             }
             else{
                 this.lane = 2;
-                this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
+                this.obstacle.position.x = DESTRA* 2*this.PLAYER_EDGE;
             }
         }else if(lane==2){
             if (randval <= 0.45){
                 this.lane = 0;
-                this.obstacle.position.x = SINISTRA * 2*PLAYER_EDGE;
+                this.obstacle.position.x = SINISTRA * 2*this.PLAYER_EDGE;
             }
             else if (randval > 0.45 && randval < 0.9){
                 this.lane = 1;
@@ -204,7 +204,7 @@ export class Obstacle {
             }
             else{
                 this.lane = 2;
-                this.obstacle.position.x = DESTRA* 2*PLAYER_EDGE;
+                this.obstacle.position.x = DESTRA* 2*this.PLAYER_EDGE;
             }
         }
     }
