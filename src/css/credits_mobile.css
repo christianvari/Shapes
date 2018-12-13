@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'ShapesFont';
+    src: url('../fonts/b.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+    font-stretch: 'extra-expanded';
+  } 
+  
+  h1 {
+    font-family: 'ShapesFont';
+    font-size: 300%;
+    font-size-adjust: inherit;
+    color: rgb(255, 255, 255);
+  }
+
+#bottomText {
+  font-family: 'ShapesFont';
+  font-size: 250%;
+  font-size-adjust: inherit;
+  color: rgb(255, 255, 255);
+  margin-top: 28%;
+}
+
+.background{
+  margin-top: 5%;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}

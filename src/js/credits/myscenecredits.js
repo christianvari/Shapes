@@ -90,7 +90,12 @@ export class MySceneCredits {
         }
         if(this.scenetime == 1150){
             this.notFinished = false;
-            document.onkeydown = this.handleKeyDown.bind(this);
+            if(document.location.pathname == "/desktop/credits.php"){
+                document.onkeydown = this.handleKeyDown.bind(this);
+            }
+            else{
+                this.enableSwipes();
+            }
             
         }
 
@@ -100,9 +105,16 @@ export class MySceneCredits {
     handleKeyDown(keyEvent){
 		if(keyEvent.keyCode == 32){  //this is UP (check space code)
 			window.location.replace("game.php");
-		}
-	}
+		}else if(keyEvent=="swipeup"){
+            window.location.replace("game_mobile.php");
+        }
+    }
     
+    enableSwipes(){
+		let hammer = new Hammer(document.getElementById("fullspace"));
+		hammer.get('swipe').set({direction: Hammer.DIRECTION_ALL});
+		hammer.on("swipeleft swiperight swipeup", (ev) => (this.handleKeyDown(ev.type)));
+	}
 
     addObjectsToScene(){
         this.scene.add(this.ground.ground);
