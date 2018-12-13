@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
@@ -40,15 +41,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        try {
-            Class.forName("android.webkit.WebView")
-                    .getMethod("onPause", (Class[]) null)
-                    .invoke(myWebView, (Object[]) null);
-
-        } catch(Exception e) {
-            System.out.println("PROBLEMA onPause()");
-        }
-
+        //System.out.println("PAUSA");
+        myWebView.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_P));
 
 
     }
