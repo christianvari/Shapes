@@ -66,7 +66,7 @@ function getHighscore(){
 
 
 function init() {
-	changeSound();
+	initialSound();
 	getHighscore();
 	
 	window.setInterval(getHighscore, 10000);
@@ -116,6 +116,7 @@ function adjustButtons(){
 						
 						setButtonVisibility(PLAY);
 						enviroment.started = true;
+						music.play();
 						state = PLAY;
 					});
 				}
@@ -124,6 +125,7 @@ function adjustButtons(){
 					
 						setButtonVisibility(PAUSE)
 						enviroment.started = false;
+						music.pause();
 						state = PAUSE;
 					});
 				}
@@ -256,8 +258,11 @@ function deadButtons(){
 
 function changeSound(){
 	getMusic();
+	console.log(isSoundActive);
+	console.log(music)
 	if(music!=undefined){
-		if(isSoundActive=='true'){
+		if( isSoundActive=='true'){
+			console.log("è attivo");
 			let mute = document.getElementById("muteButton");
 			if(mute!=undefined){
 				soundButtonparent.removeChild(mute); 
@@ -271,6 +276,8 @@ function changeSound(){
 			sessionStorage.setItem('isSoundActive', 'false');
 		}
 		else{
+			console.log("non è attivo");
+
 			let sound = document.getElementById("soundButton");
 			if(sound!=undefined){
 				soundButtonparent.removeChild(sound);
@@ -286,6 +293,8 @@ function changeSound(){
 		}
 		sound();
 	}	
+	console.log(isSoundActive);
+
 	adjustButtons();
 }
 
@@ -311,4 +320,9 @@ function sound(){
 	else{
 		music.muted = true;
 	}
+}
+
+function initialSound(){
+	getMusic();
+	sound();
 }
