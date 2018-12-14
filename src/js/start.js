@@ -10,47 +10,65 @@ export const DEAD = 3;
 
 var state = PLAY;
 
-var restartButtonparent = document.getElementById("centerdiv");
-var restartButton = document.createElement("img") ;
-restartButton.setAttribute("src", "../images/retry1.svg");
-restartButton.setAttribute("id", "restartButton");
-restartButton.setAttribute("class", "svg");
-
-var playButtonparent = document.getElementById("centerdiv");
-var playButton = document.createElement("img") ;
-playButton.setAttribute("src", "../images/play.svg");
-playButton.setAttribute("id", "playButton");
-playButton.setAttribute("class", "svg");
-
-var pauseButtonparent = document.getElementById("topright");
-var pauseButton = document.createElement("img") ;
-pauseButton.setAttribute("src", "../images/pause.svg");
-pauseButton.setAttribute("id", "pauseButton");
-pauseButton.setAttribute("class", "svg inTopRight");
-
-var infoButtonparent = document.getElementById("bottomright");
-var infoButton = document.createElement("img");
-infoButton.setAttribute("src", "../images/info.svg");
-infoButton.setAttribute("id", "infoButton");
-infoButton.setAttribute("class", "svg inBottomRight");
-
-var muteButton =  document.createElement("img");
-muteButton.setAttribute("src", "../images/sound.svg");
-muteButton.setAttribute("id", "muteButton");
-muteButton.setAttribute("class", "svg inTopRight");
-var soundButton = document.createElement("img");
-soundButton.setAttribute("src", "../images/mute.svg");
-soundButton.setAttribute("id", "soundButton");
-soundButton.setAttribute("class", "svg inTopRight");
-var soundButtonparent = document.getElementById("topright");
+var restartButtonparent;
+var restartButton;
+var playButtonparent;
+var playButton;
+var pauseButtonparent ;
+var pauseButton;
+var infoButtonparent;
+var infoButton;
+var muteButton;
+var soundButton;
+var soundButtonparent;
 
 
 var isSoundActive = sessionStorage.getItem('isSoundActive');
-if(isSoundActive==null) isSoundActive='true';
-var music=undefined;
+if(isSoundActive==null) {
+	isSoundActive='true';
+	sessionStorage.setItem('isSoundActive', 'true');
+}
+var music;
 
 $(document).ready(init);
-//init();
+
+function initializeButtons(){
+
+	restartButtonparent = document.getElementById("centerdiv");
+	restartButton = document.createElement("img") ;
+	restartButton.setAttribute("src", "../images/retry1.svg");
+	restartButton.setAttribute("id", "restartButton");
+	restartButton.setAttribute("class", "svg");
+
+	playButtonparent = document.getElementById("centerdiv");
+	playButton = document.createElement("img") ;
+	playButton.setAttribute("src", "../images/play.svg");
+	playButton.setAttribute("id", "playButton");
+	playButton.setAttribute("class", "svg");
+
+	pauseButtonparent = document.getElementById("topright");
+	pauseButton = document.createElement("img") ;
+	pauseButton.setAttribute("src", "../images/pause.svg");
+	pauseButton.setAttribute("id", "pauseButton");
+	pauseButton.setAttribute("class", "svg inTopRight");
+
+	infoButtonparent = document.getElementById("bottomright");
+	infoButton = document.createElement("img");
+	infoButton.setAttribute("src", "../images/info.svg");
+	infoButton.setAttribute("id", "infoButton");
+	infoButton.setAttribute("class", "svg inBottomRight");
+
+	muteButton =  document.createElement("img");
+	muteButton.setAttribute("src", "../images/sound.svg");
+	muteButton.setAttribute("id", "muteButton");
+	muteButton.setAttribute("class", "svg inTopRight");
+	soundButton = document.createElement("img");
+	soundButton.setAttribute("src", "../images/mute.svg");
+	soundButton.setAttribute("id", "soundButton");
+	soundButton.setAttribute("class", "svg inTopRight");
+	soundButtonparent = document.getElementById("topright");
+
+}
 
 
 function getHighscore(){
@@ -66,10 +84,13 @@ function getHighscore(){
 
 
 function init() {
+	//Inizialize sound
+	initializeButtons();
 	initialSound();
+
+	//Inizialize AJAX and refresh highscores
 	getHighscore();
-	
-	window.setInterval(getHighscore, 10000);
+	window.setInterval(getHighscore, 5000);
 	
 	// set up the scene
 	//
@@ -81,9 +102,6 @@ function init() {
 	//sound();
 	enviroment.goGame();
 	enviroment.started = true;
-	//enviroment.goGame();
-
-	getMusic();
 }
 
 function adjustButtons(){
@@ -259,10 +277,8 @@ function deadButtons(){
 }
 
 function changeSound(){
-	getMusic();
+
 	console.log(isSoundActive);
-	console.log(music)
-	if(music!=undefined){
 		if( isSoundActive=='true'){
 			console.log("è attivo");
 			let mute = document.getElementById("muteButton");
@@ -294,29 +310,19 @@ function changeSound(){
 			sessionStorage.setItem('isSoundActive', 'true');
 		}
 		sound();
-	}	
+
 	console.log(isSoundActive);
 
 	adjustButtons();
 }
 
 function getMusic(){
-	if(document.getElementById("gameMusic") != undefined){ music = document.getElementById("gameMusic");}
-	else if (document.getElementById("iframeAudio") != undefined) {
-		var iframe = document.getElementById('iframeAudio');
-		var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-		if(innerDoc.getElementsByName('media')[0]!= undefined){
-			music = innerDoc.getElementsByName('media')[0];
-		}
-		
-	}
-	//sound();
-
+	music = document.getElementById("gameMusic");
 }
 
 function sound(){
 	
-	if(isSoundActive=='true' && music!=undefined){
+	if(isSoundActive=='true'){
 		music.muted = false;
 	}
 	else{
@@ -328,6 +334,7 @@ function initialSound(){
 
 	getMusic();
 	sound();
+	music.play();
 }
 
 export function goToPause(){
