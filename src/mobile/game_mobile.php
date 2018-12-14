@@ -12,23 +12,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="../util/shapes_logo_transparency.png"/>
         <link rel="stylesheet" type="text/css" media="screen" href="../css/game_mobile.css" />
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script src="../js/lib/hammer.min.js"></script>
-        <script type="module" src="../js/start.js"></script>
+        <script src="../js/build/start.js"></script>
         
     </head>
     <body id="fullspace">
         <div id = "game_items">
-            <div id ="music"></div> 
-            <script>
-                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-                if(!isChrome){
-                    document.getElementById("music").innerHTML = "<audio id='gameMusic' src='../audio/Shapes - soundtrack.mp3' preload='auto' autoplay loop></audio>" ;
-                }
-                else{
-                    document.getElementById("music").innerHTML = "<iframe src='../audio/Shapes - soundtrack.mp3' allow='autoplay' style='display:none' id='iframeAudio'></iframe>"; 
-                }
-            </script>
+            <audio id='gameMusic' src='../audio/soundtrack.mp3' preload='auto' loop></audio>
             
             <div class="score">
                 <table>

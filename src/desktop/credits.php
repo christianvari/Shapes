@@ -17,15 +17,8 @@
 
     <body id="fullspace">
         <div id="credit_items">
-            <div id ="music"></div> 
+            <audio id='gameMusic' src='../audio/soundtrack.mp3' preload='auto' loop></audio>
             <script>
-                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-                if(!isChrome){
-                    document.getElementById("music").innerHTML = "<audio id='gameMusic' src='../audio/Shapes - soundtrack.mp3' preload='auto' autoplay loop></audio>" ;
-                }
-                else{
-                    document.getElementById("music").innerHTML = "<iframe src='../audio/Shapes - soundtrack.mp3' allow='autoplay' style='display:none' id='iframeAudio'></iframe>"; 
-                }
                 var screenHeight = screen.height;
                 //console.log("altezza " + screenHeight);
                 if (screenHeight < 800) {
