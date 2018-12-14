@@ -40,6 +40,8 @@ Per supportare anche la modalità di gioco da dispositivo mobile, nel caso di ac
 
 La classifica dei migliori 10 punteggi di sempre viene aggiornata in tempo reale grazie a ...  
 
+Abbiamo utilizzato il Session Storage per salvare lo stato attuale della musica (volume o muto) in modo tale da poter ricordare quele è lo stato al prossimo caricamento della pagina, durante la stessa sessione di gioco.
+
 ### Applicazione Android
 
 Abbiamo realizzato una WebApp per accedere al gioco da smartphone e tablet Android in modo molto più immediato.  
