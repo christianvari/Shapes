@@ -69,6 +69,7 @@ Al fine di limitare l'uso della banda del nostro server ed ottimizzare i tempi d
 * JavaScript (con l'aggiunta di JQuery e Ajax)
 * PHP + SQL (per interfacciamento con Server e Database)
 * Java + XML (per applicazone Android)
+* Bash per automatizzare compilazioni ed operazioni di debug con XAMPP
 
 ### Musica
 
