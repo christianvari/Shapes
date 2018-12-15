@@ -55,10 +55,12 @@ Per fare questo abbiamo sfruttato le API Android ( WebView ) per renderizzare il
 ### Ottimizzazioni
 
 A causa della grande quantità di calcoli che è necessario fare, è stato utile spostare parte della computazione sulla GPU.
+Ciò è stato possibile usando al posto dell' interfaccia Geometry, che salvano singolarmente le coordinate dei vertici che definiscono i nostri solidi in delle variabili, la BufferedGeometry che usa degli array ed effettua i calcoli complessi (ad esempio le rototraslazioni che effettuiamo sul cubo) in modo vettoriale sulla GPU nel caso il browser e il dispotivo supportino l'accelerazione hardware.
 
-Abbiamo usato rullup.js per compilare i nostri sorgenti JavaScript ed ottimizzare (...)
+Abbiamo usato il transpiler rullup.js per convertire i nostri moduli JavaScript ECMAScript6 in script Javascript ECMAScript5 che sono eseguibili da tutti i browser senza perdere tempo nella traspilazione a runtime. In questo modo abbiamo un unico script "bundle" che include tutte e sole le dipendenze richieste con il costrutto "import". 
+Ciò a portato ad un elevato miglioramento prestazionale in termini di primo caricamento della pagina soprattutto su Chrome e Chromium. Firefox e Vivaldi al contrario non necessitano di questi accorgimenti.
 
-(Minimize...)
+Al fine di limitare l'uso della banda del nostro server ed ottimizzare i tempi di caricamento abbiamo minifizzato i nostri script in modo tale da eliminare commenti, spazi, a capo, e altri caratteri che non sono utili in produzione diminuendo la dimensione dei nostri script del 40%. 
 
 ### Linguaggi Usati
 
