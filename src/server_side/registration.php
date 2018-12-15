@@ -62,7 +62,7 @@
                       VALUES('$username')";
 
             mysqli_query($db, $query);
-            header('location: index.php');
+            header('location: /index.php');
         }
 
     }
