@@ -145,7 +145,7 @@ export class Enviroment {
 			this.myscene.player.getPlayer().position.z +=0.05;
 		}
 
-		if(! (this.myscene.player.getPlayer().position.y > 3)){
+		if(! (this.myscene.player.getPlayer().position.y > 4)){
 			this.myscene.player.getPlayer().position.y +=0.05;
 		}
 		if (this.myscene.player.getPlayer().scale.x > 0){
