@@ -363,7 +363,7 @@ export class Enviroment {
 			this.myscene.player.command=4;
 			
 		}
-		else if(keyEvent.keyCode == 80){ // key 'P'
+		else if(keyEvent.keyCode == 80 && this.started && !this.finished && this.isLiving){ // key 'P'
 			goToPause();
 		}
 	}
