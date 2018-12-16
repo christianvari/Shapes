@@ -17,7 +17,7 @@
 
     <body id="fullspace">
         <div id="credit_items">
-            <iframe src='../audio/silence_001s_320k.mp3' allow='autoplay' style='display:none' id='iframeAudio'></iframe>
+            <iframe src='../audio/silence.mp3' allow='autoplay' style='display:none' id='iframeAudio'></iframe>
             <audio id='gameMusic' src='../audio/soundtrack.mp3' preload='auto' loop></audio>
             <script>
                 var screenHeight = screen.height;
