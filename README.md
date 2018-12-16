@@ -40,9 +40,9 @@ Per poter gestire in modo fluido lo sviluppo di un progetto di dimensioni non es
 
 Per supportare anche la modalità di gioco da dispositivo mobile, nel caso di accesso da smartphone, viene inserita la gestione degli eventi di tipo "swipe" negli event handler del codice JavaScript. Questo è stato possibile con l'utilizzo della libreria hammer.js
 
-La classifica dei migliori 10 punteggi di sempre viene aggiornata in tempo reale grazie ad AJAX, che si occupa di fare richeste asincrone GET al server e attende la risposta dello script PHP che interroga il database, e la funzione window.setInteval(callback, timer), che invoca AJAX ogni 5 secondi.
+La classifica dei migliori 10 punteggi di sempre viene aggiornata in tempo reale grazie ad AJAX, che si occupa di fare richieste asincrone GET al server e attende la risposta dello script PHP che interroga il database, e la funzione window.setInteval(callback, timer), che invoca AJAX ogni 5 secondi.
 
-Abbiamo utilizzato il Session Storage per salvare lo stato attuale della musica (volume o muto) in modo tale da poter ricordare quale è lo stato al prossimo caricamento della pagina, durante la stessa sessione di gioco.
+Abbiamo utilizzato il Session Storage per salvare lo stato attuale della musica (volume o muto) in modo tale da poter ricordare quale sia lo stato al prossimo caricamento della pagina, durante la stessa sessione di gioco.
 
 Per gestire invece la sicurezza dei login abbiamo usato le sessioni del server PHP in modo tale da poter giocare solo se ci si è loggati.
 
@@ -55,7 +55,7 @@ Per fare questo abbiamo sfruttato le API Android (es. WebView) per renderizzare 
 ### Ottimizzazioni
 
 A causa della grande quantità di calcoli che è necessario fare, è stato utile spostare parte della computazione sulla GPU.
-Ciò è stato possibile sostituendo le geometrie che usano l'interfaccia Geometry, le quali salvano singolarmente in variabilili semplici le coordinate dei vertici che definiscono i nostri solidi, con geometrie di tipo BufferedGeometry, che usano degli array ed effettuano i calcoli complessi (ad esempio le rototraslazioni che effettuiamo sul cubo) in modo vettoriale sulla GPU nel caso in cui il browser e il dispotivo supportino l'accelerazione hardware.  
+Ciò è stato possibile sostituendo le geometrie che usano l'interfaccia Geometry, le quali salvano singolarmente in variabilili semplici le coordinate dei vertici che definiscono i nostri solidi, con geometrie di tipo BufferedGeometry, che usano degli array ed effettuano i calcoli complessi (ad esempio le rototraslazioni che effettuiamo sul cubo) in modo vettoriale sulla GPU nel caso in cui il browser e il dispositivo supportino l'accelerazione hardware.  
 
 Abbiamo usato il transpiler rullup.js per convertire i nostri moduli JavaScript ECMAScript6 in script Javascript ECMAScript5 che sono eseguibili da tutti i browser senza perdere tempo nella traspilazione a runtime. In questo modo abbiamo un unico script "bundle" che include tutte e sole le dipendenze richieste con il costrutto "import". 
 Ciò ha portato ad un elevato miglioramento prestazionale in termini di primo caricamento della pagina soprattutto su Chrome e Chromium. Firefox e Vivaldi al contrario non necessitano di questi accorgimenti.
