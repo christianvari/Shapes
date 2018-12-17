@@ -24,7 +24,7 @@
             <script> 
                 var screenHeight = screen.height;
                 //console.log("altezza " + screenHeight);
-                if (screenHeight < 800) {
+                if (screenHeight < 901) {
                     //console.log("minore di 800");
                     $('.background').css('zoom', 0.65);
                 }

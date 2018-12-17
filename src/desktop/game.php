@@ -25,7 +25,7 @@
             <script>
                 var screenHeight = screen.height;
                 //console.log("altezza " + screenHeight);
-                if (screenHeight < 800) {
+                if (screenHeight < 901) {
                     //console.log("minore di 800");
                     $("#game_items").css("zoom", 0.7);
                 }
