@@ -19,13 +19,10 @@
         <div id="credit_items">
             <iframe src='../audio/silence.mp3' allow='autoplay' style='display:none' id='iframeAudio'></iframe>
             <audio id='gameMusic' src='../audio/soundtrack.mp3' preload='auto' loop></audio>
-            <script>
-                var screenHeight = screen.height;
-                //console.log("altezza " + screenHeight);
-                if (screenHeight < 901) {
-                    //console.log("minore di 800");
-                    $("#credit_items").css("zoom", 0.8);
-                }
+            <script> 
+                var screenHeight = window.innerHeight;
+                //console.log(screenHeight);
+                $('#credit_items').css('zoom', String(screenHeight/900));
             </script>
             <div class="background">
                 <h1>Credits</h1>
