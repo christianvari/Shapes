@@ -27,7 +27,7 @@
         }
         if ((int)$age >= date("Y") || (int)$age < 1900) {
             $age_error = "is-invalid";
-            $age_error_tips= "<div class='invalid-feedback'>Insert a legit year of birth</div>";
+            $age_error_tips= "<div class='invalid-feedback'>Insert a valid year of birth</div>";
             $errors++;
         }
 
@@ -40,13 +40,13 @@
         if ($user) {
             if ($user['USERNAME'] === $username) {
                 $username_error = "is-invalid";
-                $username_error_tips= "<div class='invalid-feedback'>Your username is altredy registered</div>";
+                $username_error_tips= "<div class='invalid-feedback'>Your username is already registered</div>";
                 $errors++;
             }
 
             if ($user['EMAIL'] === $email) {
                 $email_error = "is-invalid";
-                $email_error_tips= "<div class='invalid-feedback'>Your email is altredy registered</div>";
+                $email_error_tips= "<div class='invalid-feedback'>Your email is already registered</div>";
                 $errors++;
                 
             }
