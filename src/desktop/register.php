@@ -20,12 +20,9 @@
 <body>
     <div class="background">
         <script> 
-            var screenHeight = screen.height;
-            //console.log("altezza " + screenHeight);
-            if (screenHeight < 800) {
-                //console.log("minore di 800");
-                $('.background').css('zoom', 0.7);
-            }
+            var screenHeight = window.innerHeight;
+            //console.log(screenHeight);
+            $('.background').css('zoom', String(screenHeight/900));
         </script>
         <h1>Registration</h1>
         <div class="centerzone">
