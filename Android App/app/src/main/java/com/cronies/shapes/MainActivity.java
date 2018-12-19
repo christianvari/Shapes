@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         //GestureDetector gestureDetector = new GestureDetector(this.getApplicationContext(),  new GestureDetector.OnGestureListener().on);
         updateUI();
-        myWebView.loadUrl("http://shapes.altervista.org/");
+        myWebView.loadUrl("https://shapes.altervista.org/");
         WebSettings webSettings = myWebView.getSettings();
         //webSettings.setUserAgentString("");
         webSettings.setJavaScriptEnabled(true);
