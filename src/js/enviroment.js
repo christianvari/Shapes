@@ -109,9 +109,9 @@ export class Enviroment {
 			}
 			this.renderize();
 		}
-		else {
+		else {		
 			setButtonVisibility(DEAD);
-			
+				
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
@@ -119,9 +119,9 @@ export class Enviroment {
 
 				}
 			};
-			xhttp.open("POST", "../server_side/setHighscore.php", true);
-			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhttp.send("record="+ this.score);
+			xmlhttp.open("POST", "../server_side/setHighscore.php", true);
+			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xmlhttp.send("record="+ this.score);
 			document.getElementById("game_over").innerHTML = "<h1 id='game_over_text'>Game Over</h1>";
 			document.getElementById("score_on_gameover").innerHTML ="<h1 id = 'game_over_text'>" + this.score + "</h1>";
 		}
