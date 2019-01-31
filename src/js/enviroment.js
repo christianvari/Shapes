@@ -30,7 +30,7 @@ export class Enviroment {
 	constructor() {
 		this.loop = this.goGame.bind(this);
 		this.started = false;
-
+		
 		this.score = 0;
 		this.scoreText;
 		this.clock = new Clock();
@@ -121,7 +121,7 @@ export class Enviroment {
 			};
 			xmlhttp.open("POST", "../server_side/setHighscore.php", true);
 			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xmlhttp.send("record="+ this.score);
+			xmlhttp.send("record="+ this.score +"&k=asdfghjkl");
 			document.getElementById("game_over").innerHTML = "<h1 id='game_over_text'>Game Over</h1>";
 			document.getElementById("score_on_gameover").innerHTML ="<h1 id = 'game_over_text'>" + this.score + "</h1>";
 		}

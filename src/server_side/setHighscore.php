@@ -4,9 +4,10 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $record = $_POST['record'];
+        $a = $_POST['k'];
         $username = $_SESSION['username'];
 
-        if((($record % 100) == 0) && ($record < 100000)){
+        if($a == "asdfghjkl" && (($record % 100) == 0) && ($record < 100000)){
 
             $user_check_query = "SELECT * FROM HIGHSCORE WHERE PLAYER='$username'";
             $result = mysqli_query($db, $user_check_query);
