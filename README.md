@@ -1,3 +1,5 @@
+# Progetto vincitore del "Best LTW Project Award"
+
 # Shapes: VideoGame 3D using WebGL
 
 Nel nostro progetto ci siamo proposti l'obiettivo di sviluppare un videogioco web in JavaScript.  
